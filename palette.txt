@@ -1,0 +1,29 @@
+
+ ( palette from dark to light
+
+    #202020     
+
+    #3E3E3E
+
+    #5A5A5A
+
+    #767676
+
+    #CCCCCC                                
+
+ )
+
+
+#FFFFA0 - yellow
+
+#FF5A5A - red that matches yellow
+
+
+
+PALETTE #2
+
+#C5FFA8;   -lightest green
+
+0d2800
+
+#081800 darkest?

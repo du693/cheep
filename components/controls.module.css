@@ -1,0 +1,175 @@
+.topBar {
+  height: 100px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #081800;
+}
+
+.section2 {
+  display: flex;
+  position: absolute;
+  margin: 0;
+  opacity: 98%;
+  padding: 0;
+  right: 5%;
+  z-index: 1000 !important;
+  flex-direction: column;
+  background: #0d2800;
+  width: 30%;
+  height: 75%;
+  border-radius: 25px;
+  font-family: inherit;
+  font-display: swap;
+  color:#ebfee2;
+  font-size: 14px;
+  @media(max-width: 900px){
+  }
+}
+
+.userInformation {
+  pointer-events: none;
+  position: absolute;
+  z-index: 1000 !important;
+  width: 100%;
+  height: 0;
+  opacity: 0;
+  background-color: #081800;
+  border-radius: 25px;
+  transition: all 1s ease-in-out;
+}
+
+.userInformation.open {
+  height: 100%;
+  z-index: 90000 !important;
+  pointer-events: all;
+  position: absolute;
+  opacity: 1;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  overflow-y:scroll;
+  padding-left: 10px;
+  padding-right: 10px;
+  transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; 
+  max-height: 0px; 
+  opacity: 0; 
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f5f5f5;
+
+}
+
+.gridContainer.open {
+
+  max-height: 500px !important;
+  opacity: 1;
+}
+
+
+
+.signup{
+  background-color: #C5FFA8;
+  font-family: inherit;
+  font-display: swap;
+  opacity: 80%;
+  height: 100px;
+  width: 500px;
+  border: none;
+  color: #202020;
+  padding:15px 25px 15px 25px;
+  border-radius: 200px;
+  cursor: pointer;
+  font-size: 20px;
+
+}
+
+.signup:hover{
+  opacity: 100%;
+  transform: scale(1.01);
+}
+.searchSection {
+  transition:all 0.4s ease-in-out ;
+  z-index: 100 !important;
+  border-radius: 10px;
+  left: 1%;
+  max-height: 0px;
+  opacity: 0;
+}
+
+.searchSection.open {
+  max-height: 1000px !important;
+
+  opacity: 1;
+}
+
+.birdGridItem {
+  background-color: #C5FFA8;
+  color: black;
+  font-size: 10px;
+  padding: 10px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  border-radius: 5px; 
+  justify-content: center; 
+  text-align: center;
+  margin: 10px;
+  opacity: 78%;
+}
+
+.container {
+  position: relative;
+  -webkit-transition: all 0.25s;
+  overflow: hidden;
+  transition: max-height 1s;
+}
+
+.container h1 {
+  padding: 20px;
+}
+
+.iconButton {
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.dropdownIcon {
+  height: 30px;
+  padding-right: 20px;
+  cursor: pointer;
+}
+
+.containerHeader1 {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+  justify-content: space-between;
+}
+
+.containerHeader1.open{
+  height:0;
+}
+.containerHeader2 {
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s ease-in-out;
+}
+.containerHeader2.open{
+  height:0;
+}
+
+.popupText{
+  color: black;
+}
+
+

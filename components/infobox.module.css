@@ -1,0 +1,39 @@
+.infowindow {
+    background-color: white;
+    width: 300px;
+    height: 100px;
+    padding: 10px;
+    color: #202020;
+    font-family: inherit;
+    font-display: swap;
+    border-radius: 5px;
+    z-index: 500 !important;
+}
+
+
+
+.fuck{
+    color: #202020;
+    text-align: center;
+    font-size: 12px;
+}
+.infoWindow p {
+    color: #202020;
+    padding: 5%;
+    text-align: center;
+}
+.infoWindow button {
+    position: absolute;
+    top:0;
+    right:0;
+}
+
+.x {
+    height: 25px;
+    color:black;
+    z-index: 100 !important;
+    pointer-events: none;
+    position: absolute;
+    top:0;
+    right:0;
+}

@@ -1,0 +1,67 @@
+
+
+
+move global or user into separate component (code organization)     (all absolute positioned are in absolutes component now)
+more cut and dry birdAdd process (fluid user experience)
+styling buttons global toggle 
+center location button - move marker too
+username must be unique (notify if not unique)
+=========================================================DONE ABOVE=======================================================================================
+
+
+get the rendering method DONE
+-get bounds load, 
+-move get bounds, wait for them to stay,
+
+
+
+
+
+
+
+
+
+
+
+CURRENT STEP = Understanding the re-rendering of my components.
+
+
+
+need to wrap checkUsername and friendRequestConnect with withSession, this is currently not secure. figure out why session is no being picked up here
+more oauth options (more oauth integration)
+see more spots on recent spots
+cluster styling per palette (reworking the GoogleMap to enable new versions of markerclusterer?)                                                                                    
+user page organization (think friends, total birds spotted, achievements)
+settings (sign out, )
+instructions for first time users !
+user functional toggle
+what if user doesnt give location permission? (more ternerary operators)
+what if i saw two different birds at the same spot?
+friends, 
+mobile UI
+Deployment(key storage ?)
+
+
+==========================================================IN PROGRESSS==========================================================================================================================
+
+functional view?
+    -have separate for access page and app itself(controlled by user profile.)
+bird img -> 
+optimized search for birds. This is a project on its own.
+'Cordova / PhoneGap'
+styling oauth sign in
+
+==========================================================POST WEB APP DEPLOYMENT====================================================================================================================
+
+
+1. perfect web app
+2. make it perfectly responsive (ipad, iphone)
+3. deploy
+4. get close friends on the app
+5. get imgs on the app for each individual icon, functional view
+6. troubleshoot, take input.
+7. get mobile app ready.
+8. deploy mobile app
+9. maintain using as little time as possible
+10. add to portfolio, move on.
+

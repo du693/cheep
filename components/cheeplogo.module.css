@@ -1,0 +1,10 @@
+.logo{
+    position: absolute;
+    width: 200px;
+    color: #C5FFA8;
+    z-index: 200 !important;
+    padding: 2%;
+    text-decoration: underline;
+    font-size: 48px;
+    text-align: center;
+}

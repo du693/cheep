@@ -1,0 +1,28 @@
+.addspot{
+    z-index: 50 !important;
+    position: absolute;
+    width: 25%;
+    height: 60px;
+    background-color: #C5FFA8;
+
+    border-radius: 50px;
+    bottom: 5%;
+    color:#202020;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    opacity: 98%;
+    left: 20%;
+    transition: 1s;
+}
+
+.addspot h1 {
+    font-size: 20px;
+}
+
+.addspot:hover {
+    opacity: 100%;
+    transform: scale(1.01);
+}
+

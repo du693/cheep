@@ -1,0 +1,21 @@
+.add {
+    width: 50px;
+    color: #0d2800;
+  }
+
+  .circle {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FEF9AB;
+    margin-left: 5%;
+    height: 50px;
+    width: 100px;
+    border: none;
+    border-radius: 5px; 
+    font-family: inherit;
+    font-display: swap;
+    color: black;
+}
+
