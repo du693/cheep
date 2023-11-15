@@ -1,5 +1,5 @@
 import styles from "./addspot.module.css";
-import { CoordinatesContext } from "./Context";
+import { CoordinatesContext } from "@/context/Context";
 import { useContext, useState, useEffect } from "react";
 
 export default function AddSpot({ openSection }) {

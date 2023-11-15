@@ -1,7 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styles from "./searchbar.module.css";
-import { CoordinatesContext } from "./Context";
-import { useContext } from "react";
+import { CoordinatesContext } from "@/context/Context";
 import AddButton from "./AddButton";
 
 const SearchBar = ({ birdData, addSpot }) => {

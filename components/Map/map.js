@@ -1,9 +1,8 @@
+import styles from "./mapstyles.module.css";
 import { Loader } from "@googlemaps/js-api-loader";
 import React, { useEffect, useState, useContext, useRef, memo } from "react";
-import { CoordinatesContext } from "../components/Context";
-import { SpottedContext } from "../components/Context";
-import fetchDatData from "../pages/api/fetchGlobalSpots";
-import styles from "./mapstyles.module.css";
+import { CoordinatesContext, SpottedContext } from "@/context/Context";
+import fetchDatData from "@/pages/api/fetchGlobalSpots";
 import formatCuteDate from "@/utils/formatCuteDate";
 
 import {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 
-// Assuming you have a context that provides the logged-in username
-import { Username } from "./Context";
+import { Username } from "@/context/Context";
 
 const FriendRequests = () => {
 	const [friendRequests, setFriendRequests] = useState([]);

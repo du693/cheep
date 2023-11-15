@@ -1,4 +1,4 @@
-import { Username } from "./Context";
+import { Username } from "@/context/Context";
 import { useContext } from "react";
 import styles from "./infobox.module.css";
 export default function InfoBox({

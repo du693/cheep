@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./basicform.module.css";
 import { useContext } from "react";
-import { CoordinatesContext } from "./Context";
+import { CoordinatesContext } from "@/context/Context";
 export default function YourFormComponent() {
 	const [inputValue, setInputValue] = useState("");
 	const [file, setFile] = useState(null);

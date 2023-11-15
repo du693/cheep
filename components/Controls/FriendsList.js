@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Username } from "./Context";
+import { Username } from "@/context/Context";
 
 function FriendsList() {
 	const [friends, setFriends] = useState([]);

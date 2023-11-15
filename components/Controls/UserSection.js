@@ -1,8 +1,8 @@
+import styles from "./usersection.module.css";
 import { useContext, useState, useEffect } from "react";
-import { SpottedContext, Username } from "./Context";
+import { SpottedContext, Username } from "@/context/Context";
 import FriendsList from "./FriendsList";
 import FriendRequests from "./CurrentRequests";
-import styles from "./usersection.module.css";
 import FriendRequestForm from "./SendFriendReq";
 import Image from "next/image";
 import formatDate from "@/utils/dateConversions";
@@ -170,44 +170,45 @@ export default function UserSection({
 									isOpen.spotCountSection ? styles.open : ""
 								}`}
 							>
-								<table className={styles.spottedGrid}>
-									<thead className={styles.tableHead}>
-										<tr>
-											<th>Bird Name</th>
-											<th>Time Spotted</th>
-										</tr>
-									</thead>
-									<tbody>
-										{spotted
-											.filter((bird) => bird)
-
-											.map((bird, index) => (
-												<tr
-													className={
-														styles.birdListItem
-													}
-													key={index}
-												>
-													<td
+								{isOpen.spotCountSection && (
+									<table className={styles.spottedGrid}>
+										<thead className={styles.tableHead}>
+											<tr>
+												<td>Bird Name</td>
+												<td>Time Spotted</td>
+											</tr>
+										</thead>
+										<tbody>
+											{spotted
+												.filter((bird) => bird)
+												.map((bird, index) => (
+													<tr
 														className={
-															styles.birdName
+															styles.birdListItem
 														}
+														key={index}
 													>
-														{bird.birdName}
-													</td>
-													<td
-														className={
-															styles.spotDate
-														}
-													>
-														{formatDate(
-															bird.timeSpotted
-														)}
-													</td>
-												</tr>
-											))}
-									</tbody>
-								</table>
+														<td
+															className={
+																styles.birdName
+															}
+														>
+															{bird.birdName}
+														</td>
+														<td
+															className={
+																styles.spotDate
+															}
+														>
+															{formatDate(
+																bird.timeSpotted
+															)}
+														</td>
+													</tr>
+												))}
+										</tbody>
+									</table>
+								)}
 							</div>
 						</div>
 

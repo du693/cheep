@@ -1,11 +1,8 @@
 import React, { createContext, useState } from "react";
 
 export const SpottedContext = createContext();
-
 export const CoordinatesContext = createContext();
-
 export const Username = createContext();
-
 export const UserContext = createContext();
 
 export function SpottedProvider({ children }) {

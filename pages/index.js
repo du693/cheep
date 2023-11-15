@@ -1,18 +1,15 @@
-import { fetchBirdNames } from "./api/fetchBirds";
-import { getSession, useSession } from "next-auth/react";
-import { useEffect, useContext, useState, useCallback, Suspense } from "react";
 import styles from "../styles/Home.module.css";
-import MapComponent from "@/components/map";
-import { SpottedContext } from "../components/Context";
-import React from "react";
-import Controls from "@/components/Controls";
-import AccessPage from "@/components/AccessPage";
-import { Username } from "../components/Context";
-import Absolutes from "@/components/Absolutes";
-import { UserContext } from "../components/Context";
-import { addSpot } from "@/services/addspot";
+import { fetchBirdNames } from "./api/fetchBirds";
 import updateUsername from "./api/updateUsername";
-import dynamic from "next/dynamic";
+import { getSession, useSession } from "next-auth/react";
+import { useEffect, useContext, useState, useCallback } from "react";
+import { Username, UserContext, SpottedContext } from "@/context/Context";
+import MapComponent from "@/components/Map/map";
+import React from "react";
+import Controls from "@/components/Controls/Controls";
+import AccessPage from "@/components/AccessPage/AccessPage";
+import Absolutes from "@/components/Absolutes/Absolutes";
+import { addSpot } from "@/services/addspot";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

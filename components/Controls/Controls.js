@@ -1,10 +1,9 @@
 import SearchBar from "./searchBar";
-import { SpottedContext } from "../components/Context";
 import styles from "./controls.module.css";
 import React, { useContext, useState } from "react";
-import { Username } from "../components/Context";
 import SettingsDropdown from "./SettingsDropdown";
 import UserSection from "./UserSection";
+import { SpottedContext, Username } from "@/context/Context";
 
 const Controls = React.memo(function Controls({
 	session,

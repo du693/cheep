@@ -1,8 +1,7 @@
 import { signIn } from "next-auth/react";
 import styles from "./accesspage.module.css";
-import landingImage from "../public/landingImg.png";
+import landingImage from "@/public/landingImg.png";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 import { useEffect } from "react";
