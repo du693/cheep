@@ -26,6 +26,9 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 	});
 	const [didAttemptSetFromUserLocation, setDidAttemptSetFromUserLocation] =
 		useState(false);
+
+	const [isMapOpen, setIsMapOpen] = useState();
+	const enableMap = () => setIsMapOpen(true);
 	const markersRef = useRef([]);
 	const clustererRef = useRef(null);
 	const mapRef = useRef(null);
@@ -182,7 +185,7 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 			const center =
 				userLocation.lat && userLocation.lng
 					? userLocation
-					: { lat: -3.745, lng: -38.523 };
+					: { lat: 42.3601, lng: -71.0589 };
 
 			const mapOptions = (google.maps.mapOptions = {
 				center: center,
@@ -197,12 +200,12 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 
 			mapInstanceRef.current = new Map(mapRef.current, mapOptions);
 		};
-		if (userLocationAvailable) {
+		if (userLocationAvailable || locationPermission === "denied") {
 			initMap();
 		} else {
 			console.log("pending");
 		}
-	}, [userLocationAvailable]);
+	}, [locationPermission, isMapOpen]);
 
 	useEffect(() => {
 		const initMarkers = async () => {
@@ -232,8 +235,8 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 						const marker = new Marker({
 							key: key,
 							icon: {
-								url: `/svgIcon.png`,
-								scaledSize: new google.maps.Size(30, 30),
+								url: `/newMarker.png`,
+								scaledSize: new google.maps.Size(50, 50),
 							},
 							position: {
 								lat: parseFloat(spot.lat),
@@ -370,22 +373,22 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 					algorithm: algorithm,
 				});
 			}
-
-			const clickListener = mapInstanceRef.current.addListener(
-				"click",
-				(e) => {
-					getLocation(e);
-				}
-			);
-
+			if (mapInstanceRef.current) {
+				var clickListener = mapInstanceRef.current.addListener(
+					"click",
+					(e) => {
+						getLocation(e);
+					}
+				);
+			}
 			return () => {
 				google.maps.event.removeListener(clickListener);
 			};
 		};
-		if (userLocationAvailable) {
+		if (userLocationAvailable || locationPermission === "denied") {
 			initMarkers();
 		}
-	}, [spotted, globalSpots, globalIsOn]);
+	}, [spotted, globalSpots, globalIsOn, isMapOpen]);
 
 	const handleRecenter = () => {
 		if (userLocation && mapInstanceRef.current) {
@@ -395,19 +398,25 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 
 	return (
 		<>
-			<div className="circle"></div>
-			<div className={styles.map} ref={mapRef}></div>
-			<div className={styles.target}>
-				<svg
-					onClick={handleRecenter}
-					xmlns="http://www.w3.org/2000/svg"
-					version="1"
-					viewBox="0 0 24 24"
-					enableBackground="new 0 0 24 24"
-				>
-					<path d="M 11 1 L 11 3.03125 C 6.7956596 3.4828018 3.4828018 6.7956596 3.03125 11 L 1 11 L 1 13 L 3.03125 13 C 3.4828018 17.20434 6.7956596 20.517198 11 20.96875 L 11 23 L 13 23 L 13 20.96875 C 17.20434 20.517198 20.517198 17.20434 20.96875 13 L 23 13 L 23 11 L 20.96875 11 C 20.517198 6.7956596 17.20434 3.4828018 13 3.03125 L 13 1 L 11 1 z M 12 5 C 15.9 5 19 8.1 19 12 C 19 15.9 15.9 19 12 19 C 8.1 19 5 15.9 5 12 C 5 8.1 8.1 5 12 5 z M 12 8 C 9.790861 8 8 9.790861 8 12 C 8 14.209139 9.790861 16 12 16 C 14.209139 16 16 14.209139 16 12 C 16 9.790861 14.209139 8 12 8 z" />
-				</svg>
-			</div>
+			{isMapOpen ? (
+				<>
+					<div className="circle"></div>
+					<div className={styles.map} ref={mapRef}></div>
+					<div className={styles.target}>
+						<svg
+							onClick={handleRecenter}
+							xmlns="http://www.w3.org/2000/svg"
+							version="1"
+							viewBox="0 0 24 24"
+							enableBackground="new 0 0 24 24"
+						>
+							<path d="M 11 1 L 11 3.03125 C 6.7956596 3.4828018 3.4828018 6.7956596 3.03125 11 L 1 11 L 1 13 L 3.03125 13 C 3.4828018 17.20434 6.7956596 20.517198 11 20.96875 L 11 23 L 13 23 L 13 20.96875 C 17.20434 20.517198 20.517198 17.20434 20.96875 13 L 23 13 L 23 11 L 20.96875 11 C 20.517198 6.7956596 17.20434 3.4828018 13 3.03125 L 13 1 L 11 1 z M 12 5 C 15.9 5 19 8.1 19 12 C 19 15.9 15.9 19 12 19 C 8.1 19 5 15.9 5 12 C 5 8.1 8.1 5 12 5 z M 12 8 C 9.790861 8 8 9.790861 8 12 C 8 14.209139 9.790861 16 12 16 C 14.209139 16 16 14.209139 16 12 C 16 9.790861 14.209139 8 12 8 z" />
+						</svg>
+					</div>
+				</>
+			) : (
+				<button onClick={() => enableMap()}>hi</button>
+			)}
 		</>
 	);
 };

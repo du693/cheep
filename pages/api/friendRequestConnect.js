@@ -15,19 +15,22 @@ const handler = async (req, res) => {
 			const receiverUser = await User.findOne({
 				username: receiver,
 			}).exec();
+
 			if (!receiverUser) {
-				// If the receiver doesn't exist, return an error
 				return res.status(404).json({ error: "Receiver not found" });
 			}
 
-			// Similarly, you may want to validate the sender as well
 			const senderUser = await User.findOne({ username: sender }).exec();
 			if (!senderUser) {
 				// If the sender doesn't exist, return an error
 				return res.status(404).json({ error: "Sender not found" });
 			}
+			if (senderUser.friends.includes(receiverUser._id)) {
+				return res
+					.status(409)
+					.json({ error: "Receiver is already a friend" });
+			}
 
-			// Now you have both senderId and receiverId, which you can use to create the Friend request
 			const newFriendRequest = new Friend({
 				sender: senderUser.username,
 				senderId: senderUser._id,

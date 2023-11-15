@@ -258,7 +258,6 @@ export default function UserSection({
 											</tr>
 										))}
 								</div>
-								<FriendRequests />
 							</div>
 						</div>
 						<div className={styles.userStats}>
@@ -295,6 +294,7 @@ export default function UserSection({
 								<div>Achievements coming soon</div>
 							</div>
 						</div>
+						<FriendRequests />
 					</div>
 				)}
 			</div>

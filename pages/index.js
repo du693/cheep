@@ -155,13 +155,41 @@ export default function Home({ birdNames }) {
 }
 
 export async function getServerSideProps(context) {
-	const birdNames = await fetchBirdNames();
-	const session = await getSession(context);
+	let birdNames,
+		session,
+		data = null;
+
+	try {
+		birdNames = await fetchBirdNames();
+	} catch (error) {
+		console.error("Error fetching bird names:", error);
+		// Handle the error appropriately
+	}
+
+	try {
+		session = await getSession(context);
+	} catch (error) {
+		console.error("Error getting session:", error);
+	}
+
+	try {
+		const res = await fetch("http://54.86.165.44/hello");
+		if (!res.ok) {
+			throw new Error("Failed to fetch data");
+		}
+		data = await res.json();
+		console.log(data);
+	} catch (error) {
+		console.error("Error fetching API data:", error);
+		console.log("no json");
+		data = null; // Ensure data is null if there's an error
+	}
 
 	return {
 		props: {
-			birdNames,
-			session,
+			data, // This will be undefined if there was an error fetching
+			birdNames, // This will be undefined if there was an error
+			session, // This will be undefined if there was an error
 		},
 	};
 }

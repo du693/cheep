@@ -27,3 +27,13 @@ PALETTE #2
 0d2800
 
 #081800 darkest?
+
+
+OFFICIAL LIGHT PALETTE:
+
+Sage Green: #9CAE9B
+Sky blue: #aed9eo
+cream: #FFF8E1
+soft lavender: #D1C4E9
+Pale Pink: #FADCD9
+earthy brown: #a68a64

@@ -38,6 +38,7 @@ const FriendRequests = () => {
 	}, [username]);
 
 	const handleStatusChange = async (requestId, newStatus) => {
+		console.log("clicked");
 		try {
 			const response = await fetch(
 				`/api/checkFriendRequests?id=${requestId}`,

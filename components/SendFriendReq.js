@@ -47,16 +47,18 @@ const FriendRequestForm = (username) => {
 						},
 						body: JSON.stringify({ sender, receiver }),
 					});
+					if (response.status === 409) {
+						alert("User is already a friend!");
+					}
 
 					if (!response.ok) {
 						throw new Error(
 							`HTTP error! status: ${response.status}`
 						);
 					}
-
 					const result = await response.json();
 					console.log("Friend request sent:", result);
-					setReceiver(""); // Reset the receiver input after successful submission
+					setReceiver("");
 				} catch (error) {
 					console.error("Error sending friend request:", error);
 				}
