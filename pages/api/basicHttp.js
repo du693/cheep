@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 				formData.append("lng", lng[0]);
 				console.log("FORM DATA HERE", formData);
 				const externalResponse = await fetch(
-					"http://54.86.165.44/upload_audio",
+					"http://100.26.146.73/upload_audio",
 					{
 						method: "POST",
 						body: formData,

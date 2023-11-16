@@ -1,7 +1,10 @@
 .addFriendForm {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 100px;
+
+
 
 
 }
@@ -28,13 +31,13 @@
 }
 
 .circle {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 10px;
-    background-color: #FEF9AB;
-    margin-left: 5%;
+    background-color: #a68a64;
     height: 40px;
     font-size:10px;
     width: 100%;

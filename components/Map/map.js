@@ -213,7 +213,6 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 				render: ({ count, position }) =>
 					new Marker({
 						label: {
-							text: String(count),
 							fontFamily: "Helvetica",
 							color: "white",
 							fontSize: "8px",
@@ -221,7 +220,7 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 						},
 						position,
 						icon: {
-							scaledSize: new window.google.maps.Size(40, 30),
+							scaledSize: new window.google.maps.Size(45, 45),
 							url: `/clusterIcon.png`,
 							labelOrigin: new google.maps.Point(20, 25),
 						},
@@ -387,7 +386,7 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 		if (userLocationAvailable || locationPermission === "denied") {
 			initMarkers();
 		}
-	}, [spotted, globalSpots, globalIsOn, isMapOpen]);
+	}, [spotted, globalSpots, globalIsOn, isMapOpen, userLocationAvailable]);
 
 	const handleRecenter = () => {
 		if (userLocation && mapInstanceRef.current) {
@@ -414,7 +413,12 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 					</div>
 				</>
 			) : (
-				<button onClick={() => enableMap()}>hi</button>
+				<button
+					className={styles.enableMapButton}
+					onClick={() => enableMap()}
+				>
+					Enable Map
+				</button>
 			)}
 		</>
 	);

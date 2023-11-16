@@ -1,50 +1,57 @@
 .topBar {
-  height: 100px;
+  height: 120px;
   display: flex;
-  width: 100%;
+  padding-bottom:10% ;
+  margin-bottom: 10%;
+
+  width: 90%;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #FADCD9;
+  border-bottom: 2px solid #EBE4CE;
+
 }
 
 .section2 {
+  align-items: center;
+  position: relative;
   display: flex;
-  position: absolute;
   margin: 0;
   opacity: 98%;
-  padding: 0;
-  right: 5%;
+  -webkit-user-select: none; 
+  user-select: none;
   z-index: 1000 !important;
   flex-direction: column;
-  background: #9CAE9B;
-  width: 30%;
+  background:  #FFF8E1;
+  width: 80%;
   height: 90%;
+  margin-top: 10%;
   border-radius: 25px;
   font-family: inherit;
   font-display: swap;
-  color:#FFF8E1;
-  font-size: 14px;
+  color:black;
+  font-size: 8px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
   @media(max-width: 900px){
   }
 }
 
 .userInformation {
+  width: 100%;
   pointer-events: none;
   position: absolute;
+  background-color: #FFF8E1;
   z-index: 1000 !important;
-  width: 100%;
+  width:100%;
   height: 0;
   opacity: 0;
-  background-color: #A68A64;
   border-radius: 25px;
   transition: all 1s ease-in-out;
 }
 
 .userInformation.open {
-  height: 100%;
+  height: 79%;
   z-index: 90000 !important;
   pointer-events: all;
-  position: absolute;
   opacity: 1;
 }
 
@@ -52,8 +59,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   overflow-y:scroll;
-  padding-left: 10px;
-  padding-right: 10px;
   transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; 
   max-height: 0px; 
   opacity: 0; 
@@ -100,12 +105,13 @@
 }
 
 .searchSection.open {
-  max-height: 1000px !important;
+  max-height: 400px !important;
 
   opacity: 1;
 }
 
 .birdGridItem {
+  width: 10px;
   background-color: #C5FFA8;
   color: black;
   font-size: 10px;
@@ -123,6 +129,7 @@
 .container {
   position: relative;
   -webkit-transition: all 0.25s;
+  width: 100%; 
   overflow: hidden;
   transition: max-height 1s;
 }
@@ -132,20 +139,27 @@
 }
 
 .iconButton {
-  padding-left: 20px;
-  padding-right: 20px;
-  height: 30px;
+  margin-top: 10%;
+  margin-left:20%;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  background-color: #637862;
+  border-radius: 100%;
+  padding: 5px;
+  height: 50px;
   cursor: pointer;
 }
 
 .dropdownIcon {
-  height: 30px;
+  height: 20px;
   padding-right: 20px;
   cursor: pointer;
 }
 
 .containerHeader1 {
-  height: 100px;
+
+  padding: 10%;
+  height: 50px;
+
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -157,7 +171,8 @@
   height:0;
 }
 .containerHeader2 {
-  height: 100px;
+  padding: 10%;
+  height: 50px;
   display: flex;
   flex-direction: row;
   align-items: center;

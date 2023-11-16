@@ -1,13 +1,17 @@
 .exitUserInfo{
     cursor: pointer;
+    width: 30px;
+    padding: 5px;
+    color: black;
     position: absolute;
-    width: 35px;
-    color: #C5FFA8;
-    top:3%;
-    right: 4%;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+    right: 5%;
+    border-radius: 25px;
+    top: 2%;
   }
 
   .user{
+    font-size: 8px;
     margin-top: 10%;
     height: 300px;
     display: flex;
@@ -65,6 +69,7 @@
     
 
     .userHeader {
+
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -74,12 +79,13 @@
         width: 100%;
         height: 50px;
         opacity: 90%;
-        color: #C5FFA8;
+        color: black;
         border-radius: 15px;
       }
 
       .userSummary {
-        margin-right: 2%;
+
+        margin-right: 15%;
         width: fit-content;
         display: flex;
         flex-direction: row;
@@ -87,10 +93,12 @@
         align-items: center;
       }
       .sessionImage {
-        border-radius: 10px;
+        border-radius: 100%;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
       }
       
       .addFriendForm {
+
         justify-content: center;
         display: flex;
         max-height: 0px;
@@ -116,6 +124,7 @@
       }
       .statHeader{
         height: 50px;
+        font-size: 8px;
         display: flex;
         font-size: 12px;
         margin-left: 5%;
@@ -124,6 +133,12 @@
         transition: all 0.5s ease-in-out;
         justify-content: space-between;
       }
+      .statHeader h1 {
+        font-size: 12px;
+        padding: 15%;
+      }
+      
+
       .stat1{
         transition:all 0.4s ease-in-out ;
         z-index: -1 !important;
@@ -133,41 +148,42 @@
         opacity: 0;
       }
       .stat1.open{
-        max-height: 1000px !important;
-
+        max-height: 200px;
+        overflow-y: scroll;
+        z-index: 1000 !important;
         opacity: 1;
       }
 
+      .spottedGridDiv{
+        max-height: 200px;
+        padding: 5%; /* Adjust based on your needs */
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+
+
       .spottedGrid{
-        display: flex;
-        margin-top:5% ;
-        flex-direction: column;
+        width: 100%;
+        border-collapse: collapse;
       }
 
-      .tableHead{
-
-        display: flex;
-        justify-content: space-evenly;
-        text-decoration: underline;
-        margin-bottom: 2%;
-        color:#C5FFA8;
-
-      }
 
       .birdListItem{
         list-style-type: none;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
+        border-bottom: 1px solid black;
+        text-align: center;
         gap: 5%;
         margin-left: 5%;
 
       }
+
+    
       .birdName{
        width: 50%;
       }
       .spotDate{
-        width: 40%;
+        width: 50%;
       }
 
 
@@ -182,7 +198,7 @@
         opacity: 0;
       }
       .stat2.open{
-        max-height: 1000px !important;
+        max-height: 1000px !important; 
 
         opacity: 1;
       }
@@ -202,13 +218,17 @@
 
 
       .addFriend {
-        width: 25px;
-        fill: #C5FFA8;
+        width: 50px;
+        fill: black;
+        padding: 10px;
+        border-radius: 100%;
+        background-color: #9CAE9B;
         cursor: pointer;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
       }
       
       .dropdownIcon {
-        height: 30px;
-        padding-right: 20px;
+        height:20px;
+        padding-right: 15%;
         cursor: pointer;
       }

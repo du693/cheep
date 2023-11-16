@@ -3,28 +3,34 @@
     fill: blue;
 }
 
+
 .map {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: relative;
+    border: 20px solid #637862;
+    border-radius: 25px;
+    box-shadow: inset 50px 50px 5px rgba(0, 0, 0, 01);
+
+
+    
 }
 
 .target {
-    bottom: 6.5%;
+
+    
+    z-index: 9999 !important;
     background-color: #ebfee2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    left: 6.5%;
-    z-index: 1000 !important;
+    top:87%;
+    left: 23%;
     position: absolute;
+    height: 50px;
     padding: 5px;
-    width: 40px;
+    width: 50px;
     cursor: pointer;
     border-radius: 100%;
+    opacity: 80%;
     transition: 1s;
-    opacity: 60%;
 
 
 }
@@ -34,4 +40,31 @@
 }
 .infoboxx {
     color: black;
+}
+
+.enableMapButton {
+    background-color: #9CAE9B; /* Sage Green */
+    color: #FFF8E1; /* Cream */
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    position: absolute;
+    left: 28%;
+
+
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 2px #a68a64; /* Earthy Brown for shadow */
+}
+
+.enableMapButton:hover {
+    background-color: #D1C4E9; /* Soft Lavender */
+    color: #9CAE9B; /* Sage Green */
+    box-shadow: 0 2px #a68a64; /* Earthy Brown for sha  dow */
 }

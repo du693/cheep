@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 export default function SettingsDropdown() {
 	const [isDropdownVisible, setDropdownVisible] = useState(false);
 
-	// Function to toggle the visibility of the dropdown content
 	const toggleDropdown = () => {
 		setDropdownVisible(!isDropdownVisible);
 	};
@@ -37,10 +36,10 @@ export default function SettingsDropdown() {
 				className={`${styles.dropdownContent} ${
 					isDropdownVisible ? styles.dropdownContentVisible : ""
 				}`}
-				initial={{ scaleY: 0 }} // Set initial scaleY to 0 to hide the content
-				animate={{ scaleY: isDropdownVisible ? 1 : 0 }} // Animate scaleY to control visibility
+				initial={{ scaleY: 0 }}
+				animate={{ scaleY: isDropdownVisible ? 1 : 0 }}
 				transition={{
-					duration: 0.3, // Adjust duration for the dropdown animation
+					duration: 0.3,
 					ease: [0, 0.71, 0.2, 1.01],
 				}}
 			>

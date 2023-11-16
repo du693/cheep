@@ -1,7 +1,6 @@
 import styles from "./usersection.module.css";
 import { useContext, useState, useEffect } from "react";
 import { SpottedContext, Username } from "@/context/Context";
-import FriendsList from "./FriendsList";
 import FriendRequests from "./CurrentRequests";
 import FriendRequestForm from "./SendFriendReq";
 import Image from "next/image";
@@ -121,14 +120,14 @@ export default function UserSection({
 								</svg>
 							</div>
 							<div className={styles.userSummary}>
-								<h1>{username} </h1>
 								<Image
 									className={styles.sessionImage}
 									src={session.user.image}
 									alt="User Profile"
-									width={40}
-									height={40}
+									width={50}
+									height={50}
 								/>
+								<h1>{username}</h1>
 							</div>
 						</div>
 
@@ -141,7 +140,7 @@ export default function UserSection({
 						</div>
 						<div className={styles.userStats}>
 							<div className={styles.statHeader}>
-								<h1>Total Spots: {spotted.length}</h1>
+								<h1>total spots: {spotted.length}</h1>
 
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -171,43 +170,45 @@ export default function UserSection({
 								}`}
 							>
 								{isOpen.spotCountSection && (
-									<table className={styles.spottedGrid}>
-										<thead className={styles.tableHead}>
-											<tr>
-												<td>Bird Name</td>
-												<td>Time Spotted</td>
-											</tr>
-										</thead>
-										<tbody>
-											{spotted
-												.filter((bird) => bird)
-												.map((bird, index) => (
-													<tr
-														className={
-															styles.birdListItem
-														}
-														key={index}
-													>
-														<td
+									<div className={styles.spottedGridDiv}>
+										<table className={styles.spottedGrid}>
+											<thead className={styles.tableHead}>
+												<tr>
+													<td>Bird Name</td>
+													<td>Time Spotted</td>
+												</tr>
+											</thead>
+											<tbody className={styles.daBody}>
+												{spotted
+													.filter((bird) => bird)
+													.map((bird, index) => (
+														<tr
 															className={
-																styles.birdName
+																styles.birdListItem
 															}
+															key={index}
 														>
-															{bird.birdName}
-														</td>
-														<td
-															className={
-																styles.spotDate
-															}
-														>
-															{formatDate(
-																bird.timeSpotted
-															)}
-														</td>
-													</tr>
-												))}
-										</tbody>
-									</table>
+															<td
+																className={
+																	styles.birdName
+																}
+															>
+																{bird.birdName}
+															</td>
+															<td
+																className={
+																	styles.spotDate
+																}
+															>
+																{formatDate(
+																	bird.timeSpotted
+																)}
+															</td>
+														</tr>
+													))}
+											</tbody>
+										</table>
+									</div>
 								)}
 							</div>
 						</div>

@@ -9,7 +9,10 @@ import React from "react";
 import Controls from "@/components/Controls/Controls";
 import AccessPage from "@/components/AccessPage/AccessPage";
 import Absolutes from "@/components/Absolutes/Absolutes";
+import Header from "@/components/Header/Header";
+import BirdIdentification from "@/components/LeftSection/BirdIdentification";
 import { addSpot } from "@/services/addspot";
+import OpenAIResponse from "@/components/LeftSection/OpenAIResponse";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -127,21 +130,37 @@ export default function Home({ birdNames }) {
 					/>
 
 					<div className={styles.section}>
-						<MapComponent
-							handleMapPending={handleMapPending}
-							globalIsOn={globalIsOn}
-							onMapLoaded={handleMapLoaded}
-							className={styles.mapping}
-						/>
-						<Controls
-							session={session}
-							isOpen={isOpen}
-							toggleSection={toggleSection}
-							birdData={birdNames}
-							addSpot={handleAddSpot}
-							addUsername={addUsername}
-							className={styles.controlling}
-						></Controls>
+						<div className={styles.header}>
+							<Header />
+						</div>
+
+						<div className={styles.leftSection}>
+							<div className={styles.birdIdentification}>
+								<BirdIdentification />
+							</div>
+							<div className={styles.birdResponse}>
+								<OpenAIResponse />
+							</div>
+						</div>
+						<div className={styles.mapSection}>
+							<MapComponent
+								handleMapPending={handleMapPending}
+								globalIsOn={globalIsOn}
+								onMapLoaded={handleMapLoaded}
+								className={styles.mapping}
+							/>
+						</div>
+						<div className={styles.rightSection}>
+							<Controls
+								session={session}
+								isOpen={isOpen}
+								toggleSection={toggleSection}
+								birdData={birdNames}
+								addSpot={handleAddSpot}
+								addUsername={addUsername}
+								className={styles.controlling}
+							></Controls>
+						</div>
 					</div>
 				</>
 			) : (

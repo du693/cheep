@@ -1,15 +1,20 @@
 .dropdownSettingsSection {
     position: relative;
+    margin-top: 10%;
+    margin-right: 20%;
+
 }
 
 .dropdownContent {
     display: none;
     position: absolute;
-    background-color: #c1fba5;
+    background-color: #aed9e0;
+    -webkit-user-select: none; 
+    user-select: none;
     
     border-radius: 25px;
     color: inherit;
-    left: -200%;
+    left: -500%;
     min-width: 260px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -28,9 +33,12 @@
     display: block;
   }
 .iconButton {
-    padding-left: 20px;
-    padding-right: 20px;
-    height: 30px;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+  background-color: #637862;
+  border-radius: 100%;
+  padding: 5px;
+  height: 50px;
+  cursor: pointer;
     cursor: pointer;
   }
 

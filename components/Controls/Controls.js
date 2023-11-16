@@ -97,54 +97,11 @@ const Controls = React.memo(function Controls({
 			</div>
 			<div className={styles.container}>
 				<div
-					className={`${styles.containerHeader1} ${
-						isOpen.searchSection ? styles.open : ""
-					}`}
-				>
-					<h1>Recent Spots</h1>
-					<svg
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						strokeWidth={1.5}
-						stroke="currentColor"
-						className={styles.dropdownIcon}
-						onClick={() => toggleSection("gridContainer")}
-					>
-						<path
-							strokeLinecap="round"
-							strokeLinejoin="round"
-							d={
-								isOpen.gridContainer
-									? "M4.5 15.75l7.5-7.5 7.5 7.5"
-									: "M19.5 8.25l-7.5 7.5-7.5-7.5"
-							}
-						/>
-					</svg>
-				</div>
-
-				<div
-					className={`${styles.gridContainer} ${
-						isOpen.gridContainer ? styles.open : ""
-					}`}
-				>
-					{spotted
-						.filter((bird) => bird)
-						.slice(0, 16)
-						.map((bird, index) => (
-							<div className={styles.birdGridItem} key={index}>
-								{bird.birdName}
-							</div>
-						))}
-				</div>
-			</div>
-			<div className={styles.container}>
-				<div
 					className={`${styles.containerHeader2} ${
 						isOpen.gridContainer ? styles.open : ""
 					}`}
 				>
-					<h1>Add Spot</h1>
+					<h1>add spot</h1>
 
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
