@@ -46,7 +46,7 @@ export default function BirdIdentification() {
 
 	return (
 		<div className={styles.birdIdentification}>
-			<div className={styles.inputField}>
+			{/* <div className={styles.inputField}>
 				<form onSubmit={handleSubmit} className={styles.formBox}>
 					<div className={styles.fileSection}>
 						{!fileName && (
@@ -107,14 +107,14 @@ export default function BirdIdentification() {
 				</form>
 
 				{/* Conditional rendering to display responseData */}
-			</div>
-			<div className={styles.birdIdentificationResponse}>
+			{/* </div> */} */
+			{/* <div className={styles.birdIdentificationResponse}>
 				{responseData ? (
 					<pre>{JSON.stringify(responseData, null, 2)}</pre>
 				) : (
 					<div></div>
 				)}
-			</div>
+			</div> */}
 		</div>
 	);
 }

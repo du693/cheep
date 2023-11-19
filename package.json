@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.2",
-    "@googlemaps/markerclusterer": "^2.5.0",
+    "@googlemaps/markerclusterer": "^2.5.1",
     "@googlemaps/markerclustererplus": "^1.2.10",
     "@mdi/js": "^7.3.67",
     "@mdi/react": "^1.6.1",

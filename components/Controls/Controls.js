@@ -6,12 +6,15 @@ import UserSection from "./UserSection";
 import { SpottedContext, Username } from "@/context/Context";
 
 const Controls = React.memo(function Controls({
+	isLocationMyLocation,
 	session,
 	birdData,
 	addSpot,
 	isOpen,
 	addUsername,
 	toggleSection,
+
+	setUserLocationToggleFunction,
 }) {
 	const { username, setUsername } = useContext(Username);
 	const { spotted, setSpotted } = useContext(SpottedContext);
@@ -59,7 +62,7 @@ const Controls = React.memo(function Controls({
 
 	return (
 		<div className={styles.section2}>
-			<div
+			{/* <div
 				className={`${styles.userInformation} ${
 					isOpen.userSection ? styles.open : ""
 				}`}
@@ -75,8 +78,8 @@ const Controls = React.memo(function Controls({
 					friendQueryOpen={friendQueryOpen}
 					closeFriendQuery={closeFriendQuery}
 				/>
-			</div>
-			<div className={styles.topBar}>
+			</div> */}
+			{/* <div className={styles.topBar}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					onClick={() => toggleSection("userSection")}
@@ -94,16 +97,57 @@ const Controls = React.memo(function Controls({
 				</svg>
 
 				<SettingsDropdown />
-			</div>
-			<div className={styles.container}>
+			</div> */}
+			{/* <div className={styles.container}>
 				<div
-					className={`${styles.containerHeader2} ${
+					className={`${styles.containerHeader1} ${
+						isOpen.searchSection ? styles.open : ""
+					}`}
+				>
+					<h1>recent spots</h1>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						strokeWidth={1.5}
+						stroke="currentColor"
+						className={styles.dropdownIcon}
+						onClick={() => toggleSection("gridContainer")}
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d={
+								isOpen.gridContainer
+									? "M4.5 15.75l7.5-7.5 7.5 7.5"
+									: "M19.5 8.25l-7.5 7.5-7.5-7.5"
+							}
+						/>
+					</svg>
+				</div>
+
+				<div
+					className={`${styles.gridContainer} ${
 						isOpen.gridContainer ? styles.open : ""
 					}`}
 				>
-					<h1>add spot</h1>
+					{spotted
+						.filter((bird) => bird)
+						.slice(0, 16)
+						.map((bird, index) => (
+							<div className={styles.birdGridItem} key={index}>
+								{bird.birdName}
+							</div>
+						))}
+				</div>
+			</div> */}
+			<div className={styles.container}>
+				<div className={styles.containerHeader2}>
+					<h1>
+						<u>Add a Bird Sighting</u>
+					</h1>
 
-					<svg
+					{/* <svg
 						xmlns="http://www.w3.org/2000/svg"
 						fill="none"
 						viewBox="0 0 24 24"
@@ -121,14 +165,20 @@ const Controls = React.memo(function Controls({
 									: "M19.5 8.25l-7.5 7.5-7.5-7.5"
 							}
 						/>
-					</svg>
-				</div>{" "}
-				<div
-					className={`${styles.searchSection} ${
+					</svg> */}
+				</div>
+				<div className={`${styles.searchSection}`}>
+					{/* ${
 						isOpen.searchSection ? styles.open : ""
-					}`}
-				>
-					<SearchBar birdData={birdData} addSpot={addSpot} />
+					} */}
+					<SearchBar
+						isLocationMyLocation={isLocationMyLocation}
+						birdData={birdData}
+						addSpot={addSpot}
+						setUserLocationToggleFunction={
+							setUserLocationToggleFunction
+						}
+					/>
 				</div>
 			</div>
 		</div>

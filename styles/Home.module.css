@@ -27,7 +27,7 @@
   position:relative;
   width: 100%;
   display: grid;
-  grid-template-columns: .2fr .6fr .2fr;
+  grid-template-columns: .2fr .50fr .3fr;
   grid-template-rows: .1fr .9fr;
     grid-template-areas: 
     "fullrow fullrow fullrow"  /* First row spans all columns */

@@ -1,8 +1,8 @@
 .topBar {
-  height: 120px;
+
   display: flex;
-  padding-bottom:10% ;
-  margin-bottom: 10%;
+
+
 
   width: 90%;
   align-items: center;
@@ -12,10 +12,9 @@
 }
 
 .section2 {
-  align-items: center;
+
   position: relative;
   display: flex;
-  margin: 0;
   opacity: 98%;
   -webkit-user-select: none; 
   user-select: none;
@@ -24,7 +23,8 @@
   background:  #FFF8E1;
   width: 80%;
   height: 90%;
-  margin-top: 10%;
+  padding: 0;
+  margin-top: 0;
   border-radius: 25px;
   font-family: inherit;
   font-display: swap;
@@ -96,19 +96,17 @@
   transform: scale(1.01);
 }
 .searchSection {
+
   transition:all 0.4s ease-in-out ;
   z-index: 100 !important;
   border-radius: 10px;
   left: 1%;
-  max-height: 0px;
-  opacity: 0;
-}
-
-.searchSection.open {
-  max-height: 400px !important;
+  height: 100%;
 
   opacity: 1;
 }
+
+
 
 .birdGridItem {
   width: 10px;
@@ -127,8 +125,11 @@
 }
 
 .container {
+  height: 100%;;
+
   position: relative;
   -webkit-transition: all 0.25s;
+
   width: 100%; 
   overflow: hidden;
   transition: max-height 1s;
@@ -159,6 +160,7 @@
 
   padding: 10%;
   height: 50px;
+  font-size: 24px;
 
   display: flex;
   flex-direction: row;
@@ -171,16 +173,22 @@
   height:0;
 }
 .containerHeader2 {
-  padding: 10%;
-  height: 50px;
+
+padding-top: 0;
+
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  font-size: 10px;
+
   transition: all 0.3s ease-in-out;
 }
 .containerHeader2.open{
   height:0;
+}
+.containerHeader2 h1{
+  margin-top: 0;
+
 }
 
 .popupText{

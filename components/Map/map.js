@@ -6,23 +6,31 @@ import fetchDatData from "@/pages/api/fetchGlobalSpots";
 import formatCuteDate from "@/utils/formatCuteDate";
 
 import {
+	Cluster,
 	MarkerClusterer,
 	SuperClusterAlgorithm,
 } from "@googlemaps/markerclusterer";
 import { exit } from "@/public/svgList";
 
-const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
+const MapComponent = ({
+	setIsLocationMyLocationFunction,
+	isLocationMyLocation,
+	onMapLoaded,
+	globalIsOn,
+	handleMapPending,
+	setUserLocationFunction,
+	userLocation,
+	userLocationToggle,
+	setUserLocationToggleFunction,
+}) => {
 	const [hasRunEffect, setHasRunEffect] = useState(false);
 	const [selectedBird, setSelectedBird] = useState(null);
-	const { setCoordinates } = useContext(CoordinatesContext);
+	const { coordinates, setCoordinates } = useContext(CoordinatesContext);
 	const [globalSpots, setGlobalSpots] = useState([]);
 	const { spotted } = useContext(SpottedContext);
 	const [locationPermission, setLocationPermission] = useState("pending");
 	const [userLocationAvailable, setUserLocationAvailable] = useState(false);
-	const [userLocation, setUserLocation] = useState({
-		lat: null,
-		lng: null,
-	});
+
 	const [didAttemptSetFromUserLocation, setDidAttemptSetFromUserLocation] =
 		useState(false);
 
@@ -59,10 +67,11 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 						"Successfully fetched geolocation:",
 						position.coords
 					);
-					setUserLocation({
+					setUserLocationFunction({
 						lat: position.coords.latitude,
 						lng: position.coords.longitude,
 					});
+					setIsLocationMyLocationFunction(true);
 
 					setLocationPermission("granted");
 					getLocation();
@@ -91,10 +100,17 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 	//the getLocation function is for getting the location for both the userIcon and click event/icon.
 	async function getLocation(e) {
 		const { Marker } = await loader.importLibrary("marker");
+
+		// Remove the previous marker if it exists
+		if (previousMarker) {
+			previousMarker.setMap(null);
+		}
+
 		if (e) {
 			const lat = e.latLng.lat();
 			const lng = e.latLng.lng();
 			setCoordinates({ lat, lng });
+			setIsLocationMyLocationFunction(false);
 
 			const newMarker = new Marker({
 				position: {
@@ -110,33 +126,33 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 				optimized: false,
 			});
 
-			//ensures only one clickIcon at a time
-			if (previousMarker) {
-				previousMarker.setMap(null);
-			}
+			// Store the new marker as the previous marker
 			previousMarker = newMarker;
-			//this is actually for an entirely different marker, slightly clever if theres no event and userLocation is filled then place userIcon at location
-			//below will not execute if there is an event
 		} else if (userLocation.lat !== null && userLocation.lng !== null) {
 			setCoordinates({
 				lat: userLocation.lat,
 				lng: userLocation.lng,
 			});
-			new Marker({
+			setIsLocationMyLocationFunction(true);
+			setUserLocationToggleFunction(false);
+
+			const newMarker = new Marker({
 				position: {
 					lat: parseFloat(userLocation.lat),
 					lng: parseFloat(userLocation.lng),
 				},
-
 				icon: {
 					scaledSize: new window.google.maps.Size(30, 30),
 					url: `/selfIndicator.png`,
 				},
 				title: "User Location",
-
 				map: mapInstanceRef.current,
 				zIndex: 10,
 			});
+
+			// Store the new marker as the previous marker
+			previousMarker = newMarker;
+
 			setDidAttemptSetFromUserLocation(true);
 		}
 	}
@@ -172,10 +188,11 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 	}, [globalIsOn]);
 
 	useEffect(() => {
+		console.log("errrrr");
 		if (userLocation.lat !== null && userLocation.lng !== null) {
 			getLocation();
 		}
-	}, [userLocationAvailable]);
+	}, [userLocationAvailable, userLocationToggle]);
 
 	useEffect(() => {
 		const initMap = async () => {
@@ -190,6 +207,7 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 				center: center,
 				zoom: 12.5,
 				maxZoom: 16,
+
 				minZoom: 8,
 				mapId: "68d7d2e243f0235a",
 				disableDefaultUI: true,
@@ -276,8 +294,8 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 						const marker = new Marker({
 							key: key,
 							icon: {
-								url: `/svgIcon.png`,
-								scaledSize: new google.maps.Size(30, 30),
+								url: `/newMarker.png`,
+								scaledSize: new google.maps.Size(50, 50),
 							},
 							position: {
 								lat: parseFloat(spot.spotted.lat),
@@ -349,6 +367,48 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 					mapInstanceRef.current
 				);
 				clustererRef.current = new MarkerClusterer({
+					onClusterClick: (event, cluster, map) => {
+						console.log(globalSpots);
+						let listItems = "";
+						const addedSpotIds = new Set();
+
+						if (cluster.markers && Array.isArray(cluster.markers)) {
+							cluster.markers.forEach((marker) => {
+								const markerPosition = marker.getPosition();
+								const markerLat = markerPosition.lat();
+								const markerLng = markerPosition.lng();
+
+								globalSpots.forEach((spot) => {
+									if (
+										Math.abs(spot.spotted.lat - markerLat) <
+											0.0001 &&
+										Math.abs(spot.spotted.lng - markerLng) <
+											0.0001 &&
+										!addedSpotIds.has(spot._id)
+									) {
+										listItems += `<li style='margin-bottom: 5px; padding: 5px; border-bottom: 1px solid #ddd;'>
+											<strong>Bird:</strong> ${spot.spotted.birdName}<br>
+											<strong>Date:</strong> ${formatCuteDate(spot.timeSpotted)}
+										</li>`;
+										addedSpotIds.add(spot._id);
+									}
+								});
+							});
+						}
+
+						let contentString = `<div style='max-height: 200px; overflow-y: auto; color: black;'><div style='width: 25px; position: absolute; top: 0; right: 0;'>${exit}</div>`;
+						contentString +=
+							"<ul style='list-style-type: none; margin: 0; padding: 0;'>";
+						contentString +=
+							listItems || "No matching spotted items.";
+						contentString += "</ul></div>";
+
+						const infoWindow = new google.maps.InfoWindow({
+							content: contentString,
+						});
+						infoWindow.setPosition(cluster.position);
+						infoWindow.open(map);
+					},
 					map: mapInstanceRef.current,
 					markers: markersRef.current, // Use newMarkers instead of markersRef.current
 					renderer: renderer,
@@ -365,12 +425,55 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 					mapInstanceRef.current
 				);
 				clustererRef.current = new MarkerClusterer({
+					onClusterClick: (event, cluster, map) => {
+						let listItems = "";
+						const addedSpotIds = new Set();
+
+						if (cluster.markers && Array.isArray(cluster.markers)) {
+							cluster.markers.forEach((marker) => {
+								const markerPosition = marker.getPosition();
+								const markerLat = markerPosition.lat();
+								const markerLng = markerPosition.lng();
+
+								spotted.forEach((spot) => {
+									if (
+										Math.abs(spot.lat - markerLat) <
+											0.0001 &&
+										Math.abs(spot.lng - markerLng) <
+											0.0001 &&
+										!addedSpotIds.has(spot._id)
+									) {
+										listItems += `<li style='margin-bottom: 5px; padding: 5px; border-bottom: 1px solid #ddd;'>
+											<strong>Bird:</strong> ${spot.birdName}<br>
+											<strong>Date:</strong> ${formatCuteDate(spot.timeSpotted)}
+										</li>`;
+										addedSpotIds.add(spot._id);
+									}
+								});
+							});
+						}
+
+						let contentString = `<div style='max-height: 200px; overflow-y: auto; color: black;'><div style='width: 25px; position: absolute; top: 0; right: 0;'>${exit}</div>`;
+						contentString +=
+							"<ul style='list-style-type: none; margin: 0; padding: 0;'>";
+						contentString +=
+							listItems || "No matching spotted items.";
+						contentString += "</ul></div>";
+
+						const infoWindow = new google.maps.InfoWindow({
+							content: contentString,
+						});
+						infoWindow.setPosition(cluster.position);
+						infoWindow.open(map);
+					},
+
 					map: mapInstanceRef.current,
 					markers: markersRef.current, // Use newMarkers instead of markersRef.current
 					renderer: renderer,
 					algorithm: algorithm,
 				});
 			}
+
 			if (mapInstanceRef.current) {
 				var clickListener = mapInstanceRef.current.addListener(
 					"click",
@@ -379,6 +482,7 @@ const MapComponent = ({ onMapLoaded, globalIsOn, handleMapPending }) => {
 					}
 				);
 			}
+
 			return () => {
 				google.maps.event.removeListener(clickListener);
 			};

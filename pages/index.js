@@ -31,6 +31,25 @@ export default function Home({ birdNames }) {
 		spotCountSection: false,
 		achievementSection: false,
 	});
+	const [userLocation, setUserLocation] = useState({
+		lat: null,
+		lng: null,
+	});
+
+	const [userLocationToggle, setUserLocationToggle] = useState(false);
+	const [isLocationMyLocation, setIsLocationMyLocation] = useState(false);
+
+	const setIsLocationMyLocationFunction = (bool) => {
+		setIsLocationMyLocation(bool);
+	};
+
+	const setUserLocationToggleFunction = (bool) => {
+		setUserLocationToggle(bool);
+	};
+
+	const setUserLocationFunction = (lat, lng) => {
+		setUserLocation(lat, lng);
+	};
 
 	const toggleSwitch = () => {
 		setGlobalIsOn((prevIsOn) => !prevIsOn);
@@ -78,7 +97,6 @@ export default function Home({ birdNames }) {
 				console.error("Session not found or username is null");
 				return false;
 			}
-
 			try {
 				await updateUsername(session.user.email, user);
 				setUsername(user); // Update the username in your context if needed
@@ -90,6 +108,8 @@ export default function Home({ birdNames }) {
 		},
 		[session, setUsername]
 	);
+
+	// const setCoordsToUserLocation = ()
 
 	useEffect(() => {
 		console.log("fetch request rerendered");
@@ -144,6 +164,18 @@ export default function Home({ birdNames }) {
 						</div>
 						<div className={styles.mapSection}>
 							<MapComponent
+								setIsLocationMyLocationFunction={
+									setIsLocationMyLocationFunction
+								}
+								isLocationMyLocation={isLocationMyLocation}
+								setUserLocationFunction={
+									setUserLocationFunction
+								}
+								userLocation={userLocation}
+								userLocationToggle={userLocationToggle}
+								setUserLocationToggleFunction={
+									setUserLocationToggleFunction
+								}
 								handleMapPending={handleMapPending}
 								globalIsOn={globalIsOn}
 								onMapLoaded={handleMapLoaded}
@@ -152,6 +184,11 @@ export default function Home({ birdNames }) {
 						</div>
 						<div className={styles.rightSection}>
 							<Controls
+								isLocationMyLocation={isLocationMyLocation}
+								userLocationToggle={userLocationToggle}
+								setUserLocationToggleFunction={
+									setUserLocationToggleFunction
+								}
 								session={session}
 								isOpen={isOpen}
 								toggleSection={toggleSection}
