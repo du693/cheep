@@ -89,7 +89,22 @@ export default function Home({ birdNames }) {
 		},
 		[session, username, setSpotted]
 	);
+	useEffect(() => {
+		async function getBirds() {
+			try {
+				const birdNames = await fetchBirdNames();
+				// Do something with birdNames, like setting it in state
+			} catch (error) {
+				console.error("Error fetching bird names:", error);
+				// Handle the error appropriately
+				// For example, you can log the error and continue with an empty array
+				// or set an error state to display an error message to the user
+			}
+		}
 
+		// Call the async function to fetch bird names
+		getBirds();
+	}, []);
 	const addUsername = useCallback(
 		async (user) => {
 			if (!session || !session.user || !user) {
@@ -207,17 +222,7 @@ export default function Home({ birdNames }) {
 }
 
 export async function getServerSideProps(context) {
-	let birdNames = null;
 	let session = null;
-
-	try {
-		birdNames = await fetchBirdNames();
-	} catch (error) {
-		console.error("Error fetching bird names:", error);
-		// Handle the error appropriately
-		// For example, you can log the error and continue with an empty array
-		birdNames = [];
-	}
 
 	try {
 		session = await getSession(context);
@@ -231,7 +236,6 @@ export async function getServerSideProps(context) {
 	return {
 		props: {
 			birdNames,
-			session,
 		},
 	};
 }
