@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 import styles from "./accesspage.module.css";
-import landingImage from "@/public/landingImg.png";
+// import landingImage from "@/public/landingImg.png";
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
@@ -27,12 +27,12 @@ export default function AccessPage() {
 	return (
 		<div className={styles.accesspage}>
 			<div className={styles.landingImageBox}>
-				<Image
+				{/* <Image
 					src={landingImage}
 					priority
 					className={styles.landingImage}
 					alt="landing image"
-				/>
+				/> */}
 				<motion.div
 					initial={{ opacity: 0, scale: 0.9 }}
 					animate={{ opacity: 1, scale: 1 }}
