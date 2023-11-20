@@ -215,18 +215,23 @@ export async function getServerSideProps(context) {
 	} catch (error) {
 		console.error("Error fetching bird names:", error);
 		// Handle the error appropriately
+		// For example, you can log the error and continue with an empty array
+		birdNames = [];
 	}
 
 	try {
 		session = await getSession(context);
 	} catch (error) {
 		console.error("Error getting session:", error);
+		// Handle the error appropriately
+		// For example, you can log the error and continue with null
+		session = null;
 	}
 
 	return {
 		props: {
-			birdNames, // This will be undefined if there was an error
-			session, // This will be undefined if there was an error
+			birdNames,
+			session,
 		},
 	};
 }
