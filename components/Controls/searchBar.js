@@ -1,7 +1,9 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import styles from "./searchbar.module.css";
 import { CoordinatesContext } from "@/context/Context";
 import AddButton from "./AddButton";
+import OpenAIResponse from "./OpenAIResponse";
+import classNames from "classnames";
 
 const SearchBar = ({
 	isLocationMyLocation,
@@ -22,6 +24,20 @@ const SearchBar = ({
 	const [fileName, setFileName] = useState(""); // State to store the file name
 	const [responseData, setResponseData] = useState(null);
 	const [responseLoading, setResponseLoading] = useState(false);
+	const [openAIResponse, setOpenAIResponse] = useState("");
+	const [birdFound, setBirdFound] = useState(false);
+	const fileInputRef = useRef(null);
+
+	const clearBirdFound = () => {
+		setBirdFound(false);
+	};
+
+	const clearOpenAIResponse = () => {
+		setOpenAIResponse("");
+	};
+	const responseSectionClass = classNames(styles.openAIResponseSection, {
+		[styles.openAIResponseSectionActive]: openAIResponse && birdFound,
+	});
 
 	const inputPlaceholder =
 		lat !== null && lng !== null
@@ -93,6 +109,7 @@ const SearchBar = ({
 
 			const data = await response.json();
 			setResponseData(data["externalData"][0]["common_name"]);
+			setOpenAIResponse(data["externalData"][0]["generated_prompt"]);
 			setResponseLoading(false);
 			console.log(data);
 		} catch (error) {
@@ -103,6 +120,7 @@ const SearchBar = ({
 		setFile(null);
 		setFileName("");
 		setResponseData(null);
+		fileInputRef.current.value = "";
 	};
 
 	return (
@@ -196,6 +214,7 @@ const SearchBar = ({
 								className={styles.inputSection}
 								accept="audio/*"
 								onChange={handleFileChange}
+								ref={fileInputRef}
 							/>
 							{fileName && (
 								<div className={styles.fileProcess}>
@@ -235,21 +254,22 @@ const SearchBar = ({
 										d="M6 18L18 6M6 6l12 12"
 									/>
 								</svg>
-								<div
-									className={
-										styles.birdIdentificationResponse
-									}
-								>
+								<div>
 									{responseData ? (
-										<pre>
-											{" "}
-											response:{" "}
-											{JSON.stringify(
-												responseData,
-												null,
-												2
-											)}
-										</pre>
+										<div
+											className={
+												styles.birdIdentificationResponse
+											}
+										>
+											<pre>
+												response:{" "}
+												{JSON.stringify(
+													responseData,
+													null,
+													2
+												)}
+											</pre>
+										</div>
 									) : (
 										responseLoading && (
 											<div>
@@ -273,6 +293,7 @@ const SearchBar = ({
 										)
 									)}
 								</div>
+
 								{responseData && (
 									<form className={styles.isThisTheBird}>
 										{" "}
@@ -285,6 +306,7 @@ const SearchBar = ({
 													onClick={() => {
 														setQuery(responseData);
 														emptyFile();
+														setBirdFound(true);
 													}}
 												>
 													Yes
@@ -292,7 +314,10 @@ const SearchBar = ({
 												<button
 													type="button"
 													className={`${styles.bbutton} ${styles.no}`}
-													onClick={() => emptyFile()}
+													onClick={() => {
+														emptyFile();
+														setBirdFound(false);
+													}}
 												>
 													No
 												</button>
@@ -337,6 +362,14 @@ const SearchBar = ({
 				<div className={styles.addButtonDiv}>
 					<AddButton onClick={handleSearch} />
 				</div>
+			</div>
+
+			<div className={responseSectionClass}>
+				<OpenAIResponse
+					openAIResponse={openAIResponse}
+					clearOpenAIResponse={clearOpenAIResponse}
+					clearBirdFound={clearBirdFound}
+				/>
 			</div>
 		</div>
 	);

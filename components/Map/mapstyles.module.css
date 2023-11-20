@@ -11,6 +11,15 @@
     border: 20px solid #637862;
     border-radius: 25px;
     box-shadow: inset 50px 50px 5px rgba(0, 0, 0, 01);
+    @media (max-width: 1000px) {
+
+        height: 100vh;
+        border: none;
+        width: 100%;
+        border-radius: 0px;;
+        
+        background-color: blue;
+     }
 
 
     
@@ -21,8 +30,8 @@
     
     z-index: 9999 !important;
     background-color: #ebfee2;
-    top:87%;
-    left: 23%;
+    top:86%;
+    right: 40%;
     position: absolute;
     height: 50px;
     padding: 5px;
@@ -31,6 +40,15 @@
     border-radius: 100%;
     opacity: 80%;
     transition: 1s;
+    @media (max-width: 1000px) {
+        left: 5%;
+        bottom: 0;
+        
+
+
+
+        
+     }
 
 
 }

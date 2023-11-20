@@ -2,7 +2,7 @@ import styles from "../styles/Home.module.css";
 import { fetchBirdNames } from "./api/fetchBirds";
 import updateUsername from "./api/updateUsername";
 import { getSession, useSession } from "next-auth/react";
-import { useEffect, useContext, useState, useCallback } from "react";
+import { useEffect, useContext, useState, useCallback, Suspense } from "react";
 import { Username, UserContext, SpottedContext } from "@/context/Context";
 import MapComponent from "@/components/Map/map";
 import React from "react";
@@ -12,7 +12,6 @@ import Absolutes from "@/components/Absolutes/Absolutes";
 import Header from "@/components/Header/Header";
 import BirdIdentification from "@/components/LeftSection/BirdIdentification";
 import { addSpot } from "@/services/addspot";
-import OpenAIResponse from "@/components/LeftSection/OpenAIResponse";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -154,14 +153,14 @@ export default function Home({ birdNames }) {
 							<Header />
 						</div>
 
-						<div className={styles.leftSection}>
+						{/* <div className={styles.leftSection}>
 							<div className={styles.birdIdentification}>
 								<BirdIdentification />
 							</div>
 							<div className={styles.birdResponse}>
 								<OpenAIResponse />
 							</div>
-						</div>
+						</div> */}
 						<div className={styles.mapSection}>
 							<MapComponent
 								setIsLocationMyLocationFunction={
@@ -208,9 +207,8 @@ export default function Home({ birdNames }) {
 }
 
 export async function getServerSideProps(context) {
-	let birdNames,
-		session,
-		data = null;
+	let birdNames = [];
+	let session = null;
 
 	try {
 		birdNames = await fetchBirdNames();
@@ -225,22 +223,8 @@ export async function getServerSideProps(context) {
 		console.error("Error getting session:", error);
 	}
 
-	try {
-		const res = await fetch("http://54.86.165.44/hello");
-		if (!res.ok) {
-			throw new Error("Failed to fetch data");
-		}
-		data = await res.json();
-		console.log(data);
-	} catch (error) {
-		console.error("Error fetching API data:", error);
-		console.log("no json");
-		data = null; // Ensure data is null if there's an error
-	}
-
 	return {
 		props: {
-			data, // This will be undefined if there was an error fetching
 			birdNames, // This will be undefined if there was an error
 			session, // This will be undefined if there was an error
 		},

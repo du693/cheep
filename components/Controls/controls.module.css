@@ -12,13 +12,13 @@
 }
 
 .section2 {
-
+  z-index: 1000000 !important;
   position: relative;
   display: flex;
   opacity: 98%;
   -webkit-user-select: none; 
   user-select: none;
-  z-index: 1000 !important;
+
   flex-direction: column;
   background:  #FFF8E1;
   width: 80%;

@@ -217,7 +217,10 @@ const MapComponent = ({
 
 			mapInstanceRef.current = new Map(mapRef.current, mapOptions);
 		};
-		if (userLocationAvailable || locationPermission === "denied") {
+		if (
+			isMapOpen &&
+			(userLocationAvailable || locationPermission === "denied")
+		) {
 			initMap();
 		} else {
 			console.log("pending");

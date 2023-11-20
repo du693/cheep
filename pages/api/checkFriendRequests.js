@@ -40,7 +40,6 @@ const handler = async (req, res) => {
 					.json({ message: "Friend request not found" });
 			}
 			if (status === "accepted") {
-				console.log("here is the reciever request", updatedRequest);
 				await User.updateOne(
 					{ username: updatedRequest.receiver },
 					{
