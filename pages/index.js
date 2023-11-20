@@ -207,7 +207,7 @@ export default function Home({ birdNames }) {
 }
 
 export async function getServerSideProps(context) {
-	let birdNames = [];
+	let birdNames = null;
 	let session = null;
 
 	try {
