@@ -13,7 +13,7 @@ export const authOptions = {
 	session: {
 		strategy: "jwt",
 	},
-	baseUrl: "http://3.141.166.217:3000",
+	baseUrl: "http://cheepbirds:3000",
 	callbacks: {
 		async signIn(user, account, profile) {
 			await connectToMongoose();
