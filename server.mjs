@@ -31,8 +31,8 @@ app.prepare().then(() => {
 	// Create an HTTPS server
 	const httpsServer = https.createServer(credentials, server);
 
-	httpsServer.listen(port, "0.0.0.0", (err) => {
+	httpsServer.listen(port, "cheepbirds.com", (err) => {
 		if (err) throw err;
-		console.log(`> Ready on https://0.0.0.0:${port}`);
+		console.log(`> Ready on https://cheepbirds.com:${port}`);
 	});
 });
