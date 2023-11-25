@@ -8,8 +8,14 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const privateKey = fs.readFileSync("/path/to/private-key.pem", "utf8"); // Replace with the actual path to your private key
-const certificate = fs.readFileSync("/path/to/certificate.pem", "utf8"); // Replace with the actual path to your certificate
+const privateKey = fs.readFileSync(
+	"/etc/letsencrypt/live/cheepbirds.com/privkey.pem",
+	"utf8"
+);
+const certificate = fs.readFileSync(
+	"/etc/letsencrypt/live/cheepbirds.com/fullchain.pem",
+	"utf8"
+); // Replace with the actual path to your certificate
 const credentials = { key: privateKey, cert: certificate };
 
 app.prepare().then(() => {
