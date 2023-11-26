@@ -16,19 +16,30 @@ export const authOptions = {
 
 	callbacks: {
 		async signIn(user, account, profile) {
-			await connectToMongoose();
-			const existingUser = await User.findOne({ email: user.user.email });
-			if (!existingUser) {
-				const newUser = new User({
-					email: user.user.email,
-					spotted: [],
-					friends: [],
-				});
-				await newUser.save();
-			}
+			try {
+				await connectToMongoose();
+				console.log("Connected to MongoDB");
 
-			return true; // Allow the sign-in to proceed
+				const existingUser = await User.findOne({
+					email: user.user.email,
+				});
+				if (!existingUser) {
+					const newUser = new User({
+						email: user.user.email,
+						spotted: [],
+						friends: [],
+					});
+					await newUser.save();
+					console.log("New user created:", newUser);
+				}
+
+				return true; // Allow the sign-in to proceed
+			} catch (error) {
+				console.error("Error during signIn callback:", error);
+				throw error; // You can choose to handle the error as needed
+			}
 		},
 	},
 };
+
 export default NextAuth(authOptions);
