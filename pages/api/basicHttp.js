@@ -30,8 +30,6 @@ export default async function handler(req, res) {
 					res.status(400).json({ error: "No audio file uploaded" });
 					return;
 				}
-				console.log("here is filePath:", audioFile);
-
 				const formData = new FormData();
 				formData.append(
 					"audio_file",

@@ -200,7 +200,9 @@ export default function Home({ birdNames }) {
 					</div>
 				</>
 			) : (
-				<AccessPage />
+				<>
+					<AccessPage />
+				</>
 			)}
 		</>
 	);

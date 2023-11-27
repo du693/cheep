@@ -8,21 +8,27 @@ const handler = async (req, res) => {
 		try {
 			await connectToMongoose();
 			const { userId, username, spotted } = req.body;
-			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			let requestBody = { userId, spotted };
 
-			const globalSpot = new GlobalSpot({
-				username: username,
-				spotted: spotted,
-			});
-			await globalSpot.save();
+			if (username) {
+				requestBody.username = username;
+			}
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			if (requestBody.username) {
+				const globalSpot = new GlobalSpot({
+					username: requestBody.username,
+					spotted: requestBody.spotted,
+				});
+				await globalSpot.save();
+			}
 
 			////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-			let user = await User.findOne({ email: userId });
+			let user = await User.findOne({ email: requestBody.userId });
 
 			if (!user) {
 				user = new User({
-					email: userId,
-					spotted: [spotted],
+					email: requestBody.userId,
+					spotted: [requestBody.spotted],
 				});
 				await user.save();
 				return res.status(201).json({
@@ -30,7 +36,7 @@ const handler = async (req, res) => {
 					message: "User created and bird spotting added",
 				});
 			} else {
-				user.spotted.push(spotted);
+				user.spotted.push(requestBody.spotted);
 				await user.save();
 				return res
 					.status(200)
@@ -64,13 +70,13 @@ const handler = async (req, res) => {
 			await connectToMongoose();
 			const { userId } = req.query;
 			const { username } = req.body;
-			const user = await User.findOne({ email: userId });
+			const user = await User.findOne({ email: requestBody.userId });
 
 			if (!user) {
 				return res.status(404).json({ error: "User not found" });
 			}
 
-			user.username = username.username;
+			user.username = requestBody.username;
 
 			await user.save();
 
