@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema({
 		sparse: true,
 		required: false,
 	},
+	loginType: {
+		type: String,
+		required: true,
+		unique: true,
+	},
 	spotted: [
 		{
 			type: {

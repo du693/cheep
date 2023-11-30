@@ -1,10 +1,12 @@
 import { signIn } from "next-auth/react";
 import styles from "./accesspage.module.css";
+import SignInForm from "./SignInForm";
 // import landingImage from "@/public/landingImg.png";
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 import { useEffect } from "react";
+import { GoogleSignInButton } from "../AuthComponents/authButtons";
 
 export default function AccessPage() {
 	const [isVisible, setIsVisible] = useState(null);
@@ -84,37 +86,7 @@ export default function AccessPage() {
 				</motion.div>
 			</div>
 			<div className={styles.sign}>
-				<motion.div
-					className={styles.signSection}
-					initial={{ opacity: 0, scale: 0.9 }}
-					animate={{ opacity: 1, scale: 1 }}
-					transition={{
-						duration: 1,
-						ease: [0, 0.71, 0.2, 1.01],
-						scale: {
-							type: "spring",
-							damping: 5,
-							stiffness: 100,
-							restDelta: 0.001,
-						},
-						delay: 0.1,
-					}}
-					whileHover={{ scale: 1.01 }}
-				>
-					<motion.h1>
-						<u>
-							<b className={styles.logo}>cheep</b>
-						</u>
-					</motion.h1>
-					<div>
-						<button
-							className={styles.signin}
-							onClick={() => signIn()}
-						>
-							Get started/Log in
-						</button>
-					</div>
-				</motion.div>
+				<SignInForm />
 			</div>
 		</div>
 	);

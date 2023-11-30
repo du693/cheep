@@ -1,0 +1,11 @@
+.signInForm {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    padding: 10px;
+    gap: 2px;
+}
+
+.button1 {
+    height: 10%;
+}

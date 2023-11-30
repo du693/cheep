@@ -32,12 +32,11 @@
 .sign {
     display: flex;
     flex-direction: column;
+    height: 100vh;
+    background-color: gray;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    margin-right: 5%;
-    margin-left: 1%;
 }
 
 .signSection{

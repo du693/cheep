@@ -29,6 +29,7 @@
     "next-auth": "^4.23.2",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.9.7",
+    "public": "^0.1.5",
     "react": "^18",
     "react-dom": "^18",
     "react-transition-group": "^4.4.5",
