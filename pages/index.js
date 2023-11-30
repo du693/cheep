@@ -1,240 +1,123 @@
-import styles from "../styles/Home.module.css";
+import { signIn } from "next-auth/react";
+import styles from "@/components/AccessPage/accesspage.module.css";
+import SignInForm from "@/components/AccessPage/SignInForm";
+import { useSession, getSession } from "next-auth/react";
+import { useRouter } from "next/router";
+// import landingImage from "@/public/landingImg.png";
 import Image from "next/image";
-import { fetchBirdNames } from "./api/fetchBirds";
-import updateUsername from "./api/updateUsername";
-import { getSession, useSession } from "next-auth/react";
-import { useEffect, useContext, useState, useCallback } from "react";
-import { Username, UserContext, SpottedContext } from "@/context/Context";
-import MapComponent from "@/components/Map/map";
-import React from "react";
-import Controls from "@/components/Controls/Controls";
-import AccessPage from "@/components/AccessPage/AccessPage";
-import Absolutes from "@/components/Absolutes/Absolutes";
-import Header from "@/components/Header/Header";
-import BirdIdentification from "@/components/LeftSection/BirdIdentification";
-import { addSpot } from "@/services/addspot";
+import { motion, useAnimation } from "framer-motion";
+import { useState } from "react";
+import { useEffect } from "react";
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export default function Home({ birdNames }) {
-	const [globalIsOn, setGlobalIsOn] = useState(false);
-	const [isMapLoaded, setMapLoaded] = useState(false);
-	const { data: session } = useSession();
-	const { spotted, setSpotted } = useContext(SpottedContext);
-	const { userObject, setUserObject } = useContext(UserContext);
-	const { username, setUsername } = useContext(Username);
-	const [isOpen, setIsOpen] = useState({
-		gridContainer: false,
-		searchSection: false,
-		userSection: false,
-		friendListSection: false,
-		spotCountSection: false,
-		achievementSection: false,
-	});
-	const [userLocation, setUserLocation] = useState({
-		lat: null,
-		lng: null,
-	});
-
-	const [userLocationToggle, setUserLocationToggle] = useState(false);
-	const [isLocationMyLocation, setIsLocationMyLocation] = useState(false);
-
-	const setIsLocationMyLocationFunction = (bool) => {
-		setIsLocationMyLocation(bool);
-	};
-
-	const setUserLocationToggleFunction = (bool) => {
-		setUserLocationToggle(bool);
-	};
-
-	const setUserLocationFunction = (lat, lng) => {
-		setUserLocation(lat, lng);
-	};
-
-	const toggleSwitch = () => {
-		setGlobalIsOn((prevIsOn) => !prevIsOn);
-		console.log("toggled");
-	};
-
-	const handleMapLoaded = useCallback((loaded) => {
-		setMapLoaded(true);
-	}, []);
-
-	const handleMapPending = useCallback((loaded) => {
-		setMapLoaded(false);
-	}, []);
-
-	const toggleSection = (section) => {
-		setIsOpen((prevState) => ({
-			...prevState,
-			[section]: !prevState[section],
-		}));
-	};
-
-	const openSection = (section) => {
-		setIsOpen((prevState) => ({
-			...prevState,
-			[section]: true,
-		}));
-	};
-
-	const handleAddSpot = useCallback(
-		async (spotData) => {
-			await addSpot({
-				...spotData,
-				session: session,
-				username: username,
-				setSpotted: setSpotted,
-				spotted: spotted,
-			});
-		},
-		[session, username, setSpotted]
-	);
-
-	const addUsername = useCallback(
-		async (user) => {
-			if (!session || !session.user || !user) {
-				console.error("Session not found or username is null");
-				return false;
-			}
-			try {
-				await updateUsername(session.user.email, user);
-				setUsername(user); // Update the username in your context if needed
-				return true;
-			} catch (error) {
-				alert(error.message);
-				return false;
-			}
-		},
-		[session, setUsername]
-	);
-
-	// const setCoordsToUserLocation = ()
+export default function AccessPage() {
+	const { data: session, status } = useSession();
+	const router = useRouter();
 
 	useEffect(() => {
-		console.log("fetch request rerendered");
-		if (session && session.user) {
-			fetch(
-				`/api/updateUser?userId=${encodeURIComponent(
-					session.user.email
-				)}`
-			)
-				.then((response) => {
-					if (!response.ok) {
-						throw new Error("Network response was not ok");
-					}
-					return response.json();
-				})
-				.then((data) => {
-					setUserObject(data);
-					setSpotted(data.spotted);
-					setUsername(data.username);
-				})
-				.catch((error) => {
-					console.error(
-						"There was a problem with the fetch operation:",
-						error
-					);
-				});
+		if (session) {
+			router.push("/dashboard");
 		}
-	}, [isMapLoaded]);
+	}, [session, router]);
+
+	if (session) {
+		return null; // or a loading indicator
+	}
+	const [isVisible, setIsVisible] = useState(null);
+
+	const controls = useAnimation();
+
+	useEffect(() => {
+		// Start the animation when the component mounts
+		controls.start({
+			x: 0, // Set the initial position
+			opacity: 1, // Set the initial opacity
+			transition: {
+				ease: "linear",
+				duration: 2,
+				x: { duration: 1 },
+			},
+		});
+	}, []);
 
 	return (
-		<>
-			{session && session.user ? (
-				<>
-					<Absolutes
-						openSection={openSection}
-						globalIsOn={globalIsOn}
-						toggleSwitch={toggleSwitch}
-					/>
-
-					<div className={styles.section}>
-						<div className={styles.header}>
-							<Header />
-						</div>
-
-						{/* <div className={styles.leftSection}>
-							<div className={styles.birdIdentification}>
-								<BirdIdentification />
-							</div>
-							<div className={styles.birdResponse}>
-								<OpenAIResponse />
-							</div>
-						</div> */}
-						<div className={styles.mapSection}>
-							<MapComponent
-								setIsLocationMyLocationFunction={
-									setIsLocationMyLocationFunction
-								}
-								isLocationMyLocation={isLocationMyLocation}
-								setUserLocationFunction={
-									setUserLocationFunction
-								}
-								userLocation={userLocation}
-								userLocationToggle={userLocationToggle}
-								setUserLocationToggleFunction={
-									setUserLocationToggleFunction
-								}
-								handleMapPending={handleMapPending}
-								globalIsOn={globalIsOn}
-								onMapLoaded={handleMapLoaded}
-								className={styles.mapping}
-							/>
-						</div>
-						<div className={styles.rightSection}>
-							<Controls
-								isLocationMyLocation={isLocationMyLocation}
-								userLocationToggle={userLocationToggle}
-								setUserLocationToggleFunction={
-									setUserLocationToggleFunction
-								}
-								session={session}
-								isOpen={isOpen}
-								toggleSection={toggleSection}
-								birdData={birdNames}
-								addSpot={handleAddSpot}
-								addUsername={addUsername}
-								className={styles.controlling}
-							></Controls>
-						</div>
-					</div>
-				</>
-			) : (
-				<>
-					<AccessPage />
-				</>
-			)}
-		</>
+		<div className={styles.accesspage}>
+			<div className={styles.landingImageBox}>
+				{/* <Image
+					src={landingImage}
+					priority
+					className={styles.landingImage}
+					alt="landing image"
+				/> */}
+				<motion.div
+					initial={{ opacity: 0, scale: 0.9 }}
+					animate={{ opacity: 1, scale: 1 }}
+					transition={{
+						duration: 1,
+						ease: [0, 0.71, 0.2, 1.01],
+						scale: {
+							type: "spring",
+							damping: 5,
+							stiffness: 10,
+							restDelta: 0.001,
+						},
+					}}
+					className={styles.Text}
+				>
+					<motion.div
+						className={styles.pitch}
+						whileHover={{ scale: 1.01 }}
+						transition={{
+							duration: 1, // Increase the duration to make it slower (in seconds)
+						}}
+					>
+						<h2>
+							<b className={styles.highlight}>Explore</b> the
+							birds in your area and{" "}
+							<b className={styles.highlight}>contribute</b> to a
+							growing community of observers.
+						</h2>
+					</motion.div>
+					<motion.div
+						className={styles.cheepDescription}
+						whileHover={{ scale: 1.01 }}
+						transition={{
+							duration: 0.5, // Increase the duration to make it slower (in seconds)
+						}}
+					>
+						<p>
+							With Cheep, you can document your sightings and view
+							a detailed map filled with contributions from users
+							all over New England. Ideal for both casual bird
+							enthusiasts and serious birdwatchers, our app offers
+							a clear and concise platform for tracking and
+							sharing avian sightings. Dive in and enrich our
+							collective understanding of local bird populations.
+							Join today and contribute to a comprehensive bird
+							spotting network.
+						</p>
+					</motion.div>
+				</motion.div>
+			</div>
+			<div className={styles.sign}>
+				<SignInForm />
+			</div>
+		</div>
 	);
 }
 
 export async function getServerSideProps(context) {
-	let birdNames = [];
-	let session = null;
+	const session = await getSession(context);
 
-	try {
-		birdNames = await fetchBirdNames();
-	} catch (error) {
-		console.error("Error fetching bird names:", error);
-		// Handle the error appropriately
-		// For example, you can log the error and continue with an empty array
-		birdNames = [];
-	}
-
-	try {
-		session = await getSession(context);
-	} catch (error) {
-		console.error("Error getting session:", error);
-		// Handle the error appropriately
-		// For example, you can log the error and continue with null
-		session = null;
+	if (session) {
+		return {
+			redirect: {
+				destination: "/dashboard",
+				permanent: false,
+			},
+		};
 	}
 
 	return {
-		props: {
-			birdNames,
-			session,
-		},
+		props: {}, // will be passed to the page component as props
 	};
 }

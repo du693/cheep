@@ -39,7 +39,9 @@ export const authOptions = {
 	},
 
 	callbacks: {
-		async signIn(user) {
+		async signIn(user, account, profile) {
+			console.log("User object:", user);
+
 			try {
 				await connectToMongoose();
 				console.log("Connected to MongoDB");
@@ -64,6 +66,7 @@ export const authOptions = {
 
 				if (!existingUser) {
 					let loginType = "unknown";
+					console.log("here is the new user", user);
 
 					if (user.account.provider) {
 						if (user.account.provider === "google") {
@@ -81,8 +84,8 @@ export const authOptions = {
 						friends: [],
 						loginType: loginType,
 					});
+
 					await newUser.save();
-					console.log("New user created:", newUser);
 				}
 
 				return true; // Allow the sign-in to proceed

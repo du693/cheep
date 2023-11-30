@@ -1,0 +1,234 @@
+.exitUserInfo{
+    cursor: pointer;
+    width: 30px;
+    padding: 5px;
+    color: black;
+    position: absolute;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+    right: 5%;
+    border-radius: 25px;
+    top: 2%;
+  }
+
+  .user{
+    font-size: 8px;
+    margin-top: 10%;
+    height: 300px;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .signUpSection{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 5%;
+  }
+
+  .usernameForm{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 25px;
+  }
+
+  .inputField {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    height: 50px;
+    color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    transition: box-shadow 0.3s ease;
+    font-family: inherit ;
+    font-display: swap;
+    background-color: #ebfee2;
+    outline: none;
+  }
+  .inputField::placeholder{
+  color: #2020209b;
+  font-size: 14px;
+  }
+
+  .submitUsername {
+    background-color: #C5FFA8;
+    font-family: inherit;
+    font-display: swap;
+    opacity: 80%;
+    border: none;
+    color: #202020;
+    padding:15px 20px 15px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    }
+    
+
+    .userHeader {
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 8px;
+        justify-content: space-between;
+        padding: 5%;
+        width: 100%;
+        height: 50px;
+        opacity: 90%;
+        color: black;
+        border-radius: 15px;
+      }
+
+      .userSummary {
+
+        margin-right: 15%;
+        width: fit-content;
+        display: flex;
+        flex-direction: row;
+        gap: 15%;
+        align-items: center;
+      }
+      .sessionImage {
+        border-radius: 100%;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+      }
+      
+      .addFriendForm {
+
+        justify-content: center;
+        display: flex;
+        max-height: 0px;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 1s ease-in-out;
+      }
+      
+      .addFriendForm.show{
+        display: flex;
+        max-height: 100px;
+        top: 40%;
+        opacity: 100%;
+        pointer-events: all;
+      }
+      .userStats {
+        display: flex;
+        flex-direction:column;
+        font-size: 14px;
+        width: 100%;
+        justify-content: space-evenly;
+        margin-top: 5%;
+      }
+      .statHeader{
+        height: 50px;
+        font-size: 8px;
+        display: flex;
+        font-size: 12px;
+        margin-left: 5%;
+        flex-direction: row;
+        align-items: center;
+        transition: all 0.5s ease-in-out;
+        justify-content: space-between;
+      }
+      .statHeader h1 {
+        font-size: 12px;
+        padding: 15%;
+      }
+      
+
+      .stat1{
+        transition:all 0.4s ease-in-out ;
+        z-index: -1 !important;
+        border-radius: 10px;
+        left: 1%;
+        max-height: 0px;
+        opacity: 0;
+      }
+      .stat1.open{
+        max-height: 200px;
+        overflow-y: scroll;
+        z-index: 1000 !important;
+        opacity: 1;
+      }
+
+      .spottedGridDiv{
+        max-height: 200px;
+        padding: 5%; /* Adjust based on your needs */
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+
+
+      .spottedGrid{
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+
+      .birdListItem{
+        list-style-type: none;
+        border-bottom: 1px solid black;
+        text-align: center;
+        gap: 5%;
+        margin-left: 5%;
+
+      }
+
+    
+      .birdName{
+       width: 50%;
+      }
+      .spotDate{
+        width: 50%;
+      }
+
+
+
+
+      .stat2{
+        transition:all 0.4s ease-in-out ;
+        z-index: -1 !important;
+        border-radius: 10px;
+        left: 1%;
+        max-height: 0px;
+        opacity: 0;
+      }
+      .stat2.open{
+        max-height: 1000px !important; 
+
+        opacity: 1;
+      }
+      .stat3{
+        transition:all 0.4s ease-in-out ;
+        z-index: -1 !important;
+        border-radius: 10px;
+        left: 1%;
+        max-height: 0px;
+        opacity: 0;
+      }
+      .stat3.open{
+        max-height: 1000px !important;
+
+        opacity: 1;
+      }
+
+
+      .addFriend {
+        width: 50px;
+        fill: black;
+        padding: 10px;
+        border-radius: 100%;
+        background-color: #9CAE9B;
+        cursor: pointer;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
+      }
+      
+      .dropdownIcon {
+        height:20px;
+        padding-right: 15%;
+        cursor: pointer;
+      }

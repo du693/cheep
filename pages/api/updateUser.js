@@ -69,20 +69,40 @@ const handler = async (req, res) => {
 		try {
 			await connectToMongoose();
 			const { userId } = req.query;
-			const { username } = req.body;
-			const user = await User.findOne({ email: requestBody.userId });
+			const {
+				username: { username },
+			} = req.body;
+
+			// Input validation (add your validation logic here)
+			if (!username /* add validation conditions */) {
+				return res.status(400).json({ error: "Invalid username" });
+			}
+
+			const user = await User.findOne({ email: userId });
+
+			console.log("user", user);
+			console.log("userId", userId);
+			console.log("username", username);
 
 			if (!user) {
 				return res.status(404).json({ error: "User not found" });
 			}
 
-			user.username = requestBody.username;
+			user.username = username;
 
-			await user.save();
-
-			return res
-				.status(200)
-				.json({ success: true, message: "Username updated" });
+			try {
+				await user.save();
+				return res
+					.status(200)
+					.json({ success: true, message: "Username updated" });
+			} catch (error) {
+				if (error.code === 11000) {
+					return res
+						.status(409)
+						.json({ error: "Username has already been picked." });
+				}
+				throw error; // Re-throw the error if it's not a duplication error
+			}
 		} catch (error) {
 			return res.status(500).json({ error: "Server error" });
 		}
