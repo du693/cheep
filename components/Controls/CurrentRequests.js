@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 
 import { Username } from "@/context/Context";
+import styles from "./currentrequests.module.css";
 
 const FriendRequests = () => {
 	const [friendRequests, setFriendRequests] = useState([]);
@@ -78,13 +79,16 @@ const FriendRequests = () => {
 	}
 
 	return (
-		<div>
-			<h2>Friend Requests</h2>
-			<ul>
+		<div className={styles.friendReqsSection}>
+			<h2>
+				<u>Friend Requests</u>
+			</h2>
+			<ul className={styles.friendReqs}>
 				{friendRequests.map((request) => (
-					<li key={request._id}>
-						{request.sender} wants to be your friend.
+					<li className={styles.friendReq} key={request._id}>
+						{request.sender}
 						<button
+							className={styles.reqButtonAccept}
 							onClick={() =>
 								handleStatusChange(request._id, "accepted")
 							}
@@ -92,6 +96,7 @@ const FriendRequests = () => {
 							Accept
 						</button>
 						<button
+							className={styles.reqButtonReject}
 							onClick={() =>
 								handleStatusChange(request._id, "rejected")
 							}

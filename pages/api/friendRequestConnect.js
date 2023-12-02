@@ -30,6 +30,16 @@ const handler = async (req, res) => {
 					.status(409)
 					.json({ error: "Receiver is already a friend" });
 			}
+			const isRequestPending = await Friend.findOne({
+				sender: senderUser.username,
+				receiver: receiverUser.username,
+				status: "pending",
+			});
+			if (isRequestPending) {
+				return res
+					.status(409)
+					.json({ error: "Request is already pending" });
+			}
 
 			const newFriendRequest = new Friend({
 				sender: senderUser.username,

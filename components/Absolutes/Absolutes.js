@@ -1,13 +1,15 @@
 import AddSpot from "./AddSpot";
 import CheepLogo from "./CheepLogo";
-import GlobalOrUser from "./GlobalOrUser";
+import UserSection from "../Controls/UserSection";
 
-export default function Absolutes({ globalIsOn, openSection, toggleSwitch }) {
+export default function Absolutes({ isOpen, toggleSection, session }) {
 	return (
 		<>
-			<AddSpot openSection={openSection} />
-			<CheepLogo />
-			<GlobalOrUser globalIsOn={globalIsOn} toggleSwitch={toggleSwitch} />
+			<UserSection
+				isOpen={isOpen}
+				toggleSection={toggleSection}
+				session={session}
+			/>
 		</>
 	);
 }

@@ -1,13 +1,12 @@
-import { signIn } from "next-auth/react";
-import styles from "@/components/AccessPage/accesspage.module.css";
+import styles from "@/styles/accesspage.module.css";
 import SignInForm from "@/components/AccessPage/SignInForm";
 import { useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
-// import landingImage from "@/public/landingImg.png";
 import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
 import { useState } from "react";
 import { useEffect } from "react";
+import C from "@/public/C.png";
 
 export default function AccessPage() {
 	const { data: session, status } = useSession();
@@ -99,6 +98,7 @@ export default function AccessPage() {
 				</motion.div>
 			</div>
 			<div className={styles.sign}>
+				<div className={styles.logo}> Cheep</div>
 				<SignInForm />
 			</div>
 		</div>
@@ -107,7 +107,6 @@ export default function AccessPage() {
 
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
-
 	if (session) {
 		return {
 			redirect: {

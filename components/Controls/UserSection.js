@@ -5,14 +5,13 @@ import FriendRequests from "./CurrentRequests";
 import FriendRequestForm from "./SendFriendReq";
 import Image from "next/image";
 import formatDate from "@/utils/dateConversions";
+import { signOut } from "next-auth/react";
+import Cookies from "js-cookie";
 
 export default function UserSection({
 	toggleSection,
 	session,
-	toggleFriendQuery,
-	handleSubmit,
-	handleChange,
-	formData,
+
 	friendQueryOpen,
 	closeFriendQuery,
 	isOpen,
@@ -23,59 +22,54 @@ export default function UserSection({
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
-	useEffect(() => {
-		// Function to fetch friends data
-		async function fetchFriends() {
-			if (username) {
-				setLoading(true);
-				try {
-					const response = await fetch(
-						`/api/getFriendsList?username=${username}`
-					);
-					if (!response.ok) {
-						throw new Error(
-							`HTTP error! status: ${response.status}`
-						);
-					}
-					const data = await response.json();
-					setFriends(data.friends);
-				} catch (e) {
-					setError(e.message);
-				} finally {
-					setLoading(false);
-				}
-			}
-		}
+	const handleSignOut = () => {
+		// Clear the username cookie
+		Cookies.remove("username");
 
-		// Call the fetch function
-		fetchFriends();
-	}, [username]);
+		// Sign out using next-auth
+		signOut();
+	};
+
+	// useEffect(() => {
+	// 	// Function to fetch friends data
+	// 	async function fetchFriends() {
+	// 		if (username) {
+	// 			setLoading(true);
+	// 			try {
+	// 				const response = await fetch(
+	// 					`/api/getFriendsList?username=${username}`
+	// 				);
+	// 				if (!response.ok) {
+	// 					throw new Error(
+	// 						`HTTP error! status: ${response.status}`
+	// 					);
+	// 				}
+	// 				const data = await response.json();
+	// 				setFriends(data.friends);
+	// 			} catch (e) {
+	// 				setError(e.message);
+	// 			} finally {
+	// 				setLoading(false);
+	// 			}
+	// 		}
+	// 	}
+
+	// 	// Call the fetch function
+	// 	fetchFriends();
+	// }, [username]);
+	console.log("state in userSection", isOpen.userSection);
 
 	return (
-		<>
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				fill="none"
-				viewBox="0 0 24 24"
-				strokeWidth={1.5}
-				onClick={() => {
-					toggleSection("userSection");
-					closeFriendQuery();
-				}}
-				stroke="currentColor"
-				className={styles.exitUserInfo}
-			>
-				<path
-					strokeLinecap="round"
-					strokeLinejoin="round"
-					d="M6 18L18 6M6 6l12 12"
-				/>
-			</svg>
+		<div
+			className={`${styles.userSection1} ${
+				isOpen.userSection ? styles.show : ""
+			}`}
+		>
 			<div className={styles.user}>
 				{!username ? (
 					<div className={styles.signUpSection}>
 						<h2>Create a username to access</h2>
-						<form
+						{/* <form
 							className={styles.usernameForm}
 							onSubmit={handleSubmit}
 						>
@@ -97,12 +91,12 @@ export default function UserSection({
 							>
 								Submit
 							</button>
-						</form>
+						</form> */}
 					</div>
 				) : (
 					<div className={styles.user}>
 						<div className={styles.userHeader}>
-							<div>
+							{/* <div>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									fill="none"
@@ -118,188 +112,193 @@ export default function UserSection({
 										d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
 									/>
 								</svg>
-							</div>
+							</div> */}
 							<div className={styles.userSummary}>
 								<Image
 									className={styles.sessionImage}
 									src={session.user.image}
 									alt="User Profile"
-									width={50}
-									height={50}
+									width={20}
+									height={20}
 								/>
 								<h1>{username}</h1>
 							</div>
 						</div>
-
-						<div
-							className={`${styles.addFriendForm} ${
-								friendQueryOpen ? styles.show : ""
-							}`}
-						>
-							<FriendRequestForm username={username} />
-						</div>
-						<div className={styles.userStats}>
-							<div className={styles.statHeader}>
-								<h1>total spots: {spotted.length}</h1>
-
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className={styles.dropdownIcon}
-									onClick={() =>
-										toggleSection("spotCountSection")
-									}
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d={
-											isOpen.spotCountSection
-												? "M4.5 15.75l7.5-7.5 7.5 7.5"
-												: "M19.5 8.25l-7.5 7.5-7.5-7.5"
-										}
-									/>
-								</svg>
-							</div>
-							<div
-								className={`${styles.stat1} ${
-									isOpen.spotCountSection ? styles.open : ""
-								}`}
-							>
-								{isOpen.spotCountSection && (
-									<div className={styles.spottedGridDiv}>
-										<table className={styles.spottedGrid}>
-											<thead className={styles.tableHead}>
-												<tr>
-													<td>Bird Name</td>
-													<td>Time Spotted</td>
-												</tr>
-											</thead>
-											<tbody className={styles.daBody}>
-												{spotted
-													.filter((bird) => bird)
-													.map((bird, index) => (
-														<tr
-															className={
-																styles.birdListItem
-															}
-															key={index}
-														>
-															<td
-																className={
-																	styles.birdName
-																}
-															>
-																{bird.birdName}
-															</td>
-															<td
-																className={
-																	styles.spotDate
-																}
-															>
-																{formatDate(
-																	bird.timeSpotted
-																)}
-															</td>
-														</tr>
-													))}
-											</tbody>
-										</table>
-									</div>
-								)}
-							</div>
-						</div>
-
-						<div className={styles.userStats}>
-							<div className={styles.statHeader}>
-								<h1>Friends: {friends.length}</h1>
-
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className={styles.dropdownIcon}
-									onClick={() =>
-										toggleSection("friendListSection")
-									}
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d={
-											isOpen.friendListSection
-												? "M4.5 15.75l7.5-7.5 7.5 7.5"
-												: "M19.5 8.25l-7.5 7.5-7.5-7.5"
-										}
-									/>
-								</svg>
-							</div>
-							<div
-								className={`${styles.stat2} ${
-									isOpen.friendListSection ? styles.open : ""
-								}`}
-							>
-								<div>
-									{" "}
-									{friends
-										.filter((user) => user)
-
-										.map((user, index) => (
-											<tr
-												className={styles.birdListItem}
-												key={index}
-											>
-												<td className={styles.birdName}>
-													{user.username}
-												</td>
-											</tr>
-										))}
-								</div>
-							</div>
-						</div>
-						<div className={styles.userStats}>
-							<div className={styles.statHeader}>
-								<h1>Achievements: ?</h1>
-
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className={styles.dropdownIcon}
-									onClick={() =>
-										toggleSection("achievementSection")
-									}
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d={
-											isOpen.achievementSection
-												? "M4.5 15.75l7.5-7.5 7.5 7.5"
-												: "M19.5 8.25l-7.5 7.5-7.5-7.5"
-										}
-									/>
-								</svg>
-							</div>
-							<div
-								className={`${styles.stat3} ${
-									isOpen.achievementSection ? styles.open : ""
-								}`}
-							>
-								<div>Achievements coming soon</div>
-							</div>
-						</div>
-						<FriendRequests />
+						<ul className={styles.userDropdownOptions}>
+							<li>Profile</li>
+							<li>Acknowledgements</li>
+							<li onClick={() => handleSignOut()}>Sign Out</li>
+						</ul>
 					</div>
+
+					// <div
+					// 	className={`${styles.addFriendForm} ${
+					// 		friendQueryOpen ? styles.show : ""
+					// 	}`}
+					// >
+					// 	<FriendRequestForm username={username} />
+					// </div>
+					// <div className={styles.userStats}>
+					// 	<div className={styles.statHeader}>
+					// 		<h1>total spots: {spotted.length}</h1>
+
+					// 		{/* <svg
+					// 			xmlns="http://www.w3.org/2000/svg"
+					// 			fill="none"
+					// 			viewBox="0 0 24 24"
+					// 			strokeWidth={1.5}
+					// 			stroke="currentColor"
+					// 			className={styles.dropdownIcon}
+					// 			onClick={() =>
+					// 				toggleSection("spotCountSection")
+					// 			}
+					// 		>
+					// 			<path
+					// 				strokeLinecap="round"
+					// 				strokeLinejoin="round"
+					// 				d={
+					// 					isOpen.spotCountSection
+					// 						? "M4.5 15.75l7.5-7.5 7.5 7.5"
+					// 						: "M19.5 8.25l-7.5 7.5-7.5-7.5"
+					// 				}
+					// 			/>
+					// 		</svg> */}
+					// 	</div>
+					// 	{/* <div
+					// 		className={`${styles.stat1} ${
+					// 			isOpen.spotCountSection ? styles.open : ""
+					// 		}`}
+					// 	>
+					// 		{isOpen.spotCountSection && (
+					// 			<div className={styles.spottedGridDiv}>
+					// 				<table className={styles.spottedGrid}>
+					// 					<thead className={styles.tableHead}>
+					// 						<tr>
+					// 							<td>Bird Name</td>
+					// 							<td>Time Spotted</td>
+					// 						</tr>
+					// 					</thead>
+					// 					<tbody className={styles.daBody}>
+					// 						{spotted
+					// 							.filter((bird) => bird)
+					// 							.map((bird, index) => (
+					// 								<tr
+					// 									className={
+					// 										styles.birdListItem
+					// 									}
+					// 									key={index}
+					// 								>
+					// 									<td
+					// 										className={
+					// 											styles.birdName
+					// 										}
+					// 									>
+					// 										{bird.birdName}
+					// 									</td>
+					// 									<td
+					// 										className={
+					// 											styles.spotDate
+					// 										}
+					// 									>
+					// 										{formatDate(
+					// 											bird.timeSpotted
+					// 										)}
+					// 									</td>
+					// 								</tr>
+					// 							))}
+					// 					</tbody>
+					// 				</table>
+					// 			</div>
+					// 		)}
+					// 	</div> */}
+					// </div>
+					// {/*
+					// <div className={styles.userStats}>
+					// 	<div className={styles.statHeader}>
+					// 		<h1>Friends: {friends.length}</h1>
+
+					// 		<svg
+					// 			xmlns="http://www.w3.org/2000/svg"
+					// 			fill="none"
+					// 			viewBox="0 0 24 24"
+					// 			strokeWidth={1.5}
+					// 			stroke="currentColor"
+					// 			className={styles.dropdownIcon}
+					// 			onClick={() =>
+					// 				toggleSection("friendListSection")
+					// 			}
+					// 		>
+					// 			<path
+					// 				strokeLinecap="round"
+					// 				strokeLinejoin="round"
+					// 				d={
+					// 					isOpen.friendListSection
+					// 						? "M4.5 15.75l7.5-7.5 7.5 7.5"
+					// 						: "M19.5 8.25l-7.5 7.5-7.5-7.5"
+					// 				}
+					// 			/>
+					// 		</svg>
+					// 	</div>
+					// 	<div
+					// 		className={`${styles.stat2} ${
+					// 			isOpen.friendListSection ? styles.open : ""
+					// 		}`}
+					// 	>
+					// 		<div>
+					// 			{" "}
+					// 			{friends
+					// 				.filter((user) => user)
+
+					// 				.map((user, index) => (
+					// 					<tr
+					// 						className={styles.birdListItem}
+					// 						key={index}
+					// 					>
+					// 						<td className={styles.birdName}>
+					// 							{user.username}
+					// 						</td>
+					// 					</tr>
+					// 				))}
+					// 		</div>
+					// 	</div>
+					// </div>
+					// <div className={styles.userStats}>
+					// 	<div className={styles.statHeader}>
+					// 		<h1>Achievements: ?</h1>
+
+					// 		<svg
+					// 			xmlns="http://www.w3.org/2000/svg"
+					// 			fill="none"
+					// 			viewBox="0 0 24 24"
+					// 			strokeWidth={1.5}
+					// 			stroke="currentColor"
+					// 			className={styles.dropdownIcon}
+					// 			onClick={() =>
+					// 				toggleSection("achievementSection")
+					// 			}
+					// 		>
+					// 			<path
+					// 				strokeLinecap="round"
+					// 				strokeLinejoin="round"
+					// 				d={
+					// 					isOpen.achievementSection
+					// 						? "M4.5 15.75l7.5-7.5 7.5 7.5"
+					// 						: "M19.5 8.25l-7.5 7.5-7.5-7.5"
+					// 				}
+					// 			/>
+					// 		</svg>
+					// 	</div>
+					// 	<div
+					// 		className={`${styles.stat3} ${
+					// 			isOpen.achievementSection ? styles.open : ""
+					// 		}`}
+					// 	>
+					// 		<div>Achievements coming soon</div>
+					// 	</div>
+					// </div> */}
+					// {/* <FriendRequests /> */}
 				)}
 			</div>
-		</>
+		</div>
 	);
 }

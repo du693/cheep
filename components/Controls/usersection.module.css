@@ -1,4 +1,36 @@
+.userSection1{
+
+  max-height: 0px;
+  opacity: 0;
+  border-radius: 0px 0px 10px 10px;
+  background-color:white;
+  transition: opacity 1.5s ease-in-out, max-height 0.5s ease-in-out;
+  width: 100%;
+}
+
+.userSection1.show{
+  max-height: 100%;
+  opacity: 1;
+  z-index: 2147483647 !important;
+
+
+}
+.userDropdownOptions{
+  color: black;
+  list-style-type: none;
+  font-size: 12px;
+}
+
+.userDropdownOptions li{
+  border-top:1px solid black;
+  margin-top: 5%;
+  display:flex;
+  align-items: center;
+  text-align: center;
+}
+
 .exitUserInfo{
+  z-index: 11000000 !important;
     cursor: pointer;
     width: 30px;
     padding: 5px;
@@ -12,7 +44,7 @@
 
   .user{
     font-size: 8px;
-    margin-top: 10%;
+
     height: 300px;
     display: flex;
     width: 100%;
@@ -87,6 +119,7 @@
 
         margin-right: 15%;
         width: fit-content;
+        font-size: 6px;
         display: flex;
         flex-direction: row;
         gap: 15%;
@@ -126,8 +159,9 @@
         height: 50px;
         font-size: 8px;
         display: flex;
+        color: black;
         font-size: 12px;
-        margin-left: 5%;
+
         flex-direction: row;
         align-items: center;
         transition: all 0.5s ease-in-out;
@@ -160,6 +194,25 @@
         overflow-y: auto;
         overflow-x: hidden;
       }
+      /* Style the scrollbar itself (optional) */
+.spottedGridDiv::-webkit-scrollbar {
+  width: 10px; /* width of the entire scrollbar */
+}
+
+/* Style the scrollbar track */
+.spottedGridDiv::-webkit-scrollbar-track {
+  background: #f1f1f1; /* color of the tracking area */
+}
+
+/* Style the scrollbar handle */
+.spottedGridDiv::-webkit-scrollbar-thumb {
+  background: black; /* color of the scroll thumb */
+}
+
+/* Handle on hover */
+.spottedGridDiv::-webkit-scrollbar-thumb:hover {
+  background: #555; /* color of the scroll thumb on hover */
+}
 
 
 
@@ -174,9 +227,11 @@
         border-bottom: 1px solid black;
         text-align: center;
         gap: 5%;
+        font-size: 10px;
         margin-left: 5%;
 
       }
+
 
     
       .birdName{

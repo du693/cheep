@@ -9,13 +9,15 @@ import MapComponent from "@/components/Map/map";
 import { useRouter } from "next/router";
 import React from "react";
 import Controls from "@/components/Controls/Controls";
-import AccessPage from "@/components/AccessPage/AccessPage";
+import crypto from "crypto";
+
 import Absolutes from "@/components/Absolutes/Absolutes";
 import Header from "@/components/Header/Header";
 import BirdIdentification from "@/components/LeftSection/BirdIdentification";
 import { addSpot } from "@/services/addspot";
 import Cookies from "js-cookie";
 import { parse } from "cookie";
+import UserSection from "@/components/Controls/UserSection";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,7 +41,6 @@ export default function Dashboard({ birdNames }) {
 		lat: null,
 		lng: null,
 	});
-
 	Cookies.set("username", JSON.stringify(username), {
 		expires: 7,
 		path: "/",
@@ -74,10 +75,19 @@ export default function Dashboard({ birdNames }) {
 	}, []);
 
 	const toggleSection = (section) => {
-		setIsOpen((prevState) => ({
-			...prevState,
-			[section]: !prevState[section],
-		}));
+		setIsOpen((prevState) => {
+			// Determine the new state for the section
+			const newState = !prevState[section];
+
+			// Log the section and its new state
+			console.log(section, newState);
+
+			// Return the updated state
+			return {
+				...prevState,
+				[section]: newState,
+			};
+		});
 	};
 
 	const openSection = (section) => {
@@ -87,11 +97,17 @@ export default function Dashboard({ birdNames }) {
 		}));
 	};
 
+	console.log(username);
+
 	useEffect(() => {
 		if (status === "loading") return; // Do nothing while the session is loading
 		if (!session) router.push("/");
 		const usernameCookie = Cookies.get("username");
-		if (usernameCookie === "undefined" || !usernameCookie) {
+		if (
+			usernameCookie === "undefined" ||
+			!usernameCookie ||
+			username === undefined
+		) {
 			router.push("/signup");
 		} // Redirect to access page if not authenticated
 	}, [session, status, router]);
@@ -160,21 +176,30 @@ export default function Dashboard({ birdNames }) {
 				});
 		}
 	}, [isMapLoaded]);
-	console.log(username);
 
 	return (
 		<>
 			{session && session.user && (
 				<>
-					<Absolutes
-						openSection={openSection}
-						globalIsOn={globalIsOn}
-						toggleSwitch={toggleSwitch}
-					/>
-
 					<div className={styles.section}>
+						<div
+							className={`${styles.absolutes} ${
+								isOpen.userSection ? styles.show : ""
+							}`}
+						>
+							<UserSection
+								isOpen={isOpen}
+								toggleSection={toggleSection}
+								openSection={openSection}
+								session={session}
+							/>
+						</div>
 						<div className={styles.header}>
-							<Header />
+							<Header
+								session={session}
+								openSection={openSection}
+								toggleSection={toggleSection}
+							/>
 						</div>
 
 						{/* <div className={styles.leftSection}>
@@ -187,6 +212,7 @@ export default function Dashboard({ birdNames }) {
 						</div> */}
 						<div className={styles.mapSection}>
 							<MapComponent
+								toggleSwitch={toggleSwitch}
 								setIsLocationMyLocationFunction={
 									setIsLocationMyLocationFunction
 								}

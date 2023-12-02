@@ -2,7 +2,7 @@
     cursor: pointer;
     width: 30px;
     padding: 5px;
-    color: black;
+    color: #9CAE9B;
     position: absolute;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
     right: 5%;
@@ -12,8 +12,9 @@
 
   .user{
     font-size: 8px;
-    margin-top: 10%;
-    height: 300px;
+
+    background-color: #9CAE9B;
+    height: 100vh;
     display: flex;
     width: 100%;
     flex-direction: column;

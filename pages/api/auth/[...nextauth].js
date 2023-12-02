@@ -37,6 +37,9 @@ export const authOptions = {
 	session: {
 		strategy: "jwt",
 	},
+	pages: {
+		error: "/auth/error",
+	},
 
 	callbacks: {
 		async signIn(user, account, profile) {
@@ -61,7 +64,8 @@ export const authOptions = {
 					JSON.stringify(user.account.provider) !==
 						JSON.stringify(existingUser.loginType)
 				) {
-					return false;
+					const errorMessage = `Incorrect login method. Please use your ${existingUser.loginType} account to log in.`;
+					throw new Error(errorMessage);
 				}
 
 				if (!existingUser) {

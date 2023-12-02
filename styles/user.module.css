@@ -1,0 +1,132 @@
+.userpage {
+    background-color: #9CAE9B;
+    height: 100vh;
+    width: 100%;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    
+
+}
+
+.absoluteExit{
+    position: absolute;
+    height: 35px;
+    width: 35px;
+    top: 3%;
+    left: 3%;
+    transition: transform 0.5s ease-in-out;
+    cursor: pointer;
+
+}
+
+.absoluteExit:hover{
+    transform: scale(1.1)
+}
+
+.bubble {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.userProfile{
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+    gap: 5%;
+    text-align: center;
+    padding: 5%;
+    color: black;
+    background-color:  #FFF8E1;
+    border-radius: 25px;
+}
+
+.stat2{
+    color: black;
+    display: flex;
+    flex-direction: column;
+
+
+    list-style-type: none;
+
+    border-right: 2px solid #EBE4CE;
+    height: 100%;
+
+}
+.sessionImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+}
+.userFriends{    
+    width: 90%;
+
+    height: 35%;
+    background-color:  #FFF8E1;
+    border-radius: 25px;
+    padding: 5%;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+}
+.addFriendForm{    
+
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+
+    height: 100%;
+    
+}
+.addFriendForm div{
+    width: 200px;
+}
+
+.friendRequests{
+    border-right:  2px solid #EBE4CE;
+
+}
+
+.addFriend{
+    margin-left: 5%;
+    display: flex;
+
+
+}
+
+.userSpots{    
+    width: 90%;
+    height: 35%;
+    background-color:  #FFF8E1;
+    border-radius: 25px;
+    padding: 5%;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
+}
+.spottedGridDiv{
+display: flex;
+overflow-y: auto;
+justify-content: center;
+max-height: 200px;
+}
+
+.spottedGrid{
+    border-collapse: collapse; 
+    width: 100%;
+    color: black;
+
+}
+.tableHead{
+
+    width: 100%;
+
+}
+
+
+.incorrectUser{
+    background-color: #9CAE9B;
+}
