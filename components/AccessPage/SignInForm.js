@@ -22,7 +22,7 @@ export default function SignInForm({ children }) {
 					>
 						<span>Continue with Linkedin</span>
 
-						<Image
+						<img
 							src="/linkedin.png"
 							alt="Google Logo"
 							width={20}
@@ -36,7 +36,7 @@ export default function SignInForm({ children }) {
 						onClick={() => handleSignIn("google")}
 					>
 						<span>Continue with Google</span>
-						<Image
+						<img
 							src="/google.png"
 							alt="Google Logo"
 							width={20}
@@ -51,7 +51,7 @@ export default function SignInForm({ children }) {
 						onClick={() => handleSignIn("github")}
 					>
 						<span>Continue with Github</span>
-						<Image
+						<img
 							src="/github.png"
 							alt="Github Logo"
 							width={20}

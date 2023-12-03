@@ -23,20 +23,19 @@ export default function Header({ session, openSection, toggleSection }) {
 	return (
 		<div className={styles.navbar}>
 			<div className={styles.headerLeft}>
-				<Image
+				<img
 					src="/CHEEPLOGO.png"
 					className={styles.cheepLogo}
 					height={200}
 					width={200}
 					priority
 					alt="Logo"
-				></Image>
+				/>
 			</div>
 			<div className={styles.headerMiddle}>
 				<h1>Cheep Bird Watching</h1>
 			</div>{" "}
 			<div className={styles.headerRight}>
-				{" "}
 				<Image
 					className={styles.sessionImage}
 					src={session.user.image}
