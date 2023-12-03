@@ -1,6 +1,5 @@
 import Image from "next/image";
 import styles from "./header.module.css";
-import CHEEPLOGO from "@/public/CHEEPLOGO.png";
 import { signOut } from "next-auth/react";
 import Cookies from "js-cookie";
 import { Username } from "@/context/Context";
@@ -25,8 +24,9 @@ export default function Header({ session, openSection, toggleSection }) {
 		<div className={styles.navbar}>
 			<div className={styles.headerLeft}>
 				<Image
-					src={CHEEPLOGO}
+					src="/CHEEPLOGO.png"
 					className={styles.cheepLogo}
+					height={200}
 					width={200}
 					priority
 					alt="Logo"
