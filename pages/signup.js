@@ -48,7 +48,7 @@ export default function CreateUser() {
 			}
 			try {
 				await updateUsername(session.user.email, user);
-				setUsername(user); // Update the username in your context if needed
+				setUsername(user);
 				return true;
 			} catch (error) {
 				alert(error.message);
@@ -98,14 +98,12 @@ export async function getServerSideProps(context) {
 		console.log("Analyzing session:", session);
 	} catch (error) {
 		console.error("Error getting session:", error);
-		// Handle the error appropriately
-		// For example, you can log the error and continue with null
 		session = null;
 	}
 	if (!session) {
 		return {
 			redirect: {
-				destination: "/", // Redirect unauthenticated users to your access page
+				destination: "/",
 				permanent: false,
 			},
 		};
@@ -113,7 +111,7 @@ export async function getServerSideProps(context) {
 	if (username !== "undefined") {
 		return {
 			redirect: {
-				destination: "/dashboard", // Redirect unauthenticated users to your access page
+				destination: "/dashboard",
 				permanent: false,
 			},
 		};

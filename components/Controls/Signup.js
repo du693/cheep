@@ -6,10 +6,7 @@ export default async function handler(req, res) {
 		const { username } = req.body;
 
 		try {
-			// Connect to the database
 			await connectToMongoose();
-
-			// Create or update the user with the provided username
 			await User.findOneAndUpdate(
 				{ email: req.user.email }, // Adjust this query based on your user model
 				{ username: username },

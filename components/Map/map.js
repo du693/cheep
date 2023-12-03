@@ -49,10 +49,6 @@ const MapComponent = ({
 	});
 	let previousMarker = null;
 
-	//This is an important first step upon getting location permissions. once we get location we can determine to initMap to that location. Do not initMap before userLocation is filled.
-
-	//maybe think about putting this at beginning of index.js?? this needs to run ASAP
-	//also if location perms are denied do not load map. (give an option that allows client to switch)
 	async function getGeoLocation() {
 		let locationTimeout;
 		if (navigator.geolocation) {
@@ -190,7 +186,6 @@ const MapComponent = ({
 	}, [globalIsOn]);
 
 	useEffect(() => {
-		console.log("errrrr");
 		if (userLocation.lat !== null && userLocation.lng !== null) {
 			getLocation();
 		}
@@ -225,7 +220,6 @@ const MapComponent = ({
 		) {
 			initMap();
 		} else {
-			console.log("pending");
 		}
 	}, [locationPermission, isMapOpen]);
 
@@ -373,7 +367,6 @@ const MapComponent = ({
 				);
 				clustererRef.current = new MarkerClusterer({
 					onClusterClick: (event, cluster, map) => {
-						console.log(globalSpots);
 						let listItems = "";
 						const addedSpotIds = new Set();
 

@@ -9,15 +9,10 @@ import MapComponent from "@/components/Map/map";
 import { useRouter } from "next/router";
 import React from "react";
 import Controls from "@/components/Controls/Controls";
-import crypto from "crypto";
-
-import Absolutes from "@/components/Absolutes/Absolutes";
 import Header from "@/components/Header/Header";
-import BirdIdentification from "@/components/LeftSection/BirdIdentification";
 import { addSpot } from "@/services/addspot";
 import Cookies from "js-cookie";
 import { parse } from "cookie";
-import UserSection from "@/components/Controls/UserSection";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -28,6 +23,8 @@ export default function Dashboard({ birdNames }) {
 	const { spotted, setSpotted } = useContext(SpottedContext);
 	const { userObject, setUserObject } = useContext(UserContext);
 	const { username, setUsername } = useContext(Username);
+	const [userLocationToggle, setUserLocationToggle] = useState(false);
+	const [isLocationMyLocation, setIsLocationMyLocation] = useState(false);
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState({
 		gridContainer: false,
@@ -41,13 +38,6 @@ export default function Dashboard({ birdNames }) {
 		lat: null,
 		lng: null,
 	});
-	Cookies.set("username", JSON.stringify(username), {
-		expires: 7,
-		path: "/",
-	});
-
-	const [userLocationToggle, setUserLocationToggle] = useState(false);
-	const [isLocationMyLocation, setIsLocationMyLocation] = useState(false);
 
 	const setIsLocationMyLocationFunction = (bool) => {
 		setIsLocationMyLocation(bool);
@@ -63,7 +53,6 @@ export default function Dashboard({ birdNames }) {
 
 	const toggleSwitch = () => {
 		setGlobalIsOn((prevIsOn) => !prevIsOn);
-		console.log("toggled");
 	};
 
 	const handleMapLoaded = useCallback((loaded) => {
@@ -76,13 +65,7 @@ export default function Dashboard({ birdNames }) {
 
 	const toggleSection = (section) => {
 		setIsOpen((prevState) => {
-			// Determine the new state for the section
 			const newState = !prevState[section];
-
-			// Log the section and its new state
-			console.log(section, newState);
-
-			// Return the updated state
 			return {
 				...prevState,
 				[section]: newState,
@@ -97,11 +80,17 @@ export default function Dashboard({ birdNames }) {
 		}));
 	};
 
-	console.log(username);
+	useEffect(() => {
+		if (username) {
+			Cookies.set("username", JSON.stringify(username), {
+				expires: 7,
+				path: "/",
+			});
+		}
+	}, [username]);
 
 	useEffect(() => {
-		if (status === "loading") return; // Do nothing while the session is loading
-		if (!session) router.push("/");
+		if (status === "loading") return;
 		const usernameCookie = Cookies.get("username");
 		if (
 			usernameCookie === "undefined" ||
@@ -109,11 +98,11 @@ export default function Dashboard({ birdNames }) {
 			username === undefined
 		) {
 			router.push("/signup");
-		} // Redirect to access page if not authenticated
+		}
 	}, [session, status, router]);
 
 	if (!session) {
-		return null; // or a loading indicator
+		return null;
 	}
 
 	const handleAddSpot = useCallback(
@@ -137,7 +126,7 @@ export default function Dashboard({ birdNames }) {
 			}
 			try {
 				await updateUsername(session.user.email, user);
-				setUsername(user); // Update the username in your context if needed
+				setUsername(user);
 				return true;
 			} catch (error) {
 				alert(error.message);
@@ -147,10 +136,7 @@ export default function Dashboard({ birdNames }) {
 		[session, setUsername]
 	);
 
-	// const setCoordsToUserLocation = ()
-
 	useEffect(() => {
-		console.log("fetch request rerendered");
 		if (session && session.user) {
 			fetch(
 				`/api/updateUser?userId=${encodeURIComponent(
@@ -186,14 +172,7 @@ export default function Dashboard({ birdNames }) {
 							className={`${styles.absolutes} ${
 								isOpen.userSection ? styles.show : ""
 							}`}
-						>
-							<UserSection
-								isOpen={isOpen}
-								toggleSection={toggleSection}
-								openSection={openSection}
-								session={session}
-							/>
-						</div>
+						></div>
 						<div className={styles.header}>
 							<Header
 								session={session}
@@ -201,15 +180,6 @@ export default function Dashboard({ birdNames }) {
 								toggleSection={toggleSection}
 							/>
 						</div>
-
-						{/* <div className={styles.leftSection}>
-							<div className={styles.birdIdentification}>
-								<BirdIdentification />
-							</div>
-							<div className={styles.birdResponse}>
-								<OpenAIResponse />
-							</div>
-						</div> */}
 						<div className={styles.mapSection}>
 							<MapComponent
 								toggleSwitch={toggleSwitch}
@@ -272,14 +242,13 @@ export async function getServerSideProps(context) {
 		console.log("Analyzing session:", session);
 	} catch (error) {
 		console.error("Error getting session:", error);
-		// Handle the error appropriately
-		// For example, you can log the error and continue with null
+
 		session = null;
 	}
 	if (!session) {
 		return {
 			redirect: {
-				destination: "/", // Redirect unauthenticated users to your access page
+				destination: "/",
 				permanent: false,
 			},
 		};

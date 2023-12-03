@@ -5,17 +5,13 @@ import { useContext, useState, useEffect } from "react";
 export default function AddSpot({ openSection }) {
 	const { coordinates } = useContext(CoordinatesContext);
 	const { lat, lng } = coordinates;
-
 	const [isVisible, setIsVisible] = useState(true);
-
 	const handleAddSpotClick = () => {
 		setIsVisible(false);
 		openSection("searchSection");
 	};
 
-	// Use useEffect to watch for changes in lat and lng
 	useEffect(() => {
-		// Check if lat and lng are both non-null to show the addspot div again
 		if (lat !== null && lng !== null) {
 			setIsVisible(true);
 		}

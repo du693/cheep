@@ -2,11 +2,8 @@ import styles from "@/styles/accesspage.module.css";
 import SignInForm from "@/components/AccessPage/SignInForm";
 import { useSession, getSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import { motion, useAnimation } from "framer-motion";
-import { useState } from "react";
 import { useEffect } from "react";
-import C from "@/public/C.png";
 
 export default function AccessPage() {
 	const { data: session, status } = useSession();
@@ -19,17 +16,15 @@ export default function AccessPage() {
 	}, [session, router]);
 
 	if (session) {
-		return null; // or a loading indicator
+		return null;
 	}
-	const [isVisible, setIsVisible] = useState(null);
 
 	const controls = useAnimation();
 
 	useEffect(() => {
-		// Start the animation when the component mounts
 		controls.start({
-			x: 0, // Set the initial position
-			opacity: 1, // Set the initial opacity
+			x: 0,
+			opacity: 1,
 			transition: {
 				ease: "linear",
 				duration: 2,
@@ -41,12 +36,6 @@ export default function AccessPage() {
 	return (
 		<div className={styles.accesspage}>
 			<div className={styles.landingImageBox}>
-				{/* <Image
-					src={landingImage}
-					priority
-					className={styles.landingImage}
-					alt="landing image"
-				/> */}
 				<motion.div
 					initial={{ opacity: 0, scale: 0.9 }}
 					animate={{ opacity: 1, scale: 1 }}
@@ -66,7 +55,7 @@ export default function AccessPage() {
 						className={styles.pitch}
 						whileHover={{ scale: 1.01 }}
 						transition={{
-							duration: 1, // Increase the duration to make it slower (in seconds)
+							duration: 1,
 						}}
 					>
 						<h2>
@@ -80,7 +69,7 @@ export default function AccessPage() {
 						className={styles.cheepDescription}
 						whileHover={{ scale: 1.01 }}
 						transition={{
-							duration: 0.5, // Increase the duration to make it slower (in seconds)
+							duration: 0.5,
 						}}
 					>
 						<p>
@@ -117,6 +106,6 @@ export async function getServerSideProps(context) {
 	}
 
 	return {
-		props: {}, // will be passed to the page component as props
+		props: {},
 	};
 }

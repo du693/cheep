@@ -4,8 +4,8 @@ import { useContext, useState, useEffect } from "react";
 import { getSession, useSession } from "next-auth/react";
 import styles from "@/styles/user.module.css";
 import Image from "next/image";
-import FriendRequestForm from "@/components/Controls/SendFriendReq";
-import FriendRequests from "@/components/Controls/CurrentRequests";
+import FriendRequestForm from "@/components/UserPage/SendFriendReq";
+import FriendRequests from "@/components/UserPage/CurrentRequests";
 import formatDate from "@/utils/dateConversions";
 
 export default function UserPage() {
@@ -14,9 +14,6 @@ export default function UserPage() {
 	const { data: session, status } = useSession();
 	const [friendQueryOpen, setFriendQueryOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
-	const [formData, setFormData] = useState({
-		name: "",
-	});
 	const [loading, setLoading] = useState(false);
 	const [localUsername, setLocalUsername] = useState();
 	const [friends, setFriends] = useState([]);
@@ -40,7 +37,6 @@ export default function UserPage() {
 	}, [username]);
 
 	useEffect(() => {
-		// Function to fetch friends data
 		async function fetchFriends() {
 			if (routerUsername) {
 				setLoading(true);
@@ -62,8 +58,6 @@ export default function UserPage() {
 				}
 			}
 		}
-
-		// Call the fetch function
 		fetchFriends();
 	}, []);
 
@@ -75,19 +69,18 @@ export default function UserPage() {
 		setFriendQueryOpen(false);
 	};
 
-	// Check if the router is ready
 	if (!router.isReady) {
-		return <div>Loading...</div>; // Or any other loading state
+		return <div>Loading...</div>;
 	}
 
-	const routerUsername = router.query.username; // Assuming the dynamic segment is named 'username'
+	const routerUsername = router.query.username;
 	console.log(
 		"localUsername, routerUsername:",
 		localUsername,
 		routerUsername
 	);
 	if (isLoading) {
-		return <div>Loading...</div>; // Show loading indicator
+		return <div>Loading...</div>;
 	}
 	return localUsername === routerUsername ? (
 		<div className={styles.userpage}>
@@ -211,14 +204,12 @@ export async function getServerSideProps(context) {
 		console.log(session);
 	} catch (error) {
 		console.error("Error getting session:", error);
-		// Handle the error appropriately
-		// For example, you can log the error and continue with null
 		session = null;
 	}
 	if (!session) {
 		return {
 			redirect: {
-				destination: "/", // Redirect unauthenticated users to your access page
+				destination: "/",
 				permanent: false,
 			},
 		};

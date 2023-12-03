@@ -2,7 +2,7 @@ import styles from "./openairesponse.module.css";
 import openAI from "@/public/openAI.svg";
 import Image from "next/image";
 import { TypeAnimation } from "react-type-animation";
-import { exit } from "../../public/svgList";
+
 export default function OpenAIResponse({
 	openAIResponse,
 	clearOpenAIResponse,
@@ -44,13 +44,10 @@ export default function OpenAIResponse({
 					{openAIResponse && (
 						<TypeAnimation
 							cursor={true}
-							sequence={[
-								openAIResponse, // Message you want to type out
-								1000, // Pause duration in milliseconds
-							]}
-							wrapper="div" // or 'span', 'p', etc.
+							sequence={[openAIResponse, 1000]}
+							wrapper="div"
 							repeat={1}
-							speed={70} // Repeat this number of times (Infinity for infinite loop)
+							speed={70}
 						/>
 					)}
 				</div>
