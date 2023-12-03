@@ -7,10 +7,10 @@ export default function AddButton({ onClick }) {
 			scale: 1,
 		},
 		hover: {
-			scale: 1.05, // Adjust as needed
+			scale: 1.05,
 			transition: {
-				duration: 0.3, // Adjust duration as needed
-				ease: "easeInOut", // Smooth pulse effect
+				duration: 0.3,
+				ease: "easeInOut",
 			},
 		},
 	};

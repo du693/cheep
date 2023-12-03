@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 		try {
 			await connectToMongoose();
 			await User.findOneAndUpdate(
-				{ email: req.user.email }, // Adjust this query based on your user model
+				{ email: req.user.email },
 				{ username: username },
 				{ upsert: true }
 			);
@@ -19,6 +19,6 @@ export default async function handler(req, res) {
 			res.status(500).json({ error: "Error creating username." });
 		}
 	} else {
-		res.status(405).end(); // Method Not Allowed
+		res.status(405).end();
 	}
 }
