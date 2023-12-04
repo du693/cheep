@@ -1,5 +1,5 @@
 import styles from "@/styles/signup.module.css";
-import { useCallback, useContext, useState } from "react";
+import { useCallback, useContext, useState, useEffect } from "react";
 import updateUsername from "./api/updateUsername";
 import { Username } from "@/context/Context";
 import { useSession, getSession, signOut } from "next-auth/react";
@@ -22,9 +22,19 @@ export default function CreateUser() {
 		});
 	};
 
+	// useEffect(() => {
+	// 	const storedUsername = localStorage.getItem("username");
+	// 	if (storedUsername !== "undefined" || storedUsername !== null) {
+	// 		router.push("/dashboard");
+	// 	} else {
+	// 		console.log("username set!");
+	// 	}
+	// }, [session, status]);
+
 	const handleSubmit = async (e) => {
 		console.log("Handling form submission");
 		e.preventDefault();
+		Cookies.set("username", username);
 
 		if (formData.name.trim() !== "") {
 			console.log("Calling addUsername");
@@ -40,6 +50,7 @@ export default function CreateUser() {
 			console.error("Username is empty");
 		}
 	};
+
 	const addUsername = useCallback(
 		async (user) => {
 			if (!session || !session.user || !user) {
@@ -92,6 +103,7 @@ export async function getServerSideProps(context) {
 	let session;
 	const cookies = parse(context.req.headers.cookie || "");
 	const username = cookies.username;
+	console.log("the push happened, something returned you", username);
 
 	try {
 		session = await getSession(context);
@@ -108,7 +120,7 @@ export async function getServerSideProps(context) {
 			},
 		};
 	}
-	if (username !== "undefined") {
+	if (username !== undefined) {
 		return {
 			redirect: {
 				destination: "/dashboard",

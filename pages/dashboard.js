@@ -26,6 +26,7 @@ export default function Dashboard({ birdNames }) {
 	const [userLocationToggle, setUserLocationToggle] = useState(false);
 	const [isLocationMyLocation, setIsLocationMyLocation] = useState(false);
 	const router = useRouter();
+	const [isUsernameFilled, setIsUsernameFilled] = useState();
 	const [isOpen, setIsOpen] = useState({
 		gridContainer: false,
 		searchSection: false,
@@ -79,32 +80,28 @@ export default function Dashboard({ birdNames }) {
 			[section]: true,
 		}));
 	};
+	console.log("here is username", username);
+	console.log("here is username state", isUsernameFilled);
 
 	useEffect(() => {
-		if (username) {
-			Cookies.set("username", JSON.stringify(username), {
-				expires: 7,
-				path: "/",
-			});
+		if (isUsernameFilled === undefined) return;
+		if (isUsernameFilled) {
+			localStorage.setItem("username", username);
 		} else {
-			Cookies.set("username", JSON.stringify(undefined), {
-				expires: 7,
-				path: "/",
-			});
+			localStorage.setItem("username", undefined);
 		}
-	}, [username]);
+	}, [isUsernameFilled]);
 
 	useEffect(() => {
 		if (status === "loading") return;
-		const usernameCookie = Cookies.get("username");
-		if (
-			usernameCookie === "undefined" ||
-			!usernameCookie ||
-			username === undefined
-		) {
+		if (isUsernameFilled === undefined) return;
+		const storedUsername = localStorage.getItem("username");
+		console.log(storedUsername);
+		if (isUsernameFilled === false) {
+			console.log("should be pushing here");
 			router.push("/signup");
 		}
-	}, [session, status, username]);
+	}, [isUsernameFilled]);
 
 	if (!session) {
 		return null;
@@ -158,6 +155,12 @@ export default function Dashboard({ birdNames }) {
 					setUserObject(data);
 					setSpotted(data.spotted);
 					setUsername(data.username);
+					if (data.username === undefined || data.username === null) {
+						setIsUsernameFilled(false);
+					} else {
+						setIsUsernameFilled(true);
+						Cookies.set("username", username);
+					}
 				})
 				.catch((error) => {
 					console.error(

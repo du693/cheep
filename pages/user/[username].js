@@ -4,8 +4,8 @@ import { useContext, useState, useEffect } from "react";
 import { getSession, useSession } from "next-auth/react";
 import styles from "@/styles/user.module.css";
 import Image from "next/image";
-import FriendRequestForm from "@/components/Controls/SendFriendReq";
-import FriendRequests from "@/components/Controls/CurrentRequests";
+import FriendRequestForm from "@/components/UserPage/SendFriendReq";
+import FriendRequests from "@/components/UserPage/CurrentRequests";
 import formatDate from "@/utils/dateConversions";
 
 export default function UserPage() {
