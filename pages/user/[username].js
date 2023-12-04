@@ -4,8 +4,8 @@ import { useContext, useState, useEffect } from "react";
 import { getSession, useSession } from "next-auth/react";
 import styles from "@/styles/user.module.css";
 import Image from "next/image";
-import FriendRequestForm from "@/components/UserPage/SendFriendReq";
-import FriendRequests from "@/components/UserPage/CurrentRequests";
+import FriendRequestForm from "@/components/Controls/SendFriendReq";
+import FriendRequests from "@/components/Controls/CurrentRequests";
 import formatDate from "@/utils/dateConversions";
 
 export default function UserPage() {
@@ -18,6 +18,7 @@ export default function UserPage() {
 	const [localUsername, setLocalUsername] = useState();
 	const [friends, setFriends] = useState([]);
 	const { spotted, setSpotted } = useContext(SpottedContext);
+	const [error, setError] = useState();
 
 	const handleReturnClick = () => {
 		router.push(`/dashboard`);

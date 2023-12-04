@@ -86,6 +86,11 @@ export default function Dashboard({ birdNames }) {
 				expires: 7,
 				path: "/",
 			});
+		} else {
+			Cookies.set("username", JSON.stringify(undefined), {
+				expires: 7,
+				path: "/",
+			});
 		}
 	}, [username]);
 
@@ -99,7 +104,7 @@ export default function Dashboard({ birdNames }) {
 		) {
 			router.push("/signup");
 		}
-	}, [session, status, router]);
+	}, [session, status, username]);
 
 	if (!session) {
 		return null;
@@ -227,7 +232,6 @@ export default function Dashboard({ birdNames }) {
 export async function getServerSideProps(context) {
 	let birdNames = [];
 	let session;
-	const cookies = parse(context.req.headers.cookie || "");
 
 	try {
 		birdNames = await fetchBirdNames();
