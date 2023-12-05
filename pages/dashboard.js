@@ -90,7 +90,7 @@ export default function Dashboard({ birdNames }) {
 		} else {
 			localStorage.setItem("username", undefined);
 		}
-	}, [isUsernameFilled]);
+	}, [isUsernameFilled, username]);
 
 	useEffect(() => {
 		if (status === "loading") return;
@@ -101,11 +101,7 @@ export default function Dashboard({ birdNames }) {
 			console.log("should be pushing here");
 			router.push("/signup");
 		}
-	}, [isUsernameFilled]);
-
-	if (!session) {
-		return null;
-	}
+	}, [isUsernameFilled, router, status]);
 
 	const handleAddSpot = useCallback(
 		async (spotData) => {
@@ -117,7 +113,7 @@ export default function Dashboard({ birdNames }) {
 				spotted: spotted,
 			});
 		},
-		[session, username, setSpotted]
+		[session, username, setSpotted, spotted]
 	);
 
 	const addUsername = useCallback(
@@ -169,7 +165,18 @@ export default function Dashboard({ birdNames }) {
 					);
 				});
 		}
-	}, [isMapLoaded]);
+	}, [
+		isMapLoaded,
+		session,
+		setSpotted,
+		setUserObject,
+		setUsername,
+		username,
+	]);
+
+	if (!session) {
+		return null;
+	}
 
 	return (
 		<>

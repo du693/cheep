@@ -6,6 +6,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
 
 export default function AccessPage() {
+	const controls = useAnimation();
 	const { data: session, status } = useSession();
 	const router = useRouter();
 
@@ -14,12 +15,6 @@ export default function AccessPage() {
 			router.push("/dashboard");
 		}
 	}, [session, router]);
-
-	if (session) {
-		return null;
-	}
-
-	const controls = useAnimation();
 
 	useEffect(() => {
 		controls.start({
@@ -31,7 +26,11 @@ export default function AccessPage() {
 				x: { duration: 1 },
 			},
 		});
-	}, []);
+	}, [controls]);
+
+	if (session) {
+		return null;
+	}
 
 	return (
 		<div className={styles.accesspage}>

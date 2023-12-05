@@ -19,6 +19,12 @@ export default function UserPage() {
 	const [friends, setFriends] = useState([]);
 	const { spotted, setSpotted } = useContext(SpottedContext);
 	const [error, setError] = useState();
+	const routerUsername = router.query.username;
+	console.log(
+		"localUsername, routerUsername:",
+		localUsername,
+		routerUsername
+	);
 
 	const handleReturnClick = () => {
 		router.push(`/dashboard`);
@@ -60,7 +66,7 @@ export default function UserPage() {
 			}
 		}
 		fetchFriends();
-	}, []);
+	}, [routerUsername]);
 
 	const toggleFriendQuery = () => {
 		setFriendQueryOpen((prevIsOn) => !prevIsOn);
@@ -74,12 +80,6 @@ export default function UserPage() {
 		return <div>Loading...</div>;
 	}
 
-	const routerUsername = router.query.username;
-	console.log(
-		"localUsername, routerUsername:",
-		localUsername,
-		routerUsername
-	);
 	if (isLoading) {
 		return <div>Loading...</div>;
 	}

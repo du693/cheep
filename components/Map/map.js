@@ -90,9 +90,14 @@ const MapComponent = ({
 		return () => clearTimeout(locationTimeout);
 	}
 
-	//this should only run once
+	// This effect runs once after the initial render to fetch geolocation data.
 	useEffect(() => {
-		getGeoLocation();
+		getGeoLocation()
+			.then(() => {})
+			.catch((error) => {
+				console.error("Error fetching geolocation:", error);
+				// Handle the error (e.g., show an error message to the user)
+			});
 	}, []);
 
 	//the getLocation function is for getting the location for both the userIcon and click event/icon.
@@ -183,13 +188,18 @@ const MapComponent = ({
 					console.error("Error fetching global spots:", error);
 				});
 		}
-	}, [globalIsOn]);
+	}, [globalIsOn, globalSpots, hasRunEffect]);
 
 	useEffect(() => {
 		if (userLocation.lat !== null && userLocation.lng !== null) {
 			getLocation();
 		}
-	}, [userLocationAvailable, userLocationToggle]);
+	}, [
+		userLocationAvailable,
+		userLocationToggle,
+		userLocation.lat,
+		userLocation.lng,
+	]);
 
 	useEffect(() => {
 		const initMap = async () => {
@@ -221,7 +231,13 @@ const MapComponent = ({
 			initMap();
 		} else {
 		}
-	}, [locationPermission, isMapOpen]);
+	}, [
+		locationPermission,
+		isMapOpen,
+		loader,
+		userLocation,
+		userLocationAvailable,
+	]);
 
 	useEffect(() => {
 		const initMarkers = async () => {
@@ -488,7 +504,16 @@ const MapComponent = ({
 		if (userLocationAvailable || locationPermission === "denied") {
 			initMarkers();
 		}
-	}, [spotted, globalSpots, globalIsOn, isMapOpen, userLocationAvailable]);
+	}, [
+		spotted,
+		globalSpots,
+		globalIsOn,
+		isMapOpen,
+		userLocationAvailable,
+		getLocation,
+		loader,
+		locationPermission,
+	]);
 
 	const handleRecenter = () => {
 		if (userLocation && mapInstanceRef.current) {
