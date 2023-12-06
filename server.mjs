@@ -8,10 +8,6 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
 	const server = express();
-
-	// You can add custom server logic here
-
-	// Handling all other requests with Next.js
 	server.all("*", (req, res) => {
 		return handle(req, res);
 	});
