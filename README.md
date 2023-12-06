@@ -14,15 +14,15 @@ In this README, I provide an overview of Cheep's current capabilities and insigh
 
 ### Custom MarkerClusterer onClick Event
 
-Customing the Marker Cluster provided in the google maps was essential for a couple reasons. The original cluster click does not solve a very fundamental problem with google maps markers: what if two markers are placed in the same location ? The given Clusterclick event will attempt to zoom into view so all the markers can be spotted, but this will not work in this case. I found some solutions to this online like https://github.com/jawj/OverlappingMarkerSpiderfier. which I also did not like. I instead created my own solution that creates a google maps InfoBox onClick and lists the necessary information from the clustered markers. 
+Customing the Marker Cluster provided in the google maps was essential for a couple reasons. The original cluster click does not solve a very fundamental problem with google maps markers: what if two markers are placed in the same location ? The given Clusterclick event will attempt to zoom into view so all the markers can be spotted, but this will not work in this case. I found some solutions to this online like [this](https://github.com/jawj/OverlappingMarkerSpiderfier). which I also did not like. I instead created my own solution that creates a google maps InfoBox onClick and lists the necessary information from the clustered markers. 
 
 Another issue I had with the given clusterClick zoom was the zooming itself. Especially with the heavily styled map, a zoom was appearing to be a costly event because of excessive tile loading, which is a big issue I have and continue to deal with. With the customized clusterClick event I was able to take one step in reducing unnecessary tile loading without giving the feeling of too much restriction to the user. Conceptually, the need for zooming was reduced. The code for the Marker Clusterer and the event are below.
 
 
 ```
-			    //initialize the marker clusterer and list of marker information
+//initialize the marker clusterer and list of marker information
 clustererRef.current = new MarkerClusterer({
-			    //removing zoom clickevent
+//removing zoom clickevent
 	onClusterClick: (event, cluster, map) => {
 		let listItems = "";
 		const addedSpotIds = new Set();
@@ -34,7 +34,7 @@ clustererRef.current = new MarkerClusterer({
 				const markerLng = markerPosition.lng();
 
 				spotted.forEach((spot) => {
-			    //tying the spot location to the marker that is within the cluster
+//tying the spot location to the marker that is within the cluster
 					if (
 						Math.abs(spot.lat - markerLat) <
 							0.0001 &&
@@ -59,7 +59,7 @@ clustererRef.current = new MarkerClusterer({
 			listItems || "No matching spotted items.";
 		contentString += "</ul></div>";
 
-			    //creating infowindow on click at cluster location with the bird info provided in scrollable list
+//creating infowindow on click at cluster location with the bird info provided in scrollable list
 		const infoWindow = new google.maps.InfoWindow({
 			content: contentString,
 		});
