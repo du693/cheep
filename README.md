@@ -5,9 +5,9 @@ With Cheep, you can document your sightings and view a detailed map filled with 
 
 ## Overview
 
-Cheep is a dynamic web application developed to showcase my current level of skill in web development. I really liked the idea of making an app that gives people another reason to go outside, similar to pokemonGo, so I decided on bird watching.
+Cheep is a dynamic web application developed to showcase my current level of skill in web development. I liked the idea of making an app that gives people another reason to go outside, similar to pokemonGo, so I decided on bird watching.
 
-In this README, I provide an overview of Cheep's current capabilities and insights into its development. The project serves as a testament to my proficiency in web development and my current level of knowledge on web development, and ability create engaging and interactive applications.
+In this README, I provide an overview of Cheep's current capabilities and insights into its development. The project serves as a testament to my proficiency in web development and ability to create engaging and interactive applications.
 
 
 ## Capabilities
