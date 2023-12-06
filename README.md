@@ -1,20 +1,22 @@
 # Cheep
 
-With Cheep, you can document your sightings and view a detailed map filled with contributions from users all over New England. Ideal for both casual bird enthusiasts and serious birdwatchers, our app offers a clear and concise platform for tracking and sharing avian sightings. Dive in and enrich our collective understanding of local bird populations. Join today and contribute to a comprehensive bird spotting network.
+The idea behind Cheep is to give users the capability to document their bird sightings and view a detailed map filled with their contributions and from users all over the globe. It is intended for both casual and serious birdwatchers. Here is a quick summary of the Cheep ecosystem:
 
+MongoDB Backend: For data storage and management.
+NextAUTH: For security, authentification, and session management
+Google Maps API: For location and mapping functionality.
+BirdNet Audio Processor: For audio processing and recognition.
+ChatGPT API: For species' summary.
 
-## Overview
+For more information please continue reading the readME for an overview of Cheep's current capabilities and insights into its development. 
 
-Cheep is a dynamic web application developed to showcase my current level of skill in web development. I liked the idea of making an app that gives people another reason to go outside, similar to pokemonGo, so I decided on bird watching.
-
-In this README, I provide an overview of Cheep's current capabilities and insights into its development. The project serves as a testament to my proficiency in web development and ability to create engaging and interactive applications.
-
+While Cheep is a work in progress, I wanted to make this public as it serves as a testament to my proficiency in web development and ability to create engaging and interactive applications.
 
 ## Capabilities
 
 ### Custom MarkerClusterer onClick Event
 
-Customing the Marker Cluster provided in the google maps was essential for a couple reasons. The original cluster click does not solve a very fundamental problem with google maps markers: what if two markers are placed in the same location ? The given Clusterclick event will attempt to zoom into view so all the markers can be spotted, but this will not work in this case. I found some solutions to this online like [this](https://github.com/jawj/OverlappingMarkerSpiderfier). which I also did not like. I instead created my own solution that creates a google maps InfoBox onClick and lists the necessary information from the clustered markers. 
+Customing the Marker Cluster provided in the google maps was essential for a couple reasons. The provided cluster click eventdoes not solve a very fundamental problem with google maps markers: what if two markers are placed in the same location? The given Clusterclick event will attempt to zoom into view so all the markers can be spotted, but this will not work in the given case. I found some solutions to this online like [this](https://github.com/jawj/OverlappingMarkerSpiderfier). which I also did not like. So I instead created my own solution that creates a google maps InfoBox on click and lists the necessary information from the clustered markers. 
 
 Another issue I had with the given clusterClick zoom was the zooming itself. Especially with the heavily styled map, a zoom was appearing to be a costly event because of excessive tile loading, which is a big issue I have and continue to deal with. With the customized clusterClick event I was able to take one step in reducing unnecessary tile loading without giving the feeling of too much restriction to the user. Conceptually, the need for zooming was reduced. The code for the Marker Clusterer and the event are below.
 
@@ -72,7 +74,7 @@ While the MarkerClusterer itself will do fine handling large amounts of markers.
 
 ### BirdNET AudioProcessor & ChatGPT
 
-This is definitely something I was excited to work on. Bird identification can be a challenging task, so streamlining this process would be extremely important to get inexperienced birdwatchers using the app. Once my friend Dan showed me the [BirdNET acoustic analyzer](https://github.com/kahst/BirdNET-Analyzer) I knew it would be very helpful in this process. Dan (you can check out his profile [here](https://github.com/dannybalentine)) also kindly agreed to host an AWS EC2 instance that accepts audio files from Cheep users and returns the result from BirdNET, along with a ChatGPT message providing a brief species summary.
+This is definitely something I was excited to work on. Bird identification can be a challenging task, so streamlining this process would be extremely important to get inexperienced birdwatchers using the app. Luckily, my friend Dan showed me the [BirdNET acoustic analyzer](https://github.com/kahst/BirdNET-Analyzer) and I knew immediately it would be very helpful for this process. Dan (you can check out his profile [here](https://github.com/dannybalentine)) also kindly agreed to host an AWS EC2 instance that accepts audio files from Cheep users and returns the result from BirdNET, along with a ChatGPT message providing a brief species summary.
 
 Including the ChatGPT response in this API was originally intended to reduce the number of requests made in the application. However, it forcefully provides the user with the GPT response if they use BirdNET, and it will not provide them with a response if they do not. So, I plan to create a separate API route to ensure that requests are made only if the user prompts it to.
 
