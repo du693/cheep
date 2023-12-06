@@ -72,9 +72,10 @@ While the MarkerClusterer itself will do fine handling large amounts of markers.
 
 ### BirdNET AudioProcessor & ChatGPT
 
-This is definitely something I was excited to work on. Bird identification can be a challenging task, so streamlining this process would be extremely important to get inexperienced birdwatchers using the app. [BirdNET](https://github.com/kahst/BirdNET-Analyzer) is an acoustic analysis tool for bird identification. Fortunately, I received some help from my friend Dan (you can check out his profile [here](https://github.com/dannybalentine)), who introduced me to this analyzer. He is currently hosting an AWS EC2 instance that accepts audio files from Cheep users and returns the result from BirdNET, along with a ChatGPT message providing a brief species summary.
+This is definitely something I was excited to work on. Bird identification can be a challenging task, so streamlining this process would be extremely important to get inexperienced birdwatchers using the app. Once my friend Dan showed me the [BirdNET acoustic analyzer](https://github.com/kahst/BirdNET-Analyzer) I knew it would be very helpful in this process. Dan (you can check out his profile [here](https://github.com/dannybalentine)) also kindly agreed to host an AWS EC2 instance that accepts audio files from Cheep users and returns the result from BirdNET, along with a ChatGPT message providing a brief species summary.
 
 Including the ChatGPT response in this API was originally intended to reduce the number of requests made in the application. However, it forcefully provides the user with the GPT response if they use BirdNET, and it will not provide them with a response if they do not. So, I plan to create a separate API route to ensure that requests are made only if the user prompts it to.
+
 ### MongoDB/Mongoose utilization
 ### Global Map View
 ### Connecting with other users
