@@ -1,6 +1,6 @@
 # Cheep
 
-"With Cheep, you can document your sightings and view a detailed map filled with contributions from users all over New England. Ideal for both casual bird enthusiasts and serious birdwatchers, our app offers a clear and concise platform for tracking and sharing avian sightings. Dive in and enrich our collective understanding of local bird populations. Join today and contribute to a comprehensive bird spotting network."
+With Cheep, you can document your sightings and view a detailed map filled with contributions from users all over New England. Ideal for both casual bird enthusiasts and serious birdwatchers, our app offers a clear and concise platform for tracking and sharing avian sightings. Dive in and enrich our collective understanding of local bird populations. Join today and contribute to a comprehensive bird spotting network.
 
 
 ## Overview
