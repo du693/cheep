@@ -8,7 +8,7 @@ The idea behind Cheep is to give users the capability to document their bird sig
 - BirdNet Audio Processor: For audio processing and recognition.
 - ChatGPT API: For species' summary.
 
-For more information please continue reading the readME for an overview of Cheep's current capabilities and insights into its development. 
+Continue with the readME for an overview of Cheep's current capabilities and insights into its development. 
 
 While Cheep is a work in progress, I wanted to make this public as it serves as a testament to my proficiency in web development and ability to create engaging and interactive applications.
 
