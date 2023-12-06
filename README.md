@@ -12,7 +12,7 @@ In this README, I provide an overview of Cheep's current capabilities and insigh
 
 ## Capabilities
 
-TBD
+# Custom MarkerClusterer onClick Event
 
 ## Security
 
