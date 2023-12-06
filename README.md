@@ -20,60 +20,74 @@ Another issue I had with the given clusterClick zoom was the zooming itself. Esp
 
 
 ```
-                                                            //initialize the marker clusterer and list of marker information
-				clustererRef.current = new MarkerClusterer({
-                                                            //removing zoom clickevent
-					onClusterClick: (event, cluster, map) => {
-						let listItems = "";
-						const addedSpotIds = new Set();
+			    //initialize the marker clusterer and list of marker information
+clustererRef.current = new MarkerClusterer({
+			    //removing zoom clickevent
+	onClusterClick: (event, cluster, map) => {
+		let listItems = "";
+		const addedSpotIds = new Set();
 
-						if (cluster.markers && Array.isArray(cluster.markers)) {
-							cluster.markers.forEach((marker) => {
-								const markerPosition = marker.getPosition();
-								const markerLat = markerPosition.lat();
-								const markerLng = markerPosition.lng();
+		if (cluster.markers && Array.isArray(cluster.markers)) {
+			cluster.markers.forEach((marker) => {
+				const markerPosition = marker.getPosition();
+				const markerLat = markerPosition.lat();
+				const markerLng = markerPosition.lng();
 
-								spotted.forEach((spot) => {
-                                                            //tying the spot location to the marker that is within the cluster
-									if (
-										Math.abs(spot.lat - markerLat) <
-											0.0001 &&
-										Math.abs(spot.lng - markerLng) <
-											0.0001 &&
-										!addedSpotIds.has(spot._id)
-									) {
-										listItems += `<li style='margin-bottom: 5px; padding: 5px; border-bottom: 1px solid #ddd;'>
-											<strong>Bird:</strong> ${spot.birdName}<br>
-											<strong>Date:</strong> ${formatCuteDate(spot.timeSpotted)}
-										</li>`;
-										addedSpotIds.add(spot._id);
-									}
-								});
-							});
-						}
+				spotted.forEach((spot) => {
+			    //tying the spot location to the marker that is within the cluster
+					if (
+						Math.abs(spot.lat - markerLat) <
+							0.0001 &&
+						Math.abs(spot.lng - markerLng) <
+							0.0001 &&
+						!addedSpotIds.has(spot._id)
+					) {
+						listItems += `<li style='margin-bottom: 5px; padding: 5px; border-bottom: 1px solid #ddd;'>
+							<strong>Bird:</strong> ${spot.birdName}<br>
+							<strong>Date:</strong> ${formatCuteDate(spot.timeSpotted)}
+						</li>`;
+						addedSpotIds.add(spot._id);
+					}
+				});
+			});
+		}
 
-						let contentString = `<div style='max-height: 200px; overflow-y: auto; color: black;'><div style='width: 25px; position: absolute; top: 0; right: 0;'>${exit}</div>`;
-						contentString +=
-							"<ul style='list-style-type: none; margin: 0; padding: 0;'>";
-						contentString +=
-							listItems || "No matching spotted items.";
-						contentString += "</ul></div>";
-    
-                                                            //creating infowindow on click at cluster location with the bird info provided in scrollable list
-						const infoWindow = new google.maps.InfoWindow({
-							content: contentString,
-						});
-						infoWindow.setPosition(cluster.position);
-						infoWindow.open(map);
-					},
+		let contentString = `<div style='max-height: 200px; overflow-y: auto; color: black;'><div style='width: 25px; position: absolute; top: 0; right: 0;'>${exit}</div>`;
+		contentString +=
+			"<ul style='list-style-type: none; margin: 0; padding: 0;'>";
+		contentString +=
+			listItems || "No matching spotted items.";
+		contentString += "</ul></div>";
+
+			    //creating infowindow on click at cluster location with the bird info provided in scrollable list
+		const infoWindow = new google.maps.InfoWindow({
+			content: contentString,
+		});
+		infoWindow.setPosition(cluster.position);
+		infoWindow.open(map);
+	},
 ```
 
 While the MarkerClusterer itself will do fine handling large amounts of markers. It's important to note that this algorithm's time complexity is O(n), meaning that the processing time for the list within a cluster increases linearly with the number of spots. To ensure smooth and efficient performance, especially when dealing with a large dataset, it will be important to place a cap on how many markers/spots are included in the infobox list.
 
-###BirdNET AudioProcessor
+### BirdNET AudioProcessor & ChatGPT
 
-This is definitely something I was excited to work on. As bird identificaiton can be a difficult task, streamlining the bird identification process would be extremely important to get inexperienced birdwatchers on the app. BirdNET is one way I believe I took a step to solving this. Luckily I had some help from my friend Dan (profile [here](https://github.com/dannybalentine)
+This is definitely something I was excited to work on. As bird identificaiton can be a difficult task, streamlining this process would be extremely important to get inexperienced birdwatchers on the app. BirdNET is one way I believe I took a step to solving this. [birdNET](https://github.com/kahst/BirdNET-Analyzer) is an acoustic analysis tool for bird identification. Luckily I had some help from my friend Dan (profile [here](https://github.com/dannybalentine)) who is currently hosting an AWS EC2 instance that accepts audio files from a cheep user and returns the value from birdNET, and a prompted chatGPT message giving a short summary of the species. Including the ChatGPT response in this API was originally intended to lower the amount of requests going off in the application. but this forcefully feeds the user the gpt response if they use birdNet, and will not provide them with a response if they do not. so I plan to create a separate API route to that requests only if the user prompts it to.
+
+### MongoDB/Mongoose utilization
+### Global Map View
+### Connecting with other users
+### Styling(Vanilla CSS)
+
+
+
+
 ## Security
+
+### NextAUTH
+
+### API Route protection (middleware)
+
 
 TBD
 (Link to privacy policy)
