@@ -102,10 +102,16 @@ A big part of this project was learning how to visualize the app from the user p
 
 ### NextAUTH
 
+I chose NextAuth to handle my verification and JWT token generation because of the its seamless integration with Next.js and effective session management. The providers I utilize were Linkedin, Google, and Github. This process was more of a pain than it should have been due to unclear documentation on what redirect URI's should be used, especially for Linkedin.
+
 ### API Route protection (middleware)
 
+Each API route is has been wrapped with middleware that checks if there is a valid session. This is to defend against unvalidated access to the route. The input itself travelling through has been sanitized allowing alphanumeric characters only (or alphabet only in specific cases) , then validated further with express-validator.
 
-TBD
+### NoSQL injection protection 
+
+To expand further on the previous point, I ensure proper sanitization of incoming request data to mongoDB by using ```server.use(ExpressMongoSanitize())```. This is with the specific goal adding another layer of protection against any noSQL injection attacks. Below is a link to Cheep's privacy policy to display exactly how user data will be handled.
+
 (Link to privacy policy)
 
 
