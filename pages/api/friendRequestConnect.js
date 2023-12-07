@@ -4,6 +4,7 @@ import { connectToMongoose } from "./mongooseConnect";
 import withSession from "@/withSession";
 
 const handler = async (req, res) => {
+	const usernamePattern = /^[a-zA-Z0-9_-]+$/;
 	if (req.method === "POST") {
 		try {
 			await connectToMongoose();
@@ -18,6 +19,11 @@ const handler = async (req, res) => {
 
 			if (!receiverUser) {
 				return res.status(404).json({ error: "Receiver not found" });
+			}
+			if (!usernamePattern.test(receiverUser)) {
+				return res
+					.status(400)
+					.json({ message: "Invalid username format" });
 			}
 
 			const senderUser = await User.findOne({ username: sender }).exec();

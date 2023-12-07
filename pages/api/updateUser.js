@@ -4,6 +4,7 @@ import GlobalSpot from "@/models/Spot";
 import withSession from "@/withSession";
 
 const handler = async (req, res) => {
+	const usernamePattern = /^[a-zA-Z0-9_-]+$/;
 	if (req.method === "POST") {
 		try {
 			await connectToMongoose();
@@ -13,6 +14,7 @@ const handler = async (req, res) => {
 			if (username) {
 				requestBody.username = username;
 			}
+
 			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 			if (requestBody.username) {
 				const globalSpot = new GlobalSpot({
@@ -69,11 +71,15 @@ const handler = async (req, res) => {
 		try {
 			await connectToMongoose();
 			const { userId } = req.query;
+			if (!usernamePattern.test(username)) {
+				return res
+					.status(400)
+					.json({ message: "Invalid username format" });
+			}
 			const {
 				username: { username },
 			} = req.body;
 
-			// Input validation (add your validation logic here)
 			if (!username /* add validation conditions */) {
 				return res.status(400).json({ error: "Invalid username" });
 			}

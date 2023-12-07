@@ -1,7 +1,7 @@
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import { fetchBirdNames } from "./api/fetchBirds";
-import updateUsername from "./api/updateUsername";
+import updateUsername from "@/services/updateUsername";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useContext, useState, useCallback } from "react";
 import { Username, UserContext, SpottedContext } from "@/context/Context";

@@ -4,6 +4,7 @@ import { connectToMongoose } from "./mongooseConnect";
 import withSession from "@/withSession";
 
 const handler = async (req, res) => {
+	const usernamePattern = /^[a-zA-Z0-9_-]+$/;
 	if (req.method === "GET") {
 		try {
 			const { username } = req.query;
@@ -12,6 +13,12 @@ const handler = async (req, res) => {
 				return res
 					.status(400)
 					.json({ message: "Username is required" });
+			}
+
+			if (!usernamePattern.test(username)) {
+				return res
+					.status(400)
+					.json({ message: "Invalid username format" });
 			}
 			await connectToMongoose();
 			const userFriendRequests = await Friend.find({

@@ -3,11 +3,22 @@ import User from "../../models/User";
 import withSession from "@/withSession";
 
 const handler = async (req, res) => {
+	const usernamePattern = /^[a-zA-Z0-9_-]+$/;
 	if (req.method === "POST") {
 		try {
 			await connectToMongoose();
 			console.log("this shit connected");
 			const { username } = req.body;
+			if (!username) {
+				return res
+					.status(400)
+					.json({ message: "Username is required" });
+			}
+			if (!usernamePattern.test(username)) {
+				return res
+					.status(400)
+					.json({ message: "Invalid username format" });
+			}
 			const usernameExists = await User.exists({ username: username });
 			res.status(200).json({ exists: usernameExists != null });
 		} catch (error) {

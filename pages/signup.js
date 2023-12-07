@@ -1,6 +1,6 @@
 import styles from "@/styles/signup.module.css";
 import { useCallback, useContext, useState, useEffect } from "react";
-import updateUsername from "./api/updateUsername";
+import updateUsername from "@/services/updateUsername";
 import { Username } from "@/context/Context";
 import { useSession, getSession, signOut } from "next-auth/react";
 import Cookies from "js-cookie";
@@ -21,15 +21,6 @@ export default function CreateUser() {
 			[name]: value,
 		});
 	};
-
-	// useEffect(() => {
-	// 	const storedUsername = localStorage.getItem("username");
-	// 	if (storedUsername !== "undefined" || storedUsername !== null) {
-	// 		router.push("/dashboard");
-	// 	} else {
-	// 		console.log("username set!");
-	// 	}
-	// }, [session, status]);
 
 	const handleSubmit = async (e) => {
 		console.log("Handling form submission");

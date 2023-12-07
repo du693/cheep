@@ -1,5 +1,6 @@
 import express from "express";
 import next from "next";
+import ExpressMongoSanitize from "express-mongo-sanitize";
 
 const port = process.env.PORT || 3000; // Change the port to 3000 for HTTP
 const dev = process.env.NODE_ENV !== "production";
@@ -8,6 +9,7 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
 	const server = express();
+	server.use(ExpressMongoSanitize());
 	server.all("*", (req, res) => {
 		return handle(req, res);
 	});

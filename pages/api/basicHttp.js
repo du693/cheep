@@ -9,7 +9,7 @@ export const config = {
 	},
 };
 
-export default async function handler(req, res) {
+const handler = async (req, res) => {
 	if (req.method === "POST") {
 		const form = new IncomingForm();
 
@@ -22,6 +22,21 @@ export default async function handler(req, res) {
 
 			try {
 				const audioFile = files.audio_file[0];
+				const allowedAudioMimeTypes = [
+					"audio/mpeg",
+					"audio/wav",
+					"audio/ogg",
+					"audio/mp3",
+				];
+				if (!allowedAudioMimeTypes.includes(audioFile.type)) {
+					res.status(400).json({ error: "Invalid audio file type" });
+					return;
+				}
+				const allowedFileNamePattern = /^[a-zA-Z0-9_-]+$/; // A pattern that allows alphanumeric characters, underscores, and hyphens
+				if (!allowedFileNamePattern.test(audioFile.originalFilename)) {
+					res.status(400).json({ error: "Invalid file name" });
+					return;
+				}
 				const lat = fields.lat;
 				const lng = fields.lng;
 				console.log("HERE SHE BLOWS,", lat, lng);
@@ -70,4 +85,5 @@ export default async function handler(req, res) {
 		res.setHeader("Allow", ["POST"]);
 		res.status(405).end(`Method ${req.method} Not Allowed`);
 	}
-}
+};
+export default withSession(handler);
