@@ -2,11 +2,14 @@
 
 The idea behind Cheep is to give users the capability to document their bird sightings and view a detailed map filled with their contributions and from users all over the globe. It is intended for both casual and serious birdwatchers. Here is a quick summary of the Cheep ecosystem:
 
+- React: For building the user interface, managing application state, and creating an interactive user experience.
 - MongoDB Backend: For data storage and management.
+- Next.js: For server-side rendering and routing.
 - NextAUTH: For security, authentification, and session management
 - Google Maps API: For location and mapping functionality.
 - BirdNet Audio Processor: For audio processing and recognition.
-- ChatGPT API: For species' summary.
+- Vanilla CSS: For styling and formatting the web application's user interface.
+- ChatGPT API: For summarizing information about bird species.
 
 Continue with the readME for an overview of Cheep's current capabilities and insights into its development. 
 
