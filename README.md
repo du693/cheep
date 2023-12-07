@@ -16,7 +16,7 @@ While Cheep is a work in progress, I wanted to make this public as it serves as 
 
 ### Custom MarkerClusterer onClick Event
 
-Customizing the Marker Cluster provided in the google maps api was essential for a couple of reasons. The provided cluster click event does not solve a very fundamental problem with google maps markers: If 2 markers are placed at the same location, it is impossible to distinguish between them. The given Clusterclick event will attempt to zoom all the markers into view, but that will not work in this case. I found some solutions to this online like [this](https://github.com/jawj/OverlappingMarkerSpiderfier). which I also did not like. So I instead created my own solution that creates a google maps InfoBox on click and lists the necessary information from the clustered markers. 
+Customizing the Marker Cluster provided in the google maps api was essential for a couple of reasons. The provided cluster click event does not solve a very fundamental problem with google maps markers: If 2 markers are placed at the same location, it is impossible to distinguish between them. The given Clusterclick event will attempt to zoom all markers into view, but that will not work in this case. I found some solutions to this online like [this](https://github.com/jawj/OverlappingMarkerSpiderfier). which I also did not like. So I instead created my own solution that creates a google maps InfoBox on click and lists the necessary information from the clustered markers. 
 
 Another issue I had with the given clusterClick zoom was the zooming itself. Especially with the heavily styled map, a zoom was appearing to be a costly event because of excessive tile loading, which is a big issue I have and continue to deal with. With the customized clusterClick event I was able to take one step in reducing unnecessary tile loading without giving the feeling of too much restriction to the user. Conceptually, the need for zooming was reduced. The code for the Marker Clusterer and the event are below.
 
@@ -70,7 +70,7 @@ clustererRef.current = new MarkerClusterer({
 	},
 ```
 
-While the MarkerClusterer itself will do fine handling large amounts of markers. It's important to note that this algorithm's time complexity is O(n), meaning that the processing time for the list within a cluster increases linearly with the number of spots. To ensure smooth and efficient performance, especially when dealing with a large dataset, it will be important to place a cap on how many markers/spots are included in the infobox list.
+While the MarkerClusterer itself will do fine handling large amounts of markers. It's important to note that the customized Infobox list will pull data with a time complexity of O(n), meaning that the processing time for the list within a cluster increases linearly with the number of spots. To ensure smooth and efficient performance, especially when dealing with a large dataset, it will be important to place a cap on how many markers/spots are included in the infobox list.
 
 ### BirdNET AudioProcessor & ChatGPT
 
@@ -90,9 +90,9 @@ Global view is a toggleable view located on the map which allows users to see ev
 
 This is one of the areas where there is much work still to be done. As of now their is a capability to for users to add other users to their friends list, but this is currently of no benefit to the user. To make this integration have more purpose I plan on adding.
 
-- #### Friend View: Only shows sightings from yourself and friends
-- #### Friend Feed: A feed that displays a chronological list of bird sightings between you and your friends (I also plan on adding a global feed)
-- #### Friend Page: I plan to give users the capability to click on a friends profile and check out their sightings and friends.
+- Friend View: Only shows sightings from yourself and friends
+- Friend Feed: A feed that displays a chronological list of bird sightings between you and your friends (I also plan on adding a global feed)
+- Friend Page: I plan to give users the capability to click on a friends profile and check out their sightings and friends.
   
 ### Styling(Vanilla CSS)
 
@@ -112,7 +112,20 @@ Each API route is has been wrapped with middleware that checks if there is a val
 
 To expand further on the previous point, I ensure proper sanitization of incoming request data to mongoDB by using ```server.use(ExpressMongoSanitize())```. This is with the specific goal adding another layer of protection against any noSQL injection attacks. Below is a link to Cheep's privacy policy to display exactly how user data will be handled.
 
-(Link to privacy policy)
+(privacy policy TBD)
+
+### Deployment Plans
+
+While I have deployed cheep numerous times under DNS https://cheepbirds.com the goal at the moment is to further reduce the cost of excessive tile loading and increase the options for specific user connections.
+
+The simplest approach to reducing the cost of the tile/asset loading is to remove all the styling and custom assets on the map but I have no intention of doing so as it will sacrifice an essential part of the user experience. Caching the tiles is not a legal approach according to [Google's Policy on Caching](https://developers.google.com/maps/documentation/tile/policies#:~:text=of%20your%20website.-,Pre%2Dfetching%2C%20caching%2C%20or%20storage%20of%20content,conditions%20stated%20in%20the%20terms.)Here are some other solutions I am working on:
+
+- asset loading on zoom: Whenever a zoom occurs, each asset has to refresh to match the zoom and I believe this is a large factor. by removing all assets briefly while zooming and only reloading them after a zoom has stopped for a short span, I can reduce much of the excessive rendering
+- decelerate tile loading: By slowing down the tile loading on zoom and scroll, the tile loading cost would obviously be reduced. This is something that could potentially give the impression that the app is not functionally quickly and harm the user experience.
+
+As for increasing user options, the list above under "Connecting with other users" sums up what work remains.
+
+My previous deployment was on an EC2 instance which I configured through an SSH connection on my desktop. The site ran on an node.js server with Nginx acting as a reverse proxy for SSL termination. The pricing for this instance was starting to seem very questionable, so I plan on reducing the load cost before my next deployment and will likely be using a [Digital Ocean Droplet](https://www.digitalocean.com/pricing/droplets).
 
 
 ## Acknowledgments
@@ -120,6 +133,12 @@ To expand further on the previous point, I ensure proper sanitization of incomin
 In developing Cheep I incorporated BirdNET, a tool designed for avian species recognition through acoustic analysis, available on GitHub. BirdNET, created by Stefan Kahl, Connor M. Wood, Maximilian Eibl, and Holger Klinck, enhances the app's ability to identify bird species from audio recordings. This integration significantly aids in connecting app users with bird identification. For the use of BirdNET in my project, I acknowledge the original work as follows:
 
 > Kahl, S., Wood, C. M., Eibl, M., & Klinck, H. (2021). BirdNET: A deep learning solution for avian diversity monitoring. Ecological Informatics, 61, 101236. Elsevier.
+
+Per The Google Maps API policy, I will include here a link to the [Google Maps Platform Terms of Service](https://cloud.google.com/maps-platform/terms/) & [Privacy Policy](https://policies.google.com/privacy)
+
+Can't forget Dan Balentine who helped me a lot with the creation of his EC2 instance for the BirdNET audio analyzer:
+
+> [Dan's profile](https://github.com/dannybalentine) & [Link to BirdNET flask API](https://github.com/dannybalentine/cheep_backend)
 
 
 isMobileReady: no
