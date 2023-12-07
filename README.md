@@ -86,7 +86,7 @@ MongoDB and mongoose made my life developing cheep much easier.  I utilized mong
 
 Global view is a toggleable view located on the map which allows users to see every sighting spotted by other users in the past 24 hours. The time limit was set because of the potential for large quantities of markers causing excessive tile loading. Again, mongoose made my life easy by allowing a simple command ```expires: 60 * 60 * 24,``` to the globalSpot schema, and it automatically removes itself from the collection after 24 hours.
 
-### Connecting with other users
+### <a name="connecting-with-other-users">Connecting with other users</a>
 
 This is one of the areas where there is much work still to be done. As of now their is a capability to for users to add other users to their friends list, but this is currently of no benefit to the user. To make this integration have more purpose I plan on adding.
 
@@ -118,14 +118,14 @@ To expand further on the previous point, I ensure proper sanitization of incomin
 
 While I have deployed cheep numerous times under DNS https://cheepbirds.com the goal at the moment is to further reduce the cost of excessive tile loading and increase the options for specific user connections.
 
-The simplest approach to reducing the cost of the tile/asset loading is to remove all the styling and custom assets on the map but I have no intention of doing so as it will sacrifice an essential part of the user experience. Caching the tiles is not a legal approach according to [Google's Policy on Caching](https://developers.google.com/maps/documentation/tile/policies#:~:text=of%20your%20website.-,Pre%2Dfetching%2C%20caching%2C%20or%20storage%20of%20content,conditions%20stated%20in%20the%20terms.)Here are some other solutions I am working on:
+The simplest approach to reducing the cost of the tile/asset loading is to remove all the styling and custom assets on the map but I have no intention of doing so as it will sacrifice an essential part of the user experience. The first method I considered was caching the tiles, but that is not a legal approach according to [Google's Policy on Caching](https://developers.google.com/maps/documentation/tile/policies#:~:text=of%20your%20website.-,Pre%2Dfetching%2C%20caching%2C%20or%20storage%20of%20content,conditions%20stated%20in%20the%20terms.). Here are some other solutions I am working on:
 
-- asset loading on zoom: Whenever a zoom occurs, each asset has to refresh to match the zoom and I believe this is a large factor. by removing all assets briefly while zooming and only reloading them after a zoom has stopped for a short span, I can reduce much of the excessive rendering
-- decelerate tile loading: By slowing down the tile loading on zoom and scroll, the tile loading cost would obviously be reduced. This is something that could potentially give the impression that the app is not functionally quickly and harm the user experience.
+- Asset loading on zoom: Whenever a zoom occurs, each asset has to refresh to match the zoom and I believe this is a large factor. By removing all assets briefly while zooming and only reloading them after a zoom has stopped for a short span, I can reduce much of the excessive rendering.
+- Decelerate tile loading: By slowing down the tile loading on zoom and scroll, the tile loading cost would obviously be reduced. Although, this is something that could potentially give the impression that the app is not functionally quickly and harm the user experience.
 
-As for increasing user options, the list above under "Connecting with other users" sums up what work remains.
+As for increasing user options, the list above: ["Connecting with other users"](#connecting-with-other-users) sums up what work remains.
 
-My previous deployment was on an EC2 instance which I configured through an SSH connection on my desktop. The site ran on an node.js server with Nginx acting as a reverse proxy for SSL termination. The pricing for this instance was starting to seem very questionable, so I plan on reducing the load cost before my next deployment and will likely be using a [Digital Ocean Droplet](https://www.digitalocean.com/pricing/droplets).
+My previous deployment was on an EC2 instance which I configured through an SSH connection on my desktop. The site ran on an node.js server with Nginx acting as a reverse proxy for SSL termination. Unfortunately, the pricing for this instance was starting to seem very questionable, so I plan on reducing the load cost before my next deployment and will likely be using a [Digital Ocean Droplet](https://www.digitalocean.com/pricing/droplets) instead.
 
 
 ## Acknowledgments
@@ -139,10 +139,5 @@ Per The Google Maps API policy, I will include here a link to the [Google Maps P
 Can't forget Dan Balentine who helped me a lot with the creation of his EC2 instance for the BirdNET audio analyzer:
 
 > [Dan's profile](https://github.com/dannybalentine) & [Link to BirdNET flask API](https://github.com/dannybalentine/cheep_backend)
-
-
-isMobileReady: no
-initial load cost: 2-2.3mb
-load cost after map toggle: 2.4mb (tiles not stored in cache per google's policy, increases progressively)
 
 
