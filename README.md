@@ -16,7 +16,7 @@ While Cheep is a work in progress, I wanted to make this public as it serves as 
 
 ### Custom MarkerClusterer onClick Event
 
-Customing the Marker Cluster provided in the google maps api was essential for a couple of reasons. The provided cluster click event does not solve a very fundamental problem with google maps markers. If 2 markers are placed at the same location, it is impossible to distinguish between them. The given Clusterclick event will attempt to zoom all the markers into view, but that will not work in this case. I found some solutions to this online like [this](https://github.com/jawj/OverlappingMarkerSpiderfier). which I also did not like. So I instead created my own solution that creates a google maps InfoBox on click and lists the necessary information from the clustered markers. 
+Customizing the Marker Cluster provided in the google maps api was essential for a couple of reasons. The provided cluster click event does not solve a very fundamental problem with google maps markers: If 2 markers are placed at the same location, it is impossible to distinguish between them. The given Clusterclick event will attempt to zoom all the markers into view, but that will not work in this case. I found some solutions to this online like [this](https://github.com/jawj/OverlappingMarkerSpiderfier). which I also did not like. So I instead created my own solution that creates a google maps InfoBox on click and lists the necessary information from the clustered markers. 
 
 Another issue I had with the given clusterClick zoom was the zooming itself. Especially with the heavily styled map, a zoom was appearing to be a costly event because of excessive tile loading, which is a big issue I have and continue to deal with. With the customized clusterClick event I was able to take one step in reducing unnecessary tile loading without giving the feeling of too much restriction to the user. Conceptually, the need for zooming was reduced. The code for the Marker Clusterer and the event are below.
 
@@ -79,7 +79,12 @@ This is definitely something I was excited to work on. Bird identification can b
 Including the ChatGPT response in this API was originally intended to reduce the number of requests made in the application. However, it forcefully provides the user with the GPT response if they use BirdNET, and it will not provide them with a response if they do not. So, I plan to create a separate API route to ensure that requests are made only if the user prompts it to.
 
 ### MongoDB/Mongoose utilization
+
+MongoDB and mongoose made my life developing cheep much easier.  I utilized mongoose for simple collection additions/modifications and to properly connect user sessions to the correct user document. All of which is held in a various encrypted MongoDB collections.
+
 ### Global Map View
+
+Global view is a toggleable view located on the map which allows users to see every sighting spotted by other users in the past 24 hours. The time limit was set because of the potential for large quantities of markers causing excessive tile loading. Again, mongoose made my life easy by allowing a simple command ```expires: 60 * 60 * 24,``` to the globalSpot schema, and it automatically removes itself from the collection after 24 hours.
 ### Connecting with other users
 ### Styling(Vanilla CSS)
 
