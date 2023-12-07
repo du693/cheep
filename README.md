@@ -102,17 +102,17 @@ A big part of this project was learning how to visualize the app from the user p
 
 ### NextAUTH
 
-I chose NextAuth to handle my verification and JWT token generation because of the its seamless integration with Next.js and effective session management. The providers I utilize were Linkedin, Google, and Github. This process was more of a pain than it should have been due to unclear documentation on what redirect URI's should be used, especially for Linkedin.
+I chose NextAuth to handle my verification and JWT token generation because of the its seamless integration with Next.js and effective session management. The providers I chose are Linkedin, Google, and Github. This process was more of a pain than it should have been due to unclear documentation on what redirect URI's should be used, especially for Linkedin.
 
 ### API Route protection (middleware)
 
-Each API route is has been wrapped with middleware that checks if there is a valid session. This is to defend against unvalidated access to the route. The input itself travelling through has been sanitized allowing alphanumeric characters only (or alphabet only in specific cases) , then validated further with express-validator.
+Each API route is has been wrapped with middleware that checks if there is a valid session. This is to defend against unvalidated access to the route. The input itself travelling through has been sanitized by allowing alphanumeric characters only (or alphabet only in specific cases) , then validated further with express-validator.
 
 ### NoSQL injection protection 
 
 To expand further on the previous point, I ensure proper sanitization of incoming request data to mongoDB by using ```server.use(ExpressMongoSanitize())```. This is with the specific goal adding another layer of protection against any noSQL injection attacks. Below is a link to Cheep's privacy policy to display exactly how user data will be handled.
 
-(privacy policy TBD)
+(privacy policy to be made before full deployment)
 
 ### Deployment Plans
 
@@ -134,9 +134,9 @@ In developing Cheep I incorporated BirdNET, a tool designed for avian species re
 
 > Kahl, S., Wood, C. M., Eibl, M., & Klinck, H. (2021). BirdNET: A deep learning solution for avian diversity monitoring. Ecological Informatics, 61, 101236. Elsevier.
 
-Per The Google Maps API policy, I will include here a link to the [Google Maps Platform Terms of Service](https://cloud.google.com/maps-platform/terms/) & [Privacy Policy](https://policies.google.com/privacy)
+Per The Google Maps API policy, I include here a link to the [Google Maps Platform Terms of Service](https://cloud.google.com/maps-platform/terms/) & [Privacy Policy](https://policies.google.com/privacy)
 
-Can't forget Dan Balentine who helped me a lot with the creation of his EC2 instance for the BirdNET audio analyzer:
+Can't forget Dan Balentine who helped me a lot with the creation of the EC2 instance for the BirdNET audio analyzer:
 
 > [Dan's profile](https://github.com/dannybalentine) & [Link to BirdNET flask API](https://github.com/dannybalentine/cheep_backend)
 
