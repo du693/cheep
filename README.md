@@ -85,11 +85,18 @@ MongoDB and mongoose made my life developing cheep much easier.  I utilized mong
 ### Global Map View
 
 Global view is a toggleable view located on the map which allows users to see every sighting spotted by other users in the past 24 hours. The time limit was set because of the potential for large quantities of markers causing excessive tile loading. Again, mongoose made my life easy by allowing a simple command ```expires: 60 * 60 * 24,``` to the globalSpot schema, and it automatically removes itself from the collection after 24 hours.
+
 ### Connecting with other users
+
+This is one of the areas where there is much work still to be done. As of now their is a capability to for users to add other users to their friends list, but this is currently of no benefit to the user. To make this integration have more purpose I plan on adding.
+
+- #### Friend View: Only shows sightings from yourself and friends
+- #### Friend Feed: A feed that displays a chronological list of bird sightings between you and your friends (I also plan on adding a global feed)
+- #### Friend Page: I plan to give users the capability to click on a friends profile and check out their sightings and friends.
+  
 ### Styling(Vanilla CSS)
 
-
-
+A big part of this project was learning how to visualize the app from the user persective. The process of adding a bird sighting to the map has to be as intuitive as possible while still having the clean look that I wanted. I did all the styling using vanilla css which is something I have used a lot in the past two years. While this app will definitely be intended for mobile use eventually, I wanted to design in fully on desktop just to get a clear idea of how I wanted the sighting process to occur.
 
 ## Security
 
