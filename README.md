@@ -91,7 +91,7 @@ Global view is a toggleable view located on the map which allows users to see ev
 
 ### <a name="connecting-with-other-users">Connecting with other users</a>
 
-This is one of the areas where there is much work still to be done. As of now their is a capability to for users to add other users to their friends list, but this is currently of no benefit to the user. To make this integration have more purpose I plan on adding.
+This is one of the areas where there is much work still to be done. As of now there is a capability for users to add other users to their friends list, but this is currently of no benefit to the user. To make this integration have more purpose I plan on adding:
 
 - Friend View: Only shows sightings from yourself and friends
 - Friend Feed: A feed that displays a chronological list of bird sightings between you and your friends (I also plan on adding a global feed)
