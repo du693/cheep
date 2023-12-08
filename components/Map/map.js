@@ -32,10 +32,9 @@ const MapComponent = ({
 	const { spotted } = useContext(SpottedContext);
 	const [locationPermission, setLocationPermission] = useState("pending");
 	const [userLocationAvailable, setUserLocationAvailable] = useState(false);
-
+	const [isZooming, setIsZooming] = useState(false);
 	const [didAttemptSetFromUserLocation, setDidAttemptSetFromUserLocation] =
 		useState(false);
-
 	const [isMapOpen, setIsMapOpen] = useState();
 	const enableMap = () => setIsMapOpen(true);
 	const markersRef = useRef([]);
@@ -230,7 +229,6 @@ const MapComponent = ({
 				render: ({ count, position }) =>
 					new Marker({
 						label: {
-							fontFamily: "Helvetica",
 							color: "white",
 							fontSize: "8px",
 							marginBottom: "50px",
@@ -333,10 +331,7 @@ const MapComponent = ({
 						return marker;
 					}
 				});
-
-				// Here we are updating the markersRef with the new markers
 				markersRef.current.push(...newMarkers);
-
 				return newMarkers;
 			};
 			const algorithm = new SuperClusterAlgorithm({
@@ -355,121 +350,142 @@ const MapComponent = ({
 					clustererRef.current.clearMarkers();
 				}
 			};
-
 			if (globalIsOn) {
 				// If globalIsOn, remove the existing markers and create new ones
 				clearMarkers();
 				clearMarkerClusterer();
+				if (isZooming) {
+					clearMarkers();
+				}
+				if (!isZooming) {
+					markersRef.current = createMarkers(
+						globalSpots.map((spot) => spot),
+						mapInstanceRef.current
+					);
+					clustererRef.current = new MarkerClusterer({
+						onClusterClick: (event, cluster, map) => {
+							let listItems = "";
+							const addedSpotIds = new Set();
 
-				markersRef.current = createMarkers(
-					globalSpots.map((spot) => spot),
-					mapInstanceRef.current
-				);
-				clustererRef.current = new MarkerClusterer({
-					onClusterClick: (event, cluster, map) => {
-						let listItems = "";
-						const addedSpotIds = new Set();
+							if (
+								cluster.markers &&
+								Array.isArray(cluster.markers)
+							) {
+								cluster.markers.forEach((marker) => {
+									const markerPosition = marker.getPosition();
+									const markerLat = markerPosition.lat();
+									const markerLng = markerPosition.lng();
 
-						if (cluster.markers && Array.isArray(cluster.markers)) {
-							cluster.markers.forEach((marker) => {
-								const markerPosition = marker.getPosition();
-								const markerLat = markerPosition.lat();
-								const markerLng = markerPosition.lng();
-
-								globalSpots.forEach((spot) => {
-									if (
-										Math.abs(spot.spotted.lat - markerLat) <
-											0.0001 &&
-										Math.abs(spot.spotted.lng - markerLng) <
-											0.0001 &&
-										!addedSpotIds.has(spot._id)
-									) {
-										listItems += `<li style='margin-bottom: 5px; padding: 5px; border-bottom: 1px solid #ddd;'>
+									globalSpots.forEach((spot) => {
+										if (
+											Math.abs(
+												spot.spotted.lat - markerLat
+											) < 0.0001 &&
+											Math.abs(
+												spot.spotted.lng - markerLng
+											) < 0.0001 &&
+											!addedSpotIds.has(spot._id)
+										) {
+											listItems += `<li style='margin-bottom: 5px; padding: 5px; border-bottom: 1px solid #ddd;'>
 											<strong>Bird:</strong> ${spot.spotted.birdName}<br>
 											<strong>Date:</strong> ${formatCuteDate(spot.timeSpotted)}
 										</li>`;
-										addedSpotIds.add(spot._id);
-									}
+											addedSpotIds.add(spot._id);
+										}
+									});
 								});
+							}
+
+							let contentString = `<div style='max-height: 200px; overflow-y: auto; color: black;'><div style='width: 25px; position: absolute; top: 0; right: 0;'>${exit}</div>`;
+							contentString +=
+								"<ul style='list-style-type: none; margin: 0; padding: 0;'>";
+							contentString +=
+								listItems || "No matching spotted items.";
+							contentString += "</ul></div>";
+
+							const infoWindow = new google.maps.InfoWindow({
+								content: contentString,
 							});
-						}
-
-						let contentString = `<div style='max-height: 200px; overflow-y: auto; color: black;'><div style='width: 25px; position: absolute; top: 0; right: 0;'>${exit}</div>`;
-						contentString +=
-							"<ul style='list-style-type: none; margin: 0; padding: 0;'>";
-						contentString +=
-							listItems || "No matching spotted items.";
-						contentString += "</ul></div>";
-
-						const infoWindow = new google.maps.InfoWindow({
-							content: contentString,
-						});
-						infoWindow.setPosition(cluster.position);
-						infoWindow.open(map);
-					},
-					map: mapInstanceRef.current,
-					markers: markersRef.current, // Use newMarkers instead of markersRef.current
-					renderer: renderer,
-					algorithm: algorithm,
-				});
+							infoWindow.setPosition(cluster.position);
+							infoWindow.open(map);
+						},
+						map: mapInstanceRef.current,
+						markers: markersRef.current, // Use newMarkers instead of markersRef.current
+						renderer: renderer,
+						algorithm: algorithm,
+					});
+				}
 			}
 			if (!globalIsOn) {
 				// If globalIsOff, just remove the existing markers
 				clearMarkers();
 				clearMarkerClusterer();
+				if (isZooming) {
+					clearMarkers();
+				}
+				if (!isZooming) {
+					markersRef.current = createMarkers(
+						spotted,
+						mapInstanceRef.current
+					);
+					clustererRef.current = new MarkerClusterer({
+						onClusterClick: (event, cluster, map) => {
+							let listItems = "";
+							const addedSpotIds = new Set();
 
-				markersRef.current = createMarkers(
-					spotted,
-					mapInstanceRef.current
-				);
-				clustererRef.current = new MarkerClusterer({
-					onClusterClick: (event, cluster, map) => {
-						let listItems = "";
-						const addedSpotIds = new Set();
+							if (
+								cluster.markers &&
+								Array.isArray(cluster.markers)
+							) {
+								cluster.markers.forEach((marker) => {
+									const markerPosition = marker.getPosition();
+									const markerLat = markerPosition.lat();
+									const markerLng = markerPosition.lng();
 
-						if (cluster.markers && Array.isArray(cluster.markers)) {
-							cluster.markers.forEach((marker) => {
-								const markerPosition = marker.getPosition();
-								const markerLat = markerPosition.lat();
-								const markerLng = markerPosition.lng();
-
-								spotted.forEach((spot) => {
-									if (
-										Math.abs(spot.lat - markerLat) <
-											0.0001 &&
-										Math.abs(spot.lng - markerLng) <
-											0.0001 &&
-										!addedSpotIds.has(spot._id)
-									) {
-										listItems += `<li style='margin-bottom: 5px; padding: 5px; border-bottom: 1px solid #ddd;'>
-											<strong>Bird:</strong> ${spot.birdName}<br>
-											<strong>Date:</strong> ${formatCuteDate(spot.timeSpotted)}
+									spotted.forEach((spot) => {
+										if (
+											Math.abs(spot.lat - markerLat) <
+												0.0001 &&
+											Math.abs(spot.lng - markerLng) <
+												0.0001 &&
+											!addedSpotIds.has(spot._id)
+										) {
+											listItems += `<li style='margin-bottom: 5px; padding: 5px; border-bottom: 1px solid #ddd;'>
+											<strong>Bird:</strong> ${spot.birdName ? spot.birdName : "N/A"}<br>
+											<strong>Date:</strong> ${
+												spot.timeSpotted
+													? formatCuteDate(
+															spot.timeSpotted
+													  )
+													: "N/A"
+											}
 										</li>`;
-										addedSpotIds.add(spot._id);
-									}
+											addedSpotIds.add(spot._id);
+										}
+									});
 								});
+							}
+
+							let contentString = `<div style='max-height: 200px; overflow-y: auto; color: black;'><div style='width: 25px; position: absolute; top: 0; right: 0;'>${exit}</div>`;
+							contentString +=
+								"<ul style='list-style-type: none; margin: 0; padding: 0;'>";
+							contentString +=
+								listItems || "No matching spotted items.";
+							contentString += "</ul></div>";
+
+							const infoWindow = new google.maps.InfoWindow({
+								content: contentString,
 							});
-						}
+							infoWindow.setPosition(cluster.position);
+							infoWindow.open(map);
+						},
 
-						let contentString = `<div style='max-height: 200px; overflow-y: auto; color: black;'><div style='width: 25px; position: absolute; top: 0; right: 0;'>${exit}</div>`;
-						contentString +=
-							"<ul style='list-style-type: none; margin: 0; padding: 0;'>";
-						contentString +=
-							listItems || "No matching spotted items.";
-						contentString += "</ul></div>";
-
-						const infoWindow = new google.maps.InfoWindow({
-							content: contentString,
-						});
-						infoWindow.setPosition(cluster.position);
-						infoWindow.open(map);
-					},
-
-					map: mapInstanceRef.current,
-					markers: markersRef.current, // Use newMarkers instead of markersRef.current
-					renderer: renderer,
-					algorithm: algorithm,
-				});
+						map: mapInstanceRef.current,
+						markers: markersRef.current, // Use newMarkers instead of markersRef.current
+						renderer: renderer,
+						algorithm: algorithm,
+					});
+				}
 			}
 
 			if (mapInstanceRef.current) {
@@ -479,16 +495,31 @@ const MapComponent = ({
 						getLocation(e);
 					}
 				);
+				mapInstanceRef.current.addListener("zoom_changed", () => {
+					setIsZooming(true);
+				});
+				mapInstanceRef.current.addListener("idle", () => {
+					setIsZooming(false);
+				});
 			}
 
 			return () => {
 				google.maps.event.removeListener(clickListener);
+				mapInstanceRef.current.removeListener("zoom_changed");
+				mapInstanceRef.current.removeListener("idle");
 			};
 		};
 		if (userLocationAvailable || locationPermission === "denied") {
 			initMarkers();
 		}
-	}, [spotted, globalSpots, globalIsOn, isMapOpen, userLocationAvailable]);
+	}, [
+		spotted,
+		globalSpots,
+		globalIsOn,
+		isMapOpen,
+		userLocationAvailable,
+		isZooming,
+	]);
 
 	const handleRecenter = () => {
 		if (userLocation && mapInstanceRef.current) {

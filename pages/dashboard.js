@@ -1,7 +1,7 @@
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import { fetchBirdNames } from "./api/fetchBirds";
-import updateUsername from "@/services/updateUsername";
+import updateUsername from "@/utils/updateUsername";
 import { getSession, useSession } from "next-auth/react";
 import { useEffect, useContext, useState, useCallback } from "react";
 import { Username, UserContext, SpottedContext } from "@/context/Context";
@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Controls from "@/components/Controls/Controls";
 import Header from "@/components/Header/Header";
-import { addSpot } from "@/services/addspot";
+import { addSpot } from "@/utils/addspot";
 import Cookies from "js-cookie";
 import { parse } from "cookie";
 

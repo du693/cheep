@@ -1,6 +1,6 @@
 import styles from "@/styles/signup.module.css";
-import { useCallback, useContext, useState, useEffect } from "react";
-import updateUsername from "@/services/updateUsername";
+import { useCallback, useContext, useState } from "react";
+import updateUsername from "@/utils/updateUsername";
 import { Username } from "@/context/Context";
 import { useSession, getSession, signOut } from "next-auth/react";
 import Cookies from "js-cookie";
