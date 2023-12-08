@@ -1,5 +1,4 @@
 import styles from "../styles/Home.module.css";
-import Image from "next/image";
 import { fetchBirdNames } from "./api/fetchBirds";
 import updateUsername from "@/utils/updateUsername";
 import { getSession, useSession } from "next-auth/react";
@@ -12,7 +11,6 @@ import Controls from "@/components/Controls/Controls";
 import Header from "@/components/Header/Header";
 import { addSpot } from "@/utils/addspot";
 import Cookies from "js-cookie";
-import { parse } from "cookie";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,31 +37,24 @@ export default function Dashboard({ birdNames }) {
 		lat: null,
 		lng: null,
 	});
-
 	const setIsLocationMyLocationFunction = (bool) => {
 		setIsLocationMyLocation(bool);
 	};
-
 	const setUserLocationToggleFunction = (bool) => {
 		setUserLocationToggle(bool);
 	};
-
 	const setUserLocationFunction = (lat, lng) => {
 		setUserLocation(lat, lng);
 	};
-
 	const toggleSwitch = () => {
 		setGlobalIsOn((prevIsOn) => !prevIsOn);
 	};
-
 	const handleMapLoaded = useCallback((loaded) => {
 		setMapLoaded(true);
 	}, []);
-
 	const handleMapPending = useCallback((loaded) => {
 		setMapLoaded(false);
 	}, []);
-
 	const toggleSection = (section) => {
 		setIsOpen((prevState) => {
 			const newState = !prevState[section];
@@ -73,15 +64,12 @@ export default function Dashboard({ birdNames }) {
 			};
 		});
 	};
-
 	const openSection = (section) => {
 		setIsOpen((prevState) => ({
 			...prevState,
 			[section]: true,
 		}));
 	};
-	console.log("here is username", username);
-	console.log("here is username state", isUsernameFilled);
 
 	useEffect(() => {
 		if (isUsernameFilled === undefined) return;
