@@ -4,8 +4,6 @@
     width: 100%;
     display:grid;
     grid-template-columns: 1fr 1fr;
-    
-
 }
 
 .absoluteExit{
@@ -16,7 +14,6 @@
     left: 3%;
     transition: transform 0.5s ease-in-out;
     cursor: pointer;
-
 }
 
 .absoluteExit:hover{
@@ -31,13 +28,11 @@
     align-items: center;
 }
 
-.userProfile{
+.leftBubble{
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     width: 90%;
-    justify-content: center;
-    align-items: center;
     height: 80%;
     gap: 5%;
     text-align: center;
@@ -46,6 +41,40 @@
     background-color:  #FFF8E1;
     border-radius: 25px;
 }
+
+.sectionHeader header{
+
+    width: 100%;
+    display:flex;
+    flex-direction: row;
+    font-size: 8px;
+    justify-content: space-between;
+    text-align: center;
+}
+.sectionHeader header h1{
+    cursor: pointer;
+    border-bottom: 1px solid #EBE4CE;
+    width: 20%;
+
+}
+
+.leftBubbleToggledSection{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+
+.userSection{
+    width: 100%;
+    
+}
+
+.sectionHeader {
+    margin-top: 0;
+    width: 100%;
+
+}
+
 
 .stat2{
     color: black;

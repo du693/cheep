@@ -33,6 +33,7 @@ export default function Dashboard({ birdNames }) {
 		spotCountSection: false,
 		achievementSection: false,
 	});
+	const [globalSpots, setGlobalSpots] = useState([]);
 	const [userLocation, setUserLocation] = useState({
 		lat: null,
 		lng: null,
