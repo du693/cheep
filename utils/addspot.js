@@ -8,7 +8,7 @@ async function addSpot({
 	session,
 	spotted,
 }) {
-	const birdNamePattern = /^[a-zA-Z\s]+$/;
+	const birdNamePattern = /^[a-zA-Z\s-]+$/;
 	const latLngPattern = /^-?\d+(\.\d+)?$/;
 	const descriptionPattern = /^[a-zA-Z0-9\s]+$/;
 

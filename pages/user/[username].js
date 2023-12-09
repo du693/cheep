@@ -4,9 +4,9 @@ import UserComponent from "@/components/UserPage/UserComponent";
 export default function User() {
 	return <UserComponent />;
 }
+
 export async function getServerSideProps(context) {
 	let session;
-
 	try {
 		session = await getSession(context);
 		console.log("Analyzing session:", session);
@@ -23,7 +23,6 @@ export async function getServerSideProps(context) {
 			},
 		};
 	}
-
 	return {
 		props: {
 			session,

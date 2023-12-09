@@ -9,6 +9,7 @@ import FriendRequests from "@/components/UserPage/CurrentRequests";
 import formatDate from "@/utils/dateConversions";
 import fetchDatData from "@/pages/api/fetchGlobalSpots";
 import formatCuteDate from "@/utils/formatCuteDate";
+import GlobalFeed from "./toggleSection/globalFeed";
 
 export default function UserComponent() {
 	const { username } = useContext(Username);
@@ -29,11 +30,34 @@ export default function UserComponent() {
 		globalFeed: false,
 	});
 
+	useEffect(() => {
+		if (spotted.length === 0) {
+			fetch(
+				`/api/updateUser?userId=${encodeURIComponent(
+					session.user.email
+				)}`
+			)
+				.then((response) => {
+					if (!response.ok) {
+						throw new Error("Network response was not ok");
+					}
+					return response.json();
+				})
+				.then((data) => {
+					console.log("setting spotted");
+					setSpotted(data.spotted);
+				})
+				.catch((error) => {
+					console.error(
+						"There was a problem with the fetch operation:",
+						error
+					);
+				});
+		}
+	}, [spotted]);
 	const toggleSection = (sectionToOpen) => {
 		setIsOpen((prevState) => {
 			const updatedState = {};
-
-			// Close all sections except the one to open
 			for (const section in prevState) {
 				updatedState[section] = section === sectionToOpen;
 			}
@@ -73,6 +97,7 @@ export default function UserComponent() {
 							...uniqueSpots,
 						]);
 						setHasRunEffect(true);
+						console.log(hasRunEffect);
 					}
 				})
 				.catch((error) => {
@@ -211,18 +236,7 @@ export default function UserComponent() {
 							</div>
 						)}
 						{isOpen.globalFeed && (
-							<div className={styles.friendFeed}>
-								<div>
-									<ul>
-										{globalSpots.map((spot, index) => (
-											<li key={index}>
-												Latitude:{" "}
-												{spot.spotted.birdName},
-											</li>
-										))}
-									</ul>
-								</div>
-							</div>
+							<GlobalFeed globalSpots={globalSpots} />
 						)}
 					</div>
 				</div>
